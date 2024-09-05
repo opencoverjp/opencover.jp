@@ -18,27 +18,6 @@
 				</div>
 			</a>
 		</div>
-		<div class="p-2 rounded hover:bg-slate-100">
-			<a href="/editor">Editor</a>
-		</div>
-		<div class="p-2 rounded hover:bg-slate-100">
-			<a href="/style-editor">Style Editor</a>
-		</div>
-		<div class="p-2 rounded hover:bg-slate-100">
-			<a href="/sample">Sample</a>
-		</div>
-		<div class="p-2 rounded hover:bg-slate-100">
-			<a href="/about">About</a>
-		</div>
-		
-		<button>
-			<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-				<rect x="1" y="2" width="14" height="2" rx="0.7"></rect>
-				<rect x="1" y="7" width="14" height="2" rx="0.7"></rect>
-				<rect x="1" y="12" width="14" height="2" rx="0.7"></rect>
-			</svg>
-		</button>
-
 	</div>
 </header>
 
