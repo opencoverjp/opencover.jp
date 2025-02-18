@@ -1,0 +1,1 @@
+<img src="http://api.opencover.jp/v1/cover/4106109913.svg">
