@@ -186,15 +186,15 @@ function push(fn) {
   current_component = { p: current_component, c: null, d: null };
 }
 function pop() {
-  var component8 = (
+  var component10 = (
     /** @type {Component} */
     current_component
   );
-  var ondestroy = component8.d;
+  var ondestroy = component10.d;
   if (ondestroy) {
     on_destroy.push(...ondestroy);
   }
-  current_component = component8.p;
+  current_component = component10.p;
 }
 function get_parent_context(component_context2) {
   let parent = component_context2.p;
@@ -227,7 +227,7 @@ function props_id_generator(prefix) {
   let uid = 1;
   return () => `${prefix}s${uid++}`;
 }
-function render(component8, options2 = {}) {
+function render(component10, options2 = {}) {
   const uid = props_id_generator(options2.idPrefix ? options2.idPrefix + "-" : "");
   const payload = {
     out: "",
@@ -242,7 +242,7 @@ function render(component8, options2 = {}) {
     push();
     current_component.c = options2.context;
   }
-  component8(payload, options2.props ?? {}, {}, {});
+  component10(payload, options2.props ?? {}, {}, {});
   if (options2.context) {
     pop();
   }
@@ -920,7 +920,7 @@ var init__ = __esm({
     index = 0;
     component = async () => component_cache ??= (await Promise.resolve().then(() => (init_layout_svelte(), layout_svelte_exports))).default;
     universal_id = "src/routes/+layout.ts";
-    imports = ["_app/immutable/nodes/0.Bpx-L0pF.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/DPv9BrYW.js", "_app/immutable/chunks/DOXTwXr8.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/Cta3jvXf.js"];
+    imports = ["_app/immutable/nodes/0.Ux9os_NG.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/DdNsY-vq.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/Cta3jvXf.js"];
     stylesheets = ["_app/immutable/assets/0.BhcFeu7h.css", "_app/immutable/assets/app.CovZX8I2.css"];
     fonts = [];
   }
@@ -957,7 +957,7 @@ var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     index2 = 1;
     component2 = async () => component_cache2 ??= (await Promise.resolve().then(() => (init_error_svelte(), error_svelte_exports))).default;
-    imports2 = ["_app/immutable/nodes/1.S72yTKIS.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/DPv9BrYW.js", "_app/immutable/chunks/DOXTwXr8.js", "_app/immutable/chunks/DdiJvTiH.js"];
+    imports2 = ["_app/immutable/nodes/1.CPZFxzZS.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/DdNsY-vq.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/DdiJvTiH.js"];
     stylesheets2 = [];
     fonts2 = [];
   }
@@ -994,9 +994,46 @@ var init__3 = __esm({
   ".svelte-kit/output/server/nodes/2.js"() {
     index3 = 2;
     component3 = async () => component_cache3 ??= (await Promise.resolve().then(() => (init_error_svelte2(), error_svelte_exports2))).default;
-    imports3 = ["_app/immutable/nodes/2.BzhxkAi2.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/DPv9BrYW.js", "_app/immutable/chunks/DOXTwXr8.js", "_app/immutable/chunks/DdiJvTiH.js"];
+    imports3 = ["_app/immutable/nodes/2.DUTtukYP.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/DdNsY-vq.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/DdiJvTiH.js"];
     stylesheets3 = [];
     fonts3 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/zine/isbn/_isbn_/_error.svelte.js
+var error_svelte_exports3 = {};
+__export(error_svelte_exports3, {
+  default: () => _error2
+});
+function _error2($$payload, $$props) {
+  push();
+  $$payload.out += `<h1>${escape_html(page.status)}: ${escape_html(page.error.message)}</h1>`;
+  pop();
+}
+var init_error_svelte3 = __esm({
+  ".svelte-kit/output/server/entries/pages/zine/isbn/_isbn_/_error.svelte.js"() {
+    init_index2();
+    init_index3();
+  }
+});
+
+// .svelte-kit/output/server/nodes/3.js
+var __exports4 = {};
+__export(__exports4, {
+  component: () => component4,
+  fonts: () => fonts4,
+  imports: () => imports4,
+  index: () => index4,
+  stylesheets: () => stylesheets4
+});
+var index4, component_cache4, component4, imports4, stylesheets4, fonts4;
+var init__4 = __esm({
+  ".svelte-kit/output/server/nodes/3.js"() {
+    index4 = 3;
+    component4 = async () => component_cache4 ??= (await Promise.resolve().then(() => (init_error_svelte3(), error_svelte_exports3))).default;
+    imports4 = ["_app/immutable/nodes/3.DUTtukYP.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/DdNsY-vq.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/DdiJvTiH.js"];
+    stylesheets4 = [];
+    fonts4 = [];
   }
 });
 
@@ -3076,13 +3113,13 @@ var init_src8 = __esm({
 });
 
 // node_modules/.pnpm/d3-transition@3.0.1_d3-selection@3.0.0/node_modules/d3-transition/src/transition/schedule.js
-function schedule_default(node, name, id2, index9, group, timing) {
+function schedule_default(node, name, id2, index11, group, timing) {
   var schedules = node.__transition;
   if (!schedules) node.__transition = {};
   else if (id2 in schedules) return;
   create(node, id2, {
     name,
-    index: index9,
+    index: index11,
     // For context during callback.
     group,
     // For context during callback.
@@ -6038,23 +6075,23 @@ var init_page_svelte = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/3.js
-var __exports4 = {};
-__export(__exports4, {
-  component: () => component4,
-  fonts: () => fonts4,
-  imports: () => imports4,
-  index: () => index4,
-  stylesheets: () => stylesheets4
+// .svelte-kit/output/server/nodes/4.js
+var __exports5 = {};
+__export(__exports5, {
+  component: () => component5,
+  fonts: () => fonts5,
+  imports: () => imports5,
+  index: () => index5,
+  stylesheets: () => stylesheets5
 });
-var index4, component_cache4, component4, imports4, stylesheets4, fonts4;
-var init__4 = __esm({
-  ".svelte-kit/output/server/nodes/3.js"() {
-    index4 = 3;
-    component4 = async () => component_cache4 ??= (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default;
-    imports4 = ["_app/immutable/nodes/3.Bo2Gx1td.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/9cJAU_Ml.js", "_app/immutable/chunks/DOXTwXr8.js"];
-    stylesheets4 = ["_app/immutable/assets/PreviewBook.71W-6VSR.css", "_app/immutable/assets/3.Cq5S_FJB.css", "_app/immutable/assets/app.CovZX8I2.css"];
-    fonts4 = [];
+var index5, component_cache5, component5, imports5, stylesheets5, fonts5;
+var init__5 = __esm({
+  ".svelte-kit/output/server/nodes/4.js"() {
+    index5 = 4;
+    component5 = async () => component_cache5 ??= (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default;
+    imports5 = ["_app/immutable/nodes/4.PHH8rnXt.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/Z25KTv7k.js", "_app/immutable/chunks/C73Cn-wC.js"];
+    stylesheets5 = ["_app/immutable/assets/PreviewBook.71W-6VSR.css", "_app/immutable/assets/4.Cq5S_FJB.css", "_app/immutable/assets/app.CovZX8I2.css"];
+    fonts5 = [];
   }
 });
 
@@ -6082,23 +6119,23 @@ var init_page_svelte2 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/4.js
-var __exports5 = {};
-__export(__exports5, {
-  component: () => component5,
-  fonts: () => fonts5,
-  imports: () => imports5,
-  index: () => index5,
-  stylesheets: () => stylesheets5
+// .svelte-kit/output/server/nodes/5.js
+var __exports6 = {};
+__export(__exports6, {
+  component: () => component6,
+  fonts: () => fonts6,
+  imports: () => imports6,
+  index: () => index6,
+  stylesheets: () => stylesheets6
 });
-var index5, component_cache5, component5, imports5, stylesheets5, fonts5;
-var init__5 = __esm({
-  ".svelte-kit/output/server/nodes/4.js"() {
-    index5 = 4;
-    component5 = async () => component_cache5 ??= (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default;
-    imports5 = ["_app/immutable/nodes/4.CdrfLPDn.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js"];
-    stylesheets5 = ["_app/immutable/assets/4.DqM4rUaE.css"];
-    fonts5 = [];
+var index6, component_cache6, component6, imports6, stylesheets6, fonts6;
+var init__6 = __esm({
+  ".svelte-kit/output/server/nodes/5.js"() {
+    index6 = 5;
+    component6 = async () => component_cache6 ??= (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default;
+    imports6 = ["_app/immutable/nodes/5.CBZACu6F.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js"];
+    stylesheets6 = ["_app/immutable/assets/5.DqM4rUaE.css"];
+    fonts6 = [];
   }
 });
 
@@ -6169,25 +6206,25 @@ var init_page_server_ts = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/5.js
-var __exports6 = {};
-__export(__exports6, {
-  fonts: () => fonts6,
-  imports: () => imports6,
-  index: () => index6,
+// .svelte-kit/output/server/nodes/6.js
+var __exports7 = {};
+__export(__exports7, {
+  fonts: () => fonts7,
+  imports: () => imports7,
+  index: () => index7,
   server: () => page_server_ts_exports,
   server_id: () => server_id,
-  stylesheets: () => stylesheets6
+  stylesheets: () => stylesheets7
 });
-var index6, server_id, imports6, stylesheets6, fonts6;
-var init__6 = __esm({
-  ".svelte-kit/output/server/nodes/5.js"() {
+var index7, server_id, imports7, stylesheets7, fonts7;
+var init__7 = __esm({
+  ".svelte-kit/output/server/nodes/6.js"() {
     init_page_server_ts();
-    index6 = 5;
+    index7 = 6;
     server_id = "src/routes/goto/[service]/[isbn]/+page.server.ts";
-    imports6 = [];
-    stylesheets6 = [];
-    fonts6 = [];
+    imports7 = [];
+    stylesheets7 = [];
+    fonts7 = [];
   }
 });
 
@@ -6481,23 +6518,23 @@ var init_page_svelte3 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/6.js
-var __exports7 = {};
-__export(__exports7, {
-  component: () => component6,
-  fonts: () => fonts7,
-  imports: () => imports7,
-  index: () => index7,
-  stylesheets: () => stylesheets7
+// .svelte-kit/output/server/nodes/7.js
+var __exports8 = {};
+__export(__exports8, {
+  component: () => component7,
+  fonts: () => fonts8,
+  imports: () => imports8,
+  index: () => index8,
+  stylesheets: () => stylesheets8
 });
-var index7, component_cache6, component6, imports7, stylesheets7, fonts7;
-var init__7 = __esm({
-  ".svelte-kit/output/server/nodes/6.js"() {
-    index7 = 6;
-    component6 = async () => component_cache6 ??= (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default;
-    imports7 = ["_app/immutable/nodes/6.B0e4eheB.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/ChECSWBu.js"];
-    stylesheets7 = ["_app/immutable/assets/6.ZMlI4n5w.css"];
-    fonts7 = [];
+var index8, component_cache7, component7, imports8, stylesheets8, fonts8;
+var init__8 = __esm({
+  ".svelte-kit/output/server/nodes/7.js"() {
+    index8 = 7;
+    component7 = async () => component_cache7 ??= (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default;
+    imports8 = ["_app/immutable/nodes/7.DorbANse.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/ChECSWBu.js"];
+    stylesheets8 = ["_app/immutable/assets/7.ZMlI4n5w.css"];
+    fonts8 = [];
   }
 });
 
@@ -6585,13 +6622,13 @@ function BookCard($$payload, $$props) {
       ]
     }
   ];
-  const { book, index: index9 } = $$props;
+  const { book, index: index11 } = $$props;
   const hyphenedIsbn = import_isbn4.default.parse(book.book?.isbn).isValid ? import_isbn4.default.parse(book.book?.isbn).toString({ version: "isbn13", hyphens: [true] }) : "";
   const each_array = ensure_array_like(links);
   $$payload.out += `<section class="mb-4 border border-slate-200 p-6 rounded">`;
-  if (index9 > 0) {
+  if (index11 > 0) {
     $$payload.out += "<!--[-->";
-    $$payload.out += `<div class="px-4 py-2 text-sm bg-slate-100 size-fit rounded">${escape_html(index9)}\u518A\u76EE</div>`;
+    $$payload.out += `<div class="px-4 py-2 text-sm bg-slate-100 size-fit rounded">${escape_html(index11)}\u518A\u76EE</div>`;
   } else {
     $$payload.out += "<!--[!-->";
   }
@@ -6642,27 +6679,192 @@ var init_page_svelte4 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/7.js
-var __exports8 = {};
-__export(__exports8, {
-  component: () => component7,
-  fonts: () => fonts8,
-  imports: () => imports8,
-  index: () => index8,
+// .svelte-kit/output/server/nodes/8.js
+var __exports9 = {};
+__export(__exports9, {
+  component: () => component8,
+  fonts: () => fonts9,
+  imports: () => imports9,
+  index: () => index9,
   server: () => page_server_ts_exports2,
   server_id: () => server_id2,
-  stylesheets: () => stylesheets8
+  stylesheets: () => stylesheets9
 });
-var index8, component_cache7, component7, server_id2, imports8, stylesheets8, fonts8;
-var init__8 = __esm({
-  ".svelte-kit/output/server/nodes/7.js"() {
+var index9, component_cache8, component8, server_id2, imports9, stylesheets9, fonts9;
+var init__9 = __esm({
+  ".svelte-kit/output/server/nodes/8.js"() {
     init_page_server_ts2();
-    index8 = 7;
-    component7 = async () => component_cache7 ??= (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default;
+    index9 = 8;
+    component8 = async () => component_cache8 ??= (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default;
     server_id2 = "src/routes/shelf/isbn/[isbn]/+page.server.ts";
-    imports8 = ["_app/immutable/nodes/7.BH3wrbf7.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/9cJAU_Ml.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/DOXTwXr8.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/CLK_dOat.js"];
-    stylesheets8 = ["_app/immutable/assets/PreviewBook.71W-6VSR.css", "_app/immutable/assets/7.C_D1Cpey.css"];
-    fonts8 = [];
+    imports9 = ["_app/immutable/nodes/8.Dky2edL2.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/Z25KTv7k.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/CLK_dOat.js"];
+    stylesheets9 = ["_app/immutable/assets/PreviewBook.71W-6VSR.css", "_app/immutable/assets/8.C_D1Cpey.css"];
+    fonts9 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/zine/isbn/_isbn_/_page.server.ts.js
+var page_server_ts_exports3 = {};
+__export(page_server_ts_exports3, {
+  load: () => load3
+});
+var load3;
+var init_page_server_ts3 = __esm({
+  ".svelte-kit/output/server/entries/pages/zine/isbn/_isbn_/_page.server.ts.js"() {
+    init_chunks();
+    load3 = async ({ fetch: fetch2, params }) => {
+      if (params.isbn) {
+        const isbns = params.isbn.split(",");
+        const promises = isbns.map((isbn) => fetch2(`/api/bib/${isbn}`).then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        }));
+        let books = await Promise.all(promises);
+        books = books.map((book) => ({
+          book,
+          isbn: book.isbn,
+          displaySides: ["spine"]
+        }));
+        const isSingleBook = books.length === 1;
+        const title = isSingleBook ? `\u300E${books.at(0).book?.title}\u300F\u306E\u672C\u68DA` : `\u300E${books.at(0).book?.title}\u300F\u306A\u3069${books.length}\u518A\u306E\u672C\u68DA`;
+        return {
+          books,
+          bgColor: "#f0f0f0",
+          isSingleBook,
+          title,
+          meta: {
+            title: `${title} \u2013 opencover`,
+            description: `opencover\u306E${title}\u3067\u3059\u3002\u3042\u306A\u305F\u306E\u672C\u68DA\u3092\u4F5C\u308A\u307E\u3057\u3087\u3046\u3002`,
+            image: `https://opencover.jp/api/og/${params.isbn}`,
+            // image: `https://opencover.jp/api/og.png?isbn=${params.isbn}`,
+            url: `https://opencover.jp/shelf/isbn/${params.isbn}`,
+            type: "website"
+          }
+        };
+      }
+      error(404, "Not found");
+    };
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/zine/isbn/_isbn_/_page.svelte.js
+var page_svelte_exports5 = {};
+__export(page_svelte_exports5, {
+  default: () => _page5
+});
+function BookCard2($$payload, $$props) {
+  push();
+  const links = [
+    {
+      name: "buy",
+      label: "\u8CB7\u3046",
+      sites: [
+        { name: "amazon", label: "Amazon" },
+        { name: "rakuten", label: "\u697D\u5929\u30D6\u30C3\u30AF\u30B9" },
+        { name: "kinokuniya", label: "\u7D00\u4F0A\u56FD\u5C4B\u66F8\u5E97" },
+        { name: "maruzenjunkudo", label: "\u4E38\u5584\u30B8\u30E5\u30F3\u30AF\u5802" },
+        { name: "honto", label: "honto" },
+        { name: "openbs", label: "\u8FD1\u304F\u306E\u66F8\u5E97\u5728\u5EAB" }
+      ]
+    },
+    {
+      name: "search",
+      label: "\u63A2\u3059",
+      sites: [
+        { name: "calil", label: "\u56F3\u66F8\u9928 (\u30AB\u30FC\u30EA\u30EB)" },
+        { name: "cinii", label: "\u5927\u5B66\u56F3\u66F8\u9928 (CiNii Books)" }
+      ]
+    },
+    {
+      name: "record",
+      label: "\u8A18\u9332\u3059\u308B",
+      sites: [
+        { name: "bookmeter", label: "\u8AAD\u66F8\u30E1\u30FC\u30BF\u30FC" },
+        { name: "booklog", label: "\u30D6\u30AF\u30ED\u30B0" },
+        { name: "googlebooks", label: "Google \u30D6\u30C3\u30AF\u30B9" }
+      ]
+    }
+  ];
+  const { book, index: index11 } = $$props;
+  const hyphenedIsbn = import_isbn5.default.parse(book.book?.isbn).isValid ? import_isbn5.default.parse(book.book?.isbn).toString({ version: "isbn13", hyphens: [true] }) : "";
+  const each_array = ensure_array_like(links);
+  $$payload.out += `<section class="mb-4 border border-slate-200 p-6 rounded">`;
+  if (index11 > 0) {
+    $$payload.out += "<!--[-->";
+    $$payload.out += `<div class="px-4 py-2 text-sm bg-slate-100 size-fit rounded">${escape_html(index11)}\u518A\u76EE</div>`;
+  } else {
+    $$payload.out += "<!--[!-->";
+  }
+  $$payload.out += `<!--]--> <h3 class="book-title flex items-center gap-2 text-xl font-bold mt-4"><span>${escape_html(book.book?.title)}${escape_html(book.book?.subtitle ? `\u2500\u2500${book.book?.subtitle}` : "")}</span></h3> <div class="my-3">${escape_html(book.book?.author)}</div> <div class="my-3">${escape_html(book.book?.label)}\u3000${escape_html(book.book?.publisher)}</div> <div class="my-3 text-xs md:text-sm font-mono">ISBN: ${escape_html(hyphenedIsbn)}</div> <div class="my-4"><div class="flex flex-col gap-3"><!--[-->`;
+  for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
+    let { name, label, sites } = each_array[$$index_1];
+    const each_array_1 = ensure_array_like(sites);
+    $$payload.out += `<div class="flex items-center gap-2"><div class="text-sm font-semibold text-slate-800">${escape_html(label)}</div> <div class="flex flex-wrap gap-2"><!--[-->`;
+    for (let $$index = 0, $$length2 = each_array_1.length; $$index < $$length2; $$index++) {
+      let { name: name2, label: label2 } = each_array_1[$$index];
+      $$payload.out += `<a${attr("href", `/goto/${name2}/${book.book?.isbn}`)} target="_blank" class="px-2 py-1 text-xs md:text-sm border border-gray-300 rounded hover:bg-slate-100">${escape_html(label2)}</a>`;
+    }
+    $$payload.out += `<!--]--></div></div>`;
+  }
+  $$payload.out += `<!--]--></div></div></section>`;
+  pop();
+}
+function _page5($$payload, $$props) {
+  push();
+  let data = $$props["data"];
+  let { books, bgColor, title, isSingleBook, meta } = data;
+  const each_array = ensure_array_like(books);
+  head($$payload, ($$payload2) => {
+    $$payload2.title = `<title>opencover : ${escape_html(title)}</title>`;
+    $$payload2.out += `<meta property="og:url"${attr("content", meta.url)}> <meta property="og:title"${attr("content", meta.title)}> <meta property="og:description"${attr("content", meta.description)}> <meta property="og:image"${attr("content", meta.image)}> <meta property="og:type" content="article"> <meta property="og:site_name" content="opencover : \u307F\u3093\u306A\u3067\u3064\u304F\u308B\u66F8\u7C4D\u30AB\u30D0\u30FC\u753B\u50CF"> <meta name="description"${attr("content", meta.description)}> <meta name="twitter:card" content="summary_large_image">`;
+  });
+  $$payload.out += `<div class="md:w-8/12 p-4 mx-auto"><h3 class="title text-xl font-bold my-8 svelte-zbf2kb">${escape_html(title)}</h3> <div class="my-8">`;
+  PreviewBook($$payload, {
+    books,
+    bgColor,
+    link: `/goto/amazon/${books.at(0).book?.isbn}`
+  });
+  $$payload.out += `<!----></div> <!--[-->`;
+  for (let i = 0, $$length = each_array.length; i < $$length; i++) {
+    let book = each_array[i];
+    BookCard2($$payload, { book, index: books.length > 1 ? i + 1 : 0 });
+  }
+  $$payload.out += `<!--]--></div>`;
+  bind_props($$props, { data });
+  pop();
+}
+var import_isbn5;
+var init_page_svelte5 = __esm({
+  ".svelte-kit/output/server/entries/pages/zine/isbn/_isbn_/_page.svelte.js"() {
+    init_index2();
+    init_PreviewBook();
+    import_isbn5 = __toESM(require_dist(), 1);
+  }
+});
+
+// .svelte-kit/output/server/nodes/9.js
+var __exports10 = {};
+__export(__exports10, {
+  component: () => component9,
+  fonts: () => fonts10,
+  imports: () => imports10,
+  index: () => index10,
+  server: () => page_server_ts_exports3,
+  server_id: () => server_id3,
+  stylesheets: () => stylesheets10
+});
+var index10, component_cache9, component9, server_id3, imports10, stylesheets10, fonts10;
+var init__10 = __esm({
+  ".svelte-kit/output/server/nodes/9.js"() {
+    init_page_server_ts3();
+    index10 = 9;
+    component9 = async () => component_cache9 ??= (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default;
+    server_id3 = "src/routes/zine/isbn/[isbn]/+page.server.ts";
+    imports10 = ["_app/immutable/nodes/9.Dky2edL2.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DOvYsISe.js", "_app/immutable/chunks/Btw6_rf5.js", "_app/immutable/chunks/Dq12EtSq.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/Cta3jvXf.js", "_app/immutable/chunks/Z25KTv7k.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/chunks/CLK_dOat.js"];
+    stylesheets10 = ["_app/immutable/assets/PreviewBook.71W-6VSR.css", "_app/immutable/assets/8.C_D1Cpey.css"];
+    fonts10 = [];
   }
 });
 
@@ -6750,11 +6952,11 @@ async function GET3({ params }) {
     }
   });
 }
-var import_isbn5;
+var import_isbn6;
 var init_server_ts3 = __esm({
   ".svelte-kit/output/server/entries/endpoints/api/og/_isbn_/_server.ts.js"() {
     init_src31();
-    import_isbn5 = __toESM(require_dist(), 1);
+    import_isbn6 = __toESM(require_dist(), 1);
     init_client();
   }
 });
@@ -6766,10 +6968,10 @@ __export(server_ts_exports4, {
 });
 async function GET4({ params }) {
   const isbn = params.isbn;
-  if (!import_isbn6.default.parse(isbn).isValid) {
+  if (!import_isbn7.default.parse(isbn).isValid) {
     return json({ error: "Invalid ISBN" }, { status: 400 });
   }
-  const hyphenedISBN = import_isbn6.default.parse(isbn).toString({ version: "isbn13", hyphens: true });
+  const hyphenedISBN = import_isbn7.default.parse(isbn).toString({ version: "isbn13", hyphens: true });
   if (hyphenedISBN.substring(0, 5) !== "978-4") {
     return json({ error: "Not Found" }, { status: 404 });
   }
@@ -6780,10 +6982,10 @@ async function GET4({ params }) {
   }
   return json(publisher, { status: 200 });
 }
-var import_isbn6, publishersStr, publishers;
+var import_isbn7, publishersStr, publishers;
 var init_server_ts4 = __esm({
   ".svelte-kit/output/server/entries/endpoints/api/publisher/_isbn_/_server.ts.js"() {
-    import_isbn6 = __toESM(require_dist(), 1);
+    import_isbn7 = __toESM(require_dist(), 1);
     init_chunks();
     init_src31();
     publishersStr = `code	name	url
@@ -7609,7 +7811,7 @@ function push2(props, runes = false, fn) {
     ctx.d = true;
   });
 }
-function pop2(component8) {
+function pop2(component10) {
   const context_stack_item = component_context;
   if (context_stack_item !== null) {
     const component_effects = context_stack_item.e;
@@ -8485,13 +8687,13 @@ function update_reaction(reaction) {
 function remove_reaction(signal, dependency) {
   let reactions = dependency.reactions;
   if (reactions !== null) {
-    var index9 = index_of.call(reactions, signal);
-    if (index9 !== -1) {
+    var index11 = index_of.call(reactions, signal);
+    if (index11 !== -1) {
       var new_length = reactions.length - 1;
       if (new_length === 0) {
         reactions = dependency.reactions = null;
       } else {
-        reactions[index9] = reactions[new_length];
+        reactions[index11] = reactions[new_length];
         reactions.pop();
       }
     }
@@ -8828,10 +9030,10 @@ function assign_nodes(start2, end) {
     effect2.nodes_end = end;
   }
 }
-function mount(component8, options2) {
-  return _mount(component8, options2);
+function mount(component10, options2) {
+  return _mount(component10, options2);
 }
-function hydrate(component8, options2) {
+function hydrate(component10, options2) {
   init_operations();
   options2.intro = options2.intro ?? false;
   const target = options2.target;
@@ -8856,7 +9058,7 @@ function hydrate(component8, options2) {
       anchor
     );
     hydrate_next();
-    const instance = _mount(component8, { ...options2, anchor });
+    const instance = _mount(component10, { ...options2, anchor });
     if (hydrate_node === null || hydrate_node.nodeType !== 8 || /** @type {Comment} */
     hydrate_node.data !== HYDRATION_END) {
       hydration_mismatch();
@@ -8875,7 +9077,7 @@ function hydrate(component8, options2) {
       init_operations();
       clear_text_content(target);
       set_hydrating(false);
-      return mount(component8, options2);
+      return mount(component10, options2);
     }
     throw error2;
   } finally {
@@ -8905,7 +9107,7 @@ function _mount(Component, { target, anchor, props = {}, events, context: contex
   };
   event_handle(array_from(all_registered_events));
   root_event_handles.add(event_handle);
-  var component8 = void 0;
+  var component10 = void 0;
   var unmount2 = component_root(() => {
     var anchor_node = anchor ?? target.appendChild(create_text());
     branch(() => {
@@ -8927,7 +9129,7 @@ function _mount(Component, { target, anchor, props = {}, events, context: contex
           null
         );
       }
-      component8 = Component(anchor_node, props) || {};
+      component10 = Component(anchor_node, props) || {};
       if (hydrating) {
         active_effect.nodes_end = hydrate_node;
       }
@@ -8955,24 +9157,24 @@ function _mount(Component, { target, anchor, props = {}, events, context: contex
       }
     };
   });
-  mounted_components.set(component8, unmount2);
-  return component8;
+  mounted_components.set(component10, unmount2);
+  return component10;
 }
 var mounted_components = /* @__PURE__ */ new WeakMap();
-function unmount(component8, options2) {
-  const fn = mounted_components.get(component8);
+function unmount(component10, options2) {
+  const fn = mounted_components.get(component10);
   if (fn) {
-    mounted_components.delete(component8);
+    mounted_components.delete(component10);
     return fn(options2);
   }
   return Promise.resolve();
 }
-function asClassComponent$1(component8) {
+function asClassComponent$1(component10) {
   return class extends Svelte4Component {
     /** @param {any} options */
     constructor(options2) {
       super({
-        component: component8,
+        component: component10,
         ...options2
       });
     }
@@ -9073,10 +9275,10 @@ var read_implementation = null;
 function set_read_implementation(fn) {
   read_implementation = fn;
 }
-function asClassComponent(component8) {
-  const component_constructor = asClassComponent$1(component8);
+function asClassComponent(component10) {
+  const component_constructor = asClassComponent$1(component10);
   const _render = (props, { context: context2 } = {}) => {
-    const result = render(component8, { props, context: context2 });
+    const result = render(component10, { props, context: context2 });
     return {
       css: { code: "", map: null },
       head: result.head,
@@ -9221,7 +9423,7 @@ var options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "1u1e13u"
+  version_hash: "brjvpy"
 };
 async function get_hooks() {
   let handle2;
@@ -10061,8 +10263,8 @@ function stringify2(value, reducers) {
     stringified[index22] = str;
     return index22;
   }
-  const index9 = flatten(value);
-  if (index9 < 0) return `${index9}`;
+  const index11 = flatten(value);
+  if (index11 < 0) return `${index11}`;
   return `[${stringified.join(",")}]`;
 }
 function stringify_primitive(thing) {
@@ -10325,9 +10527,9 @@ async function load_server_data({ event, state: state2, node, parent }) {
     url: false,
     search_params: /* @__PURE__ */ new Set()
   };
-  const load3 = node.server.load;
+  const load4 = node.server.load;
   const slash = node.server.trailingSlash;
-  if (!load3) {
+  if (!load4) {
     return { type: "data", data: null, uses, slash };
   }
   const url = make_trackable(
@@ -10349,7 +10551,7 @@ async function load_server_data({ event, state: state2, node, parent }) {
   let done = false;
   const result = await with_event(
     event,
-    () => load3.call(null, {
+    () => load4.call(null, {
       ...event,
       fetch: (info, init22) => {
         const url2 = new URL(info instanceof Request ? info.url : info, event.url);
@@ -11165,8 +11367,8 @@ async function render_response({
   }
   const { client } = manifest2._;
   const modulepreloads = new Set(client.imports);
-  const stylesheets9 = new Set(client.stylesheets);
-  const fonts9 = new Set(client.fonts);
+  const stylesheets11 = new Set(client.stylesheets);
+  const fonts11 = new Set(client.fonts);
   const link_header_preloads = /* @__PURE__ */ new Set();
   const inline_styles = /* @__PURE__ */ new Map();
   let rendered;
@@ -11241,8 +11443,8 @@ async function render_response({
     }
     for (const { node } of branch2) {
       for (const url of node.imports) modulepreloads.add(url);
-      for (const url of node.stylesheets) stylesheets9.add(url);
-      for (const url of node.fonts) fonts9.add(url);
+      for (const url of node.stylesheets) stylesheets11.add(url);
+      for (const url of node.fonts) fonts11.add(url);
       if (node.inline_styles && !client.inline) {
         Object.entries(await node.inline_styles()).forEach(([k, v]) => inline_styles.set(k, v));
       }
@@ -11269,7 +11471,7 @@ async function render_response({
     head2 += `
 	<style${attributes.join("")}>${style}</style>`;
   }
-  for (const dep of stylesheets9) {
+  for (const dep of stylesheets11) {
     const path = prefixed(dep);
     const attributes = ['rel="stylesheet"'];
     if (inline_styles.has(dep)) {
@@ -11283,7 +11485,7 @@ async function render_response({
     head2 += `
 		<link href="${path}" ${attributes.join(" ")}>`;
   }
-  for (const dep of fonts9) {
+  for (const dep of fonts11) {
     const path = prefixed(dep);
     if (resolve_opts.preload({ type: "font", path })) {
       const ext = dep.slice(dep.lastIndexOf(".") + 1);
@@ -12121,11 +12323,11 @@ async function render_page(event, page2, options2, manifest2, state2, nodes, res
           const error2 = await handle_error_and_jsonify(event, options2, err);
           while (i--) {
             if (page2.errors[i]) {
-              const index9 = (
+              const index11 = (
                 /** @type {number} */
                 page2.errors[i]
               );
-              const node2 = await manifest2._.nodes[index9]();
+              const node2 = await manifest2._.nodes[index11]();
               let j = i;
               while (!branch2[j]) j -= 1;
               return await render_response({
@@ -12208,20 +12410,20 @@ function parse$1(str, options2) {
   var obj = {};
   var opt = options2 || {};
   var dec = opt.decode || decode;
-  var index9 = 0;
-  while (index9 < str.length) {
-    var eqIdx = str.indexOf("=", index9);
+  var index11 = 0;
+  while (index11 < str.length) {
+    var eqIdx = str.indexOf("=", index11);
     if (eqIdx === -1) {
       break;
     }
-    var endIdx = str.indexOf(";", index9);
+    var endIdx = str.indexOf(";", index11);
     if (endIdx === -1) {
       endIdx = str.length;
     } else if (endIdx < eqIdx) {
-      index9 = str.lastIndexOf(";", eqIdx - 1) + 1;
+      index11 = str.lastIndexOf(";", eqIdx - 1) + 1;
       continue;
     }
-    var key2 = str.slice(index9, eqIdx).trim();
+    var key2 = str.slice(index11, eqIdx).trim();
     if (void 0 === obj[key2]) {
       var val = str.slice(eqIdx + 1, endIdx).trim();
       if (val.charCodeAt(0) === 34) {
@@ -12229,7 +12431,7 @@ function parse$1(str, options2) {
       }
       obj[key2] = tryDecode(val, dec);
     }
-    index9 = endIdx + 1;
+    index11 = endIdx + 1;
   }
   return obj;
 }
@@ -13299,7 +13501,7 @@ var manifest = (() => {
     assets: /* @__PURE__ */ new Set([".DS_Store", "android-chrome-192x192.png", "android-chrome-512x512.png", "apple-touch-icon.png", "bibliohack-lab.png", "bookshelf-bg.jpg", "bookshelf-bg.png", "favicon-128x128.png", "favicon-16x16.png", "favicon-32x32.png", "favicon.ico", "favicon.png", "favicon.svg", "front-placeholder.png", "og-shelf-bg.png", "ogp.png", "opencover-logo.svg", "site.webmanifest"]),
     mimeTypes: { ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json" },
     _: {
-      client: { start: "_app/immutable/entry/start.HXI0AnzN.js", app: "_app/immutable/entry/app.Dfriskzx.js", imports: ["_app/immutable/entry/start.HXI0AnzN.js", "_app/immutable/chunks/DOXTwXr8.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/entry/app.Dfriskzx.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/DdiJvTiH.js"], stylesheets: [], fonts: [], uses_env_dynamic_public: false },
+      client: { start: "_app/immutable/entry/start.-FLWElDy.js", app: "_app/immutable/entry/app.DGPzR-S3.js", imports: ["_app/immutable/entry/start.-FLWElDy.js", "_app/immutable/chunks/C73Cn-wC.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/DdiJvTiH.js", "_app/immutable/entry/app.DGPzR-S3.js", "_app/immutable/chunks/BlTpSGD8.js", "_app/immutable/chunks/CLK_dOat.js", "_app/immutable/chunks/ChECSWBu.js", "_app/immutable/chunks/B-Dr2cRb.js", "_app/immutable/chunks/CABO9XDg.js", "_app/immutable/chunks/DKmXJPfJ.js", "_app/immutable/chunks/_BQvoK0b.js", "_app/immutable/chunks/DdiJvTiH.js"], stylesheets: [], fonts: [], uses_env_dynamic_public: false },
       nodes: [
         __memo(() => Promise.resolve().then(() => (init__(), __exports))),
         __memo(() => Promise.resolve().then(() => (init__2(), __exports2))),
@@ -13308,21 +13510,23 @@ var manifest = (() => {
         __memo(() => Promise.resolve().then(() => (init__5(), __exports5))),
         __memo(() => Promise.resolve().then(() => (init__6(), __exports6))),
         __memo(() => Promise.resolve().then(() => (init__7(), __exports7))),
-        __memo(() => Promise.resolve().then(() => (init__8(), __exports8)))
+        __memo(() => Promise.resolve().then(() => (init__8(), __exports8))),
+        __memo(() => Promise.resolve().then(() => (init__9(), __exports9))),
+        __memo(() => Promise.resolve().then(() => (init__10(), __exports10)))
       ],
       routes: [
         {
           id: "/",
           pattern: /^\/$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 3 },
+          page: { layouts: [0], errors: [1], leaf: 4 },
           endpoint: null
         },
         {
           id: "/about",
           pattern: /^\/about\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 4 },
+          page: { layouts: [0], errors: [1], leaf: 5 },
           endpoint: null
         },
         {
@@ -13378,21 +13582,28 @@ var manifest = (() => {
           id: "/goto/[service]/[isbn]",
           pattern: /^\/goto\/([^/]+?)\/([^/]+?)\/?$/,
           params: [{ "name": "service", "optional": false, "rest": false, "chained": false }, { "name": "isbn", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0], errors: [1], leaf: 5 },
+          page: { layouts: [0], errors: [1], leaf: 6 },
           endpoint: null
         },
         {
           id: "/how-to-use",
           pattern: /^\/how-to-use\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 6 },
+          page: { layouts: [0], errors: [1], leaf: 7 },
           endpoint: null
         },
         {
           id: "/shelf/isbn/[isbn]",
           pattern: /^\/shelf\/isbn\/([^/]+?)\/?$/,
           params: [{ "name": "isbn", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, ,], errors: [1, 2], leaf: 7 },
+          page: { layouts: [0, ,], errors: [1, 2], leaf: 8 },
+          endpoint: null
+        },
+        {
+          id: "/zine/isbn/[isbn]",
+          pattern: /^\/zine\/isbn\/([^/]+?)\/?$/,
+          params: [{ "name": "isbn", "optional": false, "rest": false, "chained": false }],
+          page: { layouts: [0, ,], errors: [1, 3], leaf: 9 },
           endpoint: null
         }
       ],

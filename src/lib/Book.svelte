@@ -3,14 +3,14 @@
   import BookFront from './BookFront.svelte';
   import BookSpine from './BookSpine.svelte';
 
-  const { book, tabindex } = $props();
+  const { book, tabindex, scale = 2.5 } = $props();
 
   // let styleUrl = `https://oc-style.sugi2000.workers.dev/${label}`;
   let imageUrl = $derived(`https://image.opencover.jp/v1/cover/spine/${book.isbn}.webp`);
     
-  const scale = 2.5;
-  let width = $state(173 * scale);
-  let height = $state(173 * scale);
+  // const scale = 2.5;
+  let width = $derived(173 * scale);
+  let height = $derived(173 * scale);
   let loading = $state(true);
   let error = $state(null);
 
@@ -99,7 +99,7 @@
     {tabindex}
   >
     {#if book.displaySides?.find(d => d === 'front')}
-      <BookFront isbn={book.isbn} />
+      <BookFront isbn={book.isbn} --border-color={--border-color} />
     {/if}
     {#if book.displaySides?.find(d => d === 'spine')}
       <BookSpine isbn={book.isbn} />

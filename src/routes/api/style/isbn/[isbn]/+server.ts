@@ -16,15 +16,15 @@ export async function GET({ params, platform }) {
     }
 
     // Serviceバインディングを呼び出す
-    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/resolve/${book.seriesTitle || book.label || ''}`);
+    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/resolve/${book.seriesTitle || book.label || ''}`);
     if (!response.ok) {
-      throw new Error(`Failed to resolve style name for book: ${book.title}`);
+      throw new Error(`Failed to resolve style name for book: ${book.title}, ${book.seriesTitle}`);
     }
     const {name} = await response.json();
     if (!name) {
       return new Response('Style name not found', { status: 404 });
     }
-    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/style/${name}`);
+    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/style/${name}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch style data for book: ${book.title}`);
     }

@@ -14,7 +14,8 @@
     return `data:image/svg+xml,${encodeURIComponent(svgContent)}`;
   }
 
-  let imageSrc = $derived(`https://image.opencover.jp/v1/cover/spine/${isbn}.webp`);
+  // let imageSrc = $derived(`https://image.opencover.jp/v1/cover/spine/${isbn}.webp`);
+  let imageSrc = $derived(`/api/v1/image/cover/spine/${isbn}.webp`);
   // let imageLoaded = $derived(isbn ? false : true);
   // let imageError = $derived(isbn ? false : true);
 
@@ -35,7 +36,7 @@
   }
 </script>
 
-<div class="h-full relative inline-block" style={containerStyle}>
+<div class="spine h-full relative inline-block" style={containerStyle}>
 <!-- <div class="flex h-[250px] md:h-[400px] w-auto"> -->
 <!-- <div class="relative inline-block h-[250px] md:h-[400px] w-auto"> -->
 <!-- <div class="relative h-[250px] md:h-[400px] inline-block w-auto"> -->
@@ -68,3 +69,9 @@
     />
   {/if}
 </div>
+
+<style>
+  .spine {
+    border: 1px solid var(--border-color);
+  }
+</style>
