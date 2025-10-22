@@ -5,7 +5,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
   if (params.isbn) {
     const isbns = params.isbn.split(',');
 
-    const promises = isbns.map((isbn) => fetch(`/api/bib/${isbn}`).then(response => {
+    const promises = isbns.map((isbn) => fetch(`/api/v1/bib/${isbn}`).then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
