@@ -33,7 +33,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
         description: `opencoverの${title}です。あなたの本棚を作りましょう。`,
         image: `https://opencover.jp/api/og/${params.isbn}`,
         // image: `https://opencover.jp/api/og.png?isbn=${params.isbn}`,
-        url: `https://opencover.jp/shelf/isbn/${params.isbn}`,
+        url: `https://opencover.jp/zine/isbn/${params.isbn}`,
         type: 'website',
       }
     };

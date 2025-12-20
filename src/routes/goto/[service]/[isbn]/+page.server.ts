@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ params }) => {
           const searchUrl = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&booksGenreId=001&applicationId=1066876234771011272`;
           const response = await fetch(searchUrl);
           const data = await response.json();
-          const rakutenUrl = data.Items[0].Item.itemUrl;
+          const rakutenUrl = data?.Items[0]?.Item?.itemUrl || `https://books.rakuten.co.jp/`;
           linkUrl = `https://hb.afl.rakuten.co.jp/hgc/${affiliateId}/?pc=${encodeURIComponent(rakutenUrl)}&m=${encodeURIComponent(rakutenUrl)}`
           break;
         case 'kinokuniya':

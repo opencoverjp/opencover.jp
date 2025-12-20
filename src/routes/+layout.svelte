@@ -9,7 +9,6 @@
 </script>
 
 <svelte:head>
-	<title>opencover : みんなでつくる書籍カバー画像</title>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -30,7 +29,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 {/if}
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPGLQ8VW" title="Google Tag Manager" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	
 
 <div class="flex flex-col min-h-screen justify-between">
   <div class="fixed top-0 left-0 right-0 z-50">
@@ -40,7 +38,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <main class="flex-grow pt-header">
 		<div class="max-w-screen-xl mx-auto">
 			{@render children()}
-			<!-- <slot /> -->
 		</div>
 	</main>
 

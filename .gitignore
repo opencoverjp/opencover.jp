@@ -5,6 +5,9 @@ node_modules
 .vercel
 /.svelte-kit
 /.wrangler
+/.cloudflare
+build.log
+build_verification.log
 
 # OS
 .DS_Store

@@ -6,6 +6,18 @@
   import InstagramEmbed from "../lib/InstagramEmbed.svelte";
 </script>
 
+<svelte:head>
+  <title>opencover : みんなでつくる書籍カバー画像</title>
+  <meta property="og:title" content="opencover : みんなでつくる書籍カバー画像" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
+  <meta property="og:image" content="https://opencover.jp/ogp.png" />
+  <meta property="og:site_name" content="opencover : みんなでつくる書籍カバー画像" />
+  <meta property="og:url" content="https://opencover.jp/" />
+  <meta name="description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
+  <meta name="twitter:card" content="summary_large_image" />
+</svelte:head>
+
 <div
   class="relative overflow-hidden bg-no-repeat bg-cover h-[300px] md:h-[500px]"
   style="
@@ -87,23 +99,12 @@
 
   <h3 class="text-xl font-bold my-8">活用例</h3>
 
-  <h4 class="text-lg font-bold my-8">Biblisist</h4>
+  <h4 class="text-lg font-bold my-8">honbaco</h4>
   <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
     opencoverの画像を活用した、ユーザが本棚を作成し共有できるサービスを開発中です。
     2025年リリース予定です。
   </div>
   
-  <InstagramEmbed postUrl="https://www.instagram.com/reel/DG0P1tFMy5O/" />
+  <InstagramEmbed postUrl="https://www.instagram.com/reel/DPquh1_jKjN/" />
 
 </div>
-
-<svelte:head>
-  <meta property="og:title" content="opencover : みんなでつくる書籍カバー画像" />
-  <meta property="og:type" content="website" />
-  <meta property="og:description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
-  <meta property="og:image" content="https://opencover.jp/ogp.png" />
-  <meta property="og:site_name" content="opencover : みんなでつくる書籍カバー画像" />
-  <meta property="og:url" content="https://opencover.jp/" />
-  <meta name="description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
-  <meta name="twitter:card" content="summary_large_image" />
-</svelte:head>

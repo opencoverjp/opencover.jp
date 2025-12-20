@@ -1,22 +1,29 @@
 {
-	"name": "opencoverjp",
-	"account_id": "0cfe62af35383525ab614371933f8e3e",
-	"main": "./.cloudflare/worker.js",
-	"site": {
-		"bucket": "./.cloudflare/public"
-	},
-	"build": {
-		"command": "npm run build"
-	},
+  "name": "opencoverjp",
+  "account_id": "0cfe62af35383525ab614371933f8e3e",
+  "main": "./.cloudflare/worker.js",
+  "assets": {
+    "directory": ".svelte-kit/cloudflare",
+    "binding": "ASSETS"
+  },
+  "build": {
+    "command": "npm run build"
+  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
   },
+  "compatibility_date": "2025-03-24",
   "compatibility_flags": [
     "nodejs_compat"
   ],
-	"compatibility_date": "2025-03-24",
-	"services": [
+  "routes": [
+    {
+      "pattern": "opencover.jp",
+      "custom_domain": true
+    }
+  ],
+  "services": [
     {
       "binding": "BIB",
       "service": "oc-bib"

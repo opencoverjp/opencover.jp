@@ -10,7 +10,7 @@
         { name: "rakuten", label: "楽天ブックス" },
         { name: "kinokuniya", label: "紀伊国屋書店" },
         { name: "maruzenjunkudo", label: "丸善ジュンク堂"},
-        { name: "honto", label: "honto" },
+        // { name: "honto", label: "honto" },
         { name: "openbs", label: "近くの書店在庫" }
       ],
     },

@@ -20,11 +20,11 @@ export async function GET({ params, platform }) {
     if (!response.ok) {
       throw new Error(`Failed to resolve style name for book: ${book.title}, ${book.seriesTitle}`);
     }
-    const {name} = await response.json();
+    const { name } = await response.json();
     if (!name) {
       return new Response('Style name not found', { status: 404 });
     }
-    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/style/${name}`);
+    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/styles/${name}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch style data for book: ${book.title}`);
     }
