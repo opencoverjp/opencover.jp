@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ISBN from "@pubdate/isbn";
+  import isbn3 from "isbn3";
 
   const links = [
     {
@@ -36,7 +36,7 @@
   const {book, index} = $props();
 
   const hyphenedIsbn = $derived(
-    ISBN.parse(book.book?.isbn).isValid ? ISBN.parse(book.book?.isbn).toString({version: "isbn13", hyphens: [true]}) : "");
+    isbn3.parse(book.book?.isbn)?.isValid ? isbn3.parse(book.book?.isbn)?.isbn13h : "");
 
 </script>
 

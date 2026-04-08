@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ISBN from "@pubdate/isbn";
+  import isbn3 from "isbn3";
   import { Play, Pause } from '@lucide/svelte';
   import { onDestroy, onMount } from "svelte";
   import PreviewBook from "./PreviewBook.svelte";
@@ -17,7 +17,7 @@
       .slice(0, 10)
   );
   let isBlankISBN = $derived(isbnsArray.length === 0);
-  let validIsbn = $derived(isbnsArray.every((isbn) => ISBN.parse(isbn).isValid));
+  let validIsbn = $derived(isbnsArray.every((isbn) => isbn3.parse(isbn)?.isValid ?? false));
   // $inspect(isbnsString);
   // $inspect(isbnsArray);
   // $inspect(isBlankISBN);

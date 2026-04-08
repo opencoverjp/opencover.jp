@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ISBN from "@pubdate/isbn";
+  import isbn3 from "isbn3";
   import {
     Play,
     Pause,
@@ -49,15 +49,15 @@
 
   let trimmedIsbn = $derived(isbn.trim().replace(/[^0-9Xx]/g, ""));
   let isBlankISBN = $derived(trimmedIsbn === "");
-  let validIsbn = $derived(ISBN.parse(trimmedIsbn).isValid);
+  let validIsbn = $derived(isbn3.parse(trimmedIsbn)?.isValid ?? false);
   let isbn13 = $derived(
-    validIsbn ? ISBN.parse(trimmedIsbn)?.toString({ version: "isbn13" }) : "",
+    validIsbn ? isbn3.parse(trimmedIsbn)?.isbn13 : "",
   );
   let isbn10 = $derived(
-    validIsbn ? ISBN.parse(trimmedIsbn)?.toString({ version: "isbn10" }) : "",
+    validIsbn ? isbn3.parse(trimmedIsbn)?.isbn10 : "",
   );
   let hyphenedIsbn = $derived(
-    validIsbn ? ISBN.parse(isbn13)?.toString({ hyphens: true }) : "",
+    validIsbn ? isbn3.parse(isbn13)?.isbn13h : "",
   );
   let spineUrl = $derived(
     validIsbn ? `https://image.opencover.jp/v1/cover/spine/${isbn13}.webp` : "",

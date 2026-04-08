@@ -1,12 +1,12 @@
 <script>
   import * as d3 from "d3";
-  import ISBN from "@pubdate/isbn";
+  import isbn3 from "isbn3";
   import { CircleAlert } from "@lucide/svelte";
   import { preloadData } from "$app/navigation";
   import Book from "./Book.svelte";
 
   let { books = [], bgColor = '#cccccc', link = '' } = $props();
-  let validIsbn = $derived(books.every((book) => ISBN.parse(book?.isbn).isValid));
+  let validIsbn = $derived(books.every((book) => isbn3.parse(book?.isbn)?.isValid ?? false));
   let isHovering = $state(false);
 
   $effect (async () => {

@@ -1,13 +1,14 @@
-import ISBN from '@pubdate/isbn';
+import isbn3 from 'isbn3';
 import { json } from '@sveltejs/kit';
 import * as d3 from 'd3';
 
 export async function GET({ params }) {
   const isbn = params.isbn;
-  if (!ISBN.parse(isbn).isValid) {
+  const parsedIsbn = isbn3.parse(isbn);
+  if (!parsedIsbn?.isValid) {
     return json({ error: 'Invalid ISBN' }, { status: 400 });
   }
-  const hyphenedISBN = ISBN.parse(isbn).toString({ version: 'isbn13', hyphens: true });
+  const hyphenedISBN = parsedIsbn.isbn13h;
   // 978-4-12
   if (hyphenedISBN.substring(0, 5) !== '978-4') {
     return json({ error: 'Not Found' }, { status: 404 });

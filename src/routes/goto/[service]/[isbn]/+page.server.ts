@@ -1,27 +1,47 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import ISBN from '@pubdate/isbn';
+import isbn3 from 'isbn3';
 
 export const load: PageServerLoad = async ({ params }) => {
   if (params.isbn) {
-    const isbn = params.isbn.split(',').at(0);
-    const isbn10 = ISBN.parse(isbn).toString({ version: "isbn10" });
+    const isbn = params.isbn.split(',').at(0) || '';
+    const parsedIsbn = isbn3.parse(isbn);
+    const isbn10 = parsedIsbn?.isbn10;
     const service = params.service;
     let linkUrl = `https://opencover.jp/`;
-    
-    if (ISBN.parse(isbn).isValid) {
+
+    if (parsedIsbn?.isValid) {
       switch (service) {
         case 'amazon':
           linkUrl = `https://www.amazon.co.jp/dp/${isbn10}?tag=opencoverjp-22`;
           break;
-        case 'rakuten':
+        case 'rakuten': {
+          const searchUrl = new URL('https://openapi.rakuten.co.jp/services/api/BooksBook/Search/20170404');
+          searchUrl.searchParams.append('applicationId', 'bab1c19a-f28a-4f46-8264-b3476e703edb');
+          searchUrl.searchParams.append('accessKey', 'pk_4QGzkvrKuhf5fEh2wv2H66NonA8c8DbUvx2bo7n2pE7');
           const affiliateId = '06f792e1.d28000ea.06f792e2.e995fb0d';
-          const searchUrl = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&booksGenreId=001&applicationId=1066876234771011272`;
-          const response = await fetch(searchUrl);
+          searchUrl.searchParams.append('affiliateId', affiliateId);
+          searchUrl.searchParams.append('isbn', isbn);
+          searchUrl.searchParams.append('hits', '1');
+          searchUrl.searchParams.append('outOfStockFlag', '1');
+
+          const response = await fetch(searchUrl.toString(), {
+            headers: {
+              'Referer': 'https://opencover.jp',
+              'Origin': 'https://opencover.jp'
+            }
+          });
           const data = await response.json();
-          const rakutenUrl = data?.Items[0]?.Item?.itemUrl || `https://books.rakuten.co.jp/`;
-          linkUrl = `https://hb.afl.rakuten.co.jp/hgc/${affiliateId}/?pc=${encodeURIComponent(rakutenUrl)}&m=${encodeURIComponent(rakutenUrl)}`
+          const item = data?.Items?.[0]?.Item;
+
+          if (item?.affiliateUrl) {
+            linkUrl = item.affiliateUrl;
+          } else {
+            const rakutenUrl = item?.itemUrl || `https://books.rakuten.co.jp/`;
+            linkUrl = `https://hb.afl.rakuten.co.jp/hgc/${affiliateId}/?pc=${encodeURIComponent(rakutenUrl)}&m=${encodeURIComponent(rakutenUrl)}`;
+          }
           break;
+        }
         case 'kinokuniya':
           const kinokuniyaUrl = `https://www.kinokuniya.co.jp/f/dsg-01-${isbn}`;
           linkUrl = `https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3459152&pid=891514999&vc_url=${encodeURIComponent(kinokuniyaUrl)}`;
@@ -55,9 +75,9 @@ export const load: PageServerLoad = async ({ params }) => {
           break;
       }
     }
-    
+
     // console.log({ isbn, service, linkUrl });
     redirect(302, linkUrl);
-  } 
+  }
   error(404, 'Not found');
 };

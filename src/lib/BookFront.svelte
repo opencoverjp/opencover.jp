@@ -62,6 +62,7 @@
     class="h-full object-cover {!imageLoaded || imageError ? 'hidden' : ''}"
     onload={handleImageLoad}
     onerror={handleImageError}
+    referrerpolicy="no-referrer"
   />
 
   <!-- エラー時の表示 -->

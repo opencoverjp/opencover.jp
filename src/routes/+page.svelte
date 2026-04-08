@@ -4,17 +4,32 @@
   import SingleDemo from "../lib/SingleDemo.svelte";
   import MultiDemo from "../lib/MultiDemo.svelte";
   import InstagramEmbed from "../lib/InstagramEmbed.svelte";
+  import honbacoLibraryImg from "../lib/assets/honbaco-library.png";
+  import honbacoImg from "../lib/assets/honbaco.png";
+  import opencover3dViewerImg from "../lib/assets/3dviewer.png";
 </script>
 
 <svelte:head>
   <title>opencover : みんなでつくる書籍カバー画像</title>
-  <meta property="og:title" content="opencover : みんなでつくる書籍カバー画像" />
+  <meta
+    property="og:title"
+    content="opencover : みんなでつくる書籍カバー画像"
+  />
   <meta property="og:type" content="website" />
-  <meta property="og:description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
+  <meta
+    property="og:description"
+    content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。"
+  />
   <meta property="og:image" content="https://opencover.jp/ogp.png" />
-  <meta property="og:site_name" content="opencover : みんなでつくる書籍カバー画像" />
+  <meta
+    property="og:site_name"
+    content="opencover : みんなでつくる書籍カバー画像"
+  />
   <meta property="og:url" content="https://opencover.jp/" />
-  <meta name="description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
+  <meta
+    name="description"
+    content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。"
+  />
   <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
@@ -67,7 +82,10 @@
     非営利のプロジェクトです。どなたでもご自由にお使いいただけます。
     ISBNを指定したURLを呼び出すことで、かんたんに背表紙画像を取得できます。
     対応している書籍は、新書を中心に約70,000冊です。
-    <a href="how-to-use" class="p-2 px-4 text-sm border border-slate-300 rounded-full hover:bg-slate-100">
+    <a
+      href="how-to-use"
+      class="p-2 px-4 text-sm border border-slate-300 rounded-full hover:bg-slate-100"
+    >
       もっとくわしく…
     </a>
   </div>
@@ -99,12 +117,40 @@
 
   <h3 class="text-xl font-bold my-8">活用例</h3>
 
-  <h4 class="text-lg font-bold my-8">honbaco</h4>
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-    opencoverの画像を活用した、ユーザが本棚を作成し共有できるサービスを開発中です。
-    2025年リリース予定です。
+  <div>opencoverの画像を活用したサービスを紹介します。</div>
+  <div class="flex gap-8">
+    <div class="flex-1">
+      <a href="https://lib.honbaco.com/" target="_blank">
+        <h4 class="text-lg font-bold my-8">honbaco library</h4>
+        <img
+          src={honbacoLibraryImg}
+          alt="honbaco library"
+          class="w-full hover:opacity-90"
+        />
+      </a>
+      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+        図書館の蔵書を本棚を眺めるように検索・閲覧できるサービスです。
+      </div>
+    </div>
+    <div class="flex-1">
+      <h4 class="text-lg font-bold my-8">honbaco</h4>
+      <img src={honbacoImg} alt="honbaco" class="w-full hover:opacity-90" />
+      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+        利用者が本棚を作成し共有できるサービスを開発中です。
+      </div>
+    </div>
+    <div class="flex-1">
+      <h4 class="text-lg font-bold my-8">opencover 3D Viewer</h4>
+      <img
+        src={opencover3dViewerImg}
+        alt="opencover 3D Viewer"
+        class="w-full hover:opacity-90"
+      />
+      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+        立体的な本棚を閲覧できるサービスです。
+      </div>
+    </div>
   </div>
-  
-  <InstagramEmbed postUrl="https://www.instagram.com/reel/DPquh1_jKjN/" />
 
+  <InstagramEmbed postUrl="https://www.instagram.com/reel/DPquh1_jKjN/" />
 </div>
