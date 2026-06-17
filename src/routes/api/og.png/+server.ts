@@ -1,10 +1,11 @@
 import type { RequestHandler } from './$types';
+import { UPSTREAM } from '$lib/server/upstream';
 
 export const GET: RequestHandler = async ({ url }) => {
   const { searchParams } = url;
   const isbn = searchParams.get('isbn');
 
-  const endpoint = 'https://oc-image.sugi2000.workers.dev/v1/og';
+  const endpoint = `${UPSTREAM.image}/v1/og`;
   const response = await fetch(`${endpoint}/${isbn}`, {
     method: 'POST',
     headers: {

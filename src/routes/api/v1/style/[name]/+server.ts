@@ -1,34 +1,28 @@
 import { json } from '@sveltejs/kit';
+import { UPSTREAM } from '$lib/server/upstream';
+import { corsHeaders, preflightResponse } from '$lib/server/cors';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ request, params }) {
 
   const { name } = params;
 
-  // CORSヘッダーを設定
-  const headers = {
-    'Access-Control-Allow-Origin': '*', // すべてのオリジンからのアクセスを許可
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
+  const headers = corsHeaders();
 
   // OPTIONSリクエスト（プリフライトリクエスト）への応答
   if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers
-    });
+    return preflightResponse();
   }
 
   try {
     // Serviceバインディングを呼び出す
-    let response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/style/${name}`);
+    let response = await fetch(`${UPSTREAM.style}/api/v1/style/${name}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch style data`);
     }
     const result = await response.json();
     if (!result) {
-      return new Response('Style data not found', { 
+      return new Response('Style data not found', {
         status: 404,
         headers
       });
@@ -39,7 +33,7 @@ export async function GET({ request, params }) {
     });
   } catch (error) {
     console.error('Service binding error:', error);
-    return json({ success: false, error: error.message }, { 
+    return json({ success: false, error: error.message }, {
       status: 500,
       headers
     });
@@ -48,27 +42,17 @@ export async function GET({ request, params }) {
 
 export async function POST({ request, params }) {
   const { name } = params;
-  const { body } = request;
-  const { headers } = request;
-  // CORSヘッダーを設定
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*', // すべてのオリジンからのアクセスを許可
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
+  const corsHeaders_ = corsHeaders('POST, OPTIONS');
   // OPTIONSリクエスト（プリフライトリクエスト）への応答
   if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: corsHeaders
-    });
+    return preflightResponse('POST, OPTIONS');
   }
   try {
     // クライアントから送られてきたフォームデータを取得
     const jsonData = await request.json();
 
     // Worker API
-    let response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/style/${name}`, {
+    let response = await fetch(`${UPSTREAM.style}/api/v1/style/${name}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,21 +65,21 @@ export async function POST({ request, params }) {
 
     const result = await response.json();
     if (!result) {
-      return new Response('Style data not found', { 
+      return new Response('Style data not found', {
         status: 404,
-        headers: corsHeaders
+        headers: corsHeaders_
       });
     }
     // jsonヘルパーを使用しつつ、ヘッダーを追加
     return json(result, {
-      headers: corsHeaders
+      headers: corsHeaders_
     });
   }
   catch (error) {
     console.error('Service binding error:', error);
-    return json({ success: false, error: error.message }, { 
+    return json({ success: false, error: error.message }, {
       status: 500,
-      headers: corsHeaders
+      headers: corsHeaders_
     });
   }
 }

@@ -1,10 +1,11 @@
 
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { UPSTREAM } from '$lib/server/upstream';
 
 export const GET: RequestHandler = async ({ params, fetch }) => {
   const { isbn } = params;
-  const targetUrl = `https://oc-image.sugi2000.workers.dev/v1/cover/${isbn}`;
+  const targetUrl = `${UPSTREAM.image}/v1/cover/${isbn}`;
 
   try {
     const response = await fetch(targetUrl);

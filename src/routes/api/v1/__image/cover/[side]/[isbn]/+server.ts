@@ -1,6 +1,7 @@
 
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { UPSTREAM } from '$lib/server/upstream';
 
 export const GET: RequestHandler = async ({ params, fetch }) => {
   const { side, isbn } = params;
@@ -9,7 +10,7 @@ export const GET: RequestHandler = async ({ params, fetch }) => {
     error(400, 'Invalid side. Must be front, spine, or back.');
   }
 
-  const metadataUrl = `https://oc-image.sugi2000.workers.dev/v1/cover/${isbn}`;
+  const metadataUrl = `${UPSTREAM.image}/v1/cover/${isbn}`;
 
   try {
     const metaResponse = await fetch(metadataUrl);

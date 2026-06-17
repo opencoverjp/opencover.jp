@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
+import { UPSTREAM } from '$lib/server/upstream';
 
 export async function GET() {
   // console.log('GET /api/random-isbn');
 
   try {
     const timestamp = Date.now();
-    const response = await fetch(`https://oc-image.sugi2000.workers.dev/v1/random-isbn?${timestamp}`);
+    const response = await fetch(`${UPSTREAM.image}/v1/random-isbn?${timestamp}`);
     
     if (!response.ok) {
       // console.error('API response not OK:', response.status);

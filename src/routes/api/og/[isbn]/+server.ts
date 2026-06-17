@@ -1,5 +1,6 @@
 import PreviewBook from '../../../../lib/PreviewBook.svelte';
 import { render } from 'svelte/server';
+import { UPSTREAM } from '$lib/server/upstream';
 
 async function renderPreviewBook(props) {
   const { body } = await render(PreviewBook, { props });
@@ -19,7 +20,7 @@ export async function GET({ params }) {
 
   // console.log({ html });
 
-  const endpoint = 'https://oc-image.sugi2000.workers.dev/v1/og';
+  const endpoint = `${UPSTREAM.image}/v1/og`;
   const response = await fetch(`${endpoint}/${isbn}`, {
     method: 'POST',
     headers: {

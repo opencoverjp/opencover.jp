@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
+import { UPSTREAM } from '$lib/server/upstream';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, platform }) {
   const isbn = params.isbn;
 
   try {
-    let response = await fetch(`https://oc-bib.sugi2000.workers.dev/${isbn}`);
+    let response = await fetch(`${UPSTREAM.bib}/${isbn}`);
     // const response = await platform.env.BIB.search(isbn);
     if (!response.ok) {
       throw new Error(`Failed to fetch book data for ISBN: ${isbn}`);
@@ -16,7 +17,7 @@ export async function GET({ params, platform }) {
     }
 
     // Serviceバインディングを呼び出す
-    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/resolve/${book.seriesTitle || book.label || ''}`);
+    response = await fetch(`${UPSTREAM.style}/api/v1/resolve/${book.seriesTitle || book.label || ''}`);
     if (!response.ok) {
       throw new Error(`Failed to resolve style name for book: ${book.title}, ${book.seriesTitle}`);
     }
@@ -24,7 +25,7 @@ export async function GET({ params, platform }) {
     if (!name) {
       return new Response('Style name not found', { status: 404 });
     }
-    response = await fetch(`https://oc-style.sugi2000.workers.dev/api/v1/styles/${name}`);
+    response = await fetch(`${UPSTREAM.style}/api/v1/styles/${name}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch style data for book: ${book.title}`);
     }
