@@ -50,7 +50,6 @@ The application integrates with external services via Cloudflare Worker bindings
 
 ### Route Structure
 - `/shelf/isbn/[isbn]`: Book shelf view
-- `/zine/isbn/[isbn]`: Zine view
 - `/style/`: Style management
 - `/goto/[service]/[isbn]`: External service redirects
 
