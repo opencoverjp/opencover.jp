@@ -1,6 +1,6 @@
 // src/worker.js
-import { Server } from "../.svelte-kit/output/server/index.js";
-import { manifest, prerendered, base_path } from "../.svelte-kit/cloudflare-tmp/manifest.js";
+import { Server } from "./../.svelte-kit/output/server/index.js";
+import { manifest, prerendered, base_path } from "./../.svelte-kit/cloudflare-tmp/manifest.js";
 import { env } from "cloudflare:workers";
 
 // ../../node_modules/.pnpm/worktop@0.8.0-next.18/node_modules/worktop/cache/index.mjs
@@ -69,8 +69,8 @@ var worker_default = {
   async fetch(req, env2, ctx) {
     if (!origin) {
       origin = new URL(req.url).origin;
-      await initialized;
     }
+    await initialized;
     let pragma = req.headers.get("cache-control") || "";
     let res = !pragma.includes("no-cache") && await r2(req);
     if (res) return res;
