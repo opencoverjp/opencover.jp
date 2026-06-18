@@ -1,6 +1,10 @@
 packages:
   - .
 
+overrides:
+  picomatch@<2.3.2: ^2.3.2
+  picomatch@>=4.0.0 <4.0.4: ^4.0.4
+
 allowBuilds:
   '@tailwindcss/oxide': false
   esbuild: true

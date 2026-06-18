@@ -39,19 +39,5 @@
 		"svelte-ssr": "^0.0.28",
 		"svg2png-wasm": "^1.4.1",
 		"yoga-wasm-web": "^0.3.3"
-	},
-	"pnpm": {
-		"overrides": {
-			"picomatch@<2.3.2": "^2.3.2",
-			"picomatch@>=4.0.0 <4.0.4": "^4.0.4"
-		},
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"sharp",
-			"workerd"
-		],
-		"ignoredBuiltDependencies": [
-			"@tailwindcss/oxide"
-		]
 	}
 }
