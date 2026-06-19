@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+::selection {
+  background-color: var(--color-orange-400);
+  color: white;
+}

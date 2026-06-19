@@ -74,10 +74,13 @@
   </div>
 </div>
 
-<div class="container mx-auto p-4">
-  <h3 class="text-xl font-bold my-8">opencoverとは</h3>
+<div class="container mx-auto py-4">
+  <div class="mt-8 mb-4 tracking-widest">
+    <h2 class="text-2xl font-bold mb-4">自由に使える書籍カバー画像を</h2>
+    <h3 class="text-2xl ">opencoverとは</h3>
+  </div>
 
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-4">
     opencoverは、本のカバー画像を生成し配信するウェブAPIです。
     非営利のプロジェクトです。どなたでもご自由にお使いいただけます。
     ISBNを指定したURLを呼び出すことで、かんたんに背表紙画像を取得できます。
@@ -90,7 +93,7 @@
     </a>
   </div>
 
-  <h3 class="text-xl font-bold my-8">使用例</h3>
+  <h3 class="text-2xl font-bold mt-8 mb-4tracking-widest">使用例</h3>
 
   <h3 class="text-xl font-bold my-8 flex items-center gap-2">
     <img src="/favicon.svg" alt="Book" class="w-6 h-6" />
@@ -115,7 +118,7 @@
 
   <MultiDemo />
 
-  <h3 class="text-xl font-bold my-8">活用例</h3>
+  <h3 class="text-2xl font-bold mt-8 mb-4tracking-widest">活用例</h3>
 
   <div>opencoverの画像を活用したサービスを紹介します。</div>
   <div class="flex gap-8">
@@ -125,7 +128,7 @@
         <img
           src={honbacoLibraryImg}
           alt="honbaco library"
-          class="w-full hover:opacity-90"
+          class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
         />
       </a>
       <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
@@ -134,7 +137,7 @@
     </div>
     <div class="flex-1">
       <h4 class="text-lg font-bold my-8">honbaco</h4>
-      <img src={honbacoImg} alt="honbaco" class="w-full hover:opacity-90" />
+      <img src={honbacoImg} alt="honbaco" class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400" />
       <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
         利用者が本棚を作成し共有できるサービスを開発中です。
       </div>
@@ -144,7 +147,7 @@
       <img
         src={opencover3dViewerImg}
         alt="opencover 3D Viewer"
-        class="w-full hover:opacity-90"
+        class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
       />
       <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
         立体的な本棚を閲覧できるサービスです。
