@@ -93,7 +93,7 @@
     </a>
   </div>
 
-  <h3 class="text-2xl font-bold mt-8 mb-4tracking-widest">使用例</h3>
+  <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">使用例</h3>
 
   <h3 class="text-xl font-bold my-8 flex items-center gap-2">
     <img src="/favicon.svg" alt="Book" class="w-6 h-6" />
@@ -118,7 +118,7 @@
 
   <MultiDemo />
 
-  <h3 class="text-2xl font-bold mt-8 mb-4tracking-widest">活用例</h3>
+  <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">活用例</h3>
 
   <div>opencoverの画像を活用したサービスを紹介します。</div>
   <div class="flex gap-8">

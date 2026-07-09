@@ -1,21 +1,27 @@
 <script>
-  import * as d3 from "d3";
   import isbn3 from "isbn3";
   import { CircleAlert } from "@lucide/svelte";
-  import { preloadData } from "$app/navigation";
   import Book from "./Book.svelte";
 
   let { books = [], bgColor = '#cccccc', link = '' } = $props();
   let validIsbn = $derived(books.every((book) => isbn3.parse(book?.isbn)?.isValid ?? false));
   let isHovering = $state(false);
 
-  $effect (async () => {
-    // await preloadData(link);
-    // console.log('preloadData', link);
+  // d3.color(hex).darker(k) 相当: RGBを 0.7^k 倍する
+  function darken(hex, k) {
+    let h = hex.replace('#', '');
+    if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+    const num = parseInt(h, 16);
+    const f = Math.pow(0.7, k);
+    const clamp = (v) => Math.max(0, Math.min(255, Math.round(v * f)));
+    return `rgb(${clamp((num >> 16) & 255)}, ${clamp((num >> 8) & 255)}, ${clamp(num & 255)})`;
+  }
+
+  $effect (() => {
     document.documentElement.style.setProperty('--top-color', bgColor);
-    document.documentElement.style.setProperty('--bottom-color', d3.color(bgColor).darker(0.5));
-    document.documentElement.style.setProperty('--hovering-top-color', d3.color(bgColor).darker(0.5));
-    document.documentElement.style.setProperty('--hovering-bottom-color', d3.color(bgColor).darker(1));
+    document.documentElement.style.setProperty('--bottom-color', darken(bgColor, 0.5));
+    document.documentElement.style.setProperty('--hovering-top-color', darken(bgColor, 0.5));
+    document.documentElement.style.setProperty('--hovering-bottom-color', darken(bgColor, 1));
   });
 
   function handleFeedbackClick() {

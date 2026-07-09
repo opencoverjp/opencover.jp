@@ -17,40 +17,44 @@ OpenCover.jp is a SvelteKit web application deployed on Cloudflare Workers that 
 
 ### Core Structure
 - **Framework**: SvelteKit 2.x with Svelte 5.x (using modern runes API)
-- **Deployment**: Cloudflare Workers via `@sveltejs/adapter-cloudflare-workers`
+- **Deployment**: Cloudflare Workers via `@sveltejs/adapter-cloudflare`
 - **Styling**: Tailwind CSS 4.x with PostCSS
 - **Package Manager**: pnpm with specific built dependencies config
 
 ### Key Components
-- **Book Components**: `Book.svelte`, `BookFront.svelte`, `BookSpine.svelte` - Core visual book representations
-- **Image Generation**: Uses resvg-wasm, satori, and yoga-wasm for server-side image rendering
+- **Book Components**: `Book.svelte`, `BookFront.svelte`, `BookSpine.svelte` - Core visual book representations (`BookFront`/`BookSpine` share `CoverImage.svelte`)
+- **Image Generation**: Delegated to the upstream `oc-image` worker; the OG route proxies via `src/lib/server/og.ts`
 - **API Routes**: RESTful endpoints under `/api/` for book data, images, and styles
 
 ### External Services
-The application integrates with external services via Cloudflare Worker bindings:
-- **BIB Service** (`oc-bib`): Book bibliographic data
-- **STYLE Service** (`oc-style`): Book styling information
+The application integrates with three upstream Cloudflare Workers. Base URLs are
+centralized in `src/lib/server/upstream.ts`, and the `/api` routes proxy to them
+via `fetch`. Note: `oc-bib`/`oc-style` service bindings are also declared in
+`wrangler.jsonc`, but the current code paths call the workers over HTTP rather
+than through the bindings.
+- **oc-image**: Cover/OG image generation, cover metadata, random ISBN
+- **oc-bib**: Book bibliographic data
+- **oc-style**: Book styling information
 
 ### API Structure
 - `/api/bib/[isbn]`: Book bibliographic data
 - `/api/og/[isbn]`: OpenGraph image generation
-- `/api/style/isbn/[isbn]`: Book styling by ISBN
-- `/api/v1/style/`: Style API endpoints
+- `/api/style/isbn/[isbn]`: Book styling by ISBN (used for spine height)
 - `/api/v1/image/cover/spine/[isbn]`: Book spine image generation
 
 ### Image Handling
 - External images served from `image.opencover.jp`
-- WASM modules for image processing (resvg, yoga)
-- Dynamic image generation using satori for SVG-to-PNG conversion
+- Cover/OG image generation is delegated to the upstream `oc-image` worker
+  (this app no longer bundles satori/resvg/yoga locally)
 
 ### Security
-- Content Security Policy configured in `hooks.server.ts`
-- Different CSP rules for development vs production
-- CORS headers configured for API endpoints
+- Content Security Policy configured in `svelte.config.js` (`kit.csp`, hash mode)
+- CORS headers for API endpoints centralized in `src/lib/server/cors.ts`
+- Upstream credentials (Rakuten / ValueCommerce) are read from environment
+  variables via `$env/dynamic/private`; see `.dev.vars.example`
 
 ### Route Structure
 - `/shelf/isbn/[isbn]`: Book shelf view
-- `/style/`: Style management
 - `/goto/[service]/[isbn]`: External service redirects
 
 ## Development Notes
@@ -61,10 +65,9 @@ The application integrates with external services via Cloudflare Worker bindings
 - Host binding enabled for network access during development
 
 ### Key Dependencies
-- ISBN handling via `@pubdate/isbn`
-- Image generation stack: satori, resvg-wasm, yoga-wasm-web
-- D3.js for data visualization
-- Amazon Product Advertising API integration
+- ISBN handling via `isbn3`
+- Lucide icons via `@lucide/svelte`
+- Tailwind CSS 4.x (via `@tailwindcss/vite`)
 
 ### Svelte 5 Features
 - Uses modern runes API (`$props`, `$state`, `$derived`)

@@ -3,6 +3,7 @@
   import { Play, Pause } from '@lucide/svelte';
   import { onDestroy, onMount } from "svelte";
   import PreviewBook from "./PreviewBook.svelte";
+  import { createCarousel } from "./isbnCarousel.svelte";
 
   const isbns = ["9784087213126", "9784480076403", "9784004320340", "9784121028440"];
   const bgColors = ["#D9BD90"];
@@ -16,65 +17,32 @@
       .filter(isbn => isbn.length > 0)
       .slice(0, 10)
   );
-  let isBlankISBN = $derived(isbnsArray.length === 0);
   let validIsbn = $derived(isbnsArray.every((isbn) => isbn3.parse(isbn)?.isValid ?? false));
-  // $inspect(isbnsString);
-  // $inspect(isbnsArray);
-  // $inspect(isBlankISBN);
   let books = $derived(isbnsArray.length === 0 ? [] : isbnsArray.map(isbn => ({
     isbn,
     displaySides: ['spine']
   })));
 
-  let isbn = $state(isbns[0]);
   let bgColor = $state(bgColors[0]);
-  // $inspect(bgColor);
 
-  let currentIndex = 0;
-  let intervalId;
-  let isPlaying = $state(true); 
-  let showFront = $state(false);
-
-
-  function togglePlayPause() {
-    isPlaying = !isPlaying;
-    if (isPlaying) {
-      startInterval();
-    } else {
-      stopInterval();
-    }
-  }
-
-  function startInterval() {
-    if (intervalId) {
-      clearInterval(intervalId);
-    }
-
-    isbnsString = isbns.join('\n');
-    bgColor = bgColors[currentIndex];
-
-    intervalId = setInterval(() => {
-      currentIndex = (currentIndex + 1) % isbns.length;
-      isbn = isbns[currentIndex];
-      bgColor = bgColors[currentIndex % bgColors.length];
-    }, interval);
-  }
-
-  function stopInterval() {
-    clearInterval(intervalId);
-    intervalId = null;
-    isbnsString = '';
-    bgColor = "#C0CDD9";
-  }
+  const carousel = createCarousel({
+    length: isbns.length,
+    interval,
+    onStart: () => { isbnsString = isbns.join('\n'); },
+    onIndex: (i) => { bgColor = bgColors[i % bgColors.length]; },
+    onStop: () => { isbnsString = ''; bgColor = "#C0CDD9"; },
+  });
+  let isPlaying = $derived(carousel.isPlaying);
+  const togglePlayPause = carousel.toggle;
 
   onMount(() => {
-    if (isPlaying) {
-      startInterval();
+    if (carousel.isPlaying) {
+      carousel.start();
     }
   });
 
   onDestroy(() => {
-    stopInterval();
+    carousel.stop();
   });
 </script>
 

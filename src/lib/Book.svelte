@@ -1,57 +1,23 @@
 <script>
-  import { onMount, untrack } from "svelte";
+  import { untrack } from "svelte";
   import BookFront from "./BookFront.svelte";
   import BookSpine from "./BookSpine.svelte";
 
   const { book, tabindex, scale = 2.5 } = $props();
 
-  // let styleUrl = `https://oc-style.sugi2000.workers.dev/${label}`;
-  let imageUrl = $derived(
-    `https://image.opencover.jp/v1/cover/spine/${book.isbn}.webp`,
-  );
-
-  // const scale = 2.5;
-  let width = $derived(173 * scale);
   // scaleの初期値のみを取得して警告を抑制
   let height = $state(173 * untrack(() => scale));
-  let loading = $state(true);
-  let error = $state(null);
-
-  async function getImageDimensions(url) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-
-      img.onload = () => {
-        resolve({
-          width: img.naturalWidth,
-          height: img.naturalHeight,
-        });
-      };
-
-      img.onerror = () => {
-        reject(new Error("Failed to load image"));
-      };
-
-      img.src = url;
-    });
-  }
 
   async function updateBookHeight(isbn, currentScale) {
-    loading = true;
-    error = null;
-
     try {
       const response = await fetch(`/api/style/isbn/${isbn}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const style = await response.json();
-
       height = style.height * currentScale;
     } catch (err) {
-      error = err.message;
-    } finally {
-      loading = false;
+      console.error(err);
     }
   }
 
@@ -63,25 +29,6 @@
       updateBookHeight(book.isbn, scale);
     }
   });
-
-  // onMount(async () => {
-  //   try {
-  //       const dimensions = await getImageDimensions(imageUrl);
-  //       width = dimensions.width;
-  //       // height = dimensions.height;
-  //       const response = await fetch(`/api/style/isbn/${book.isbn}`);
-  //       if (!response.ok) {
-  //           throw new Error('Network response was not ok');
-  //       }
-  //       const style = await response.json();
-  //       console.log({style});
-  //       height = style.height * scale;
-  //   } catch (err) {
-  //       error = err.message;
-  //   } finally {
-  //       loading = false;
-  //   }
-  // });
 
   function handleBookClick(event, isbn) {
     event.preventDefault();

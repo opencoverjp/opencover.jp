@@ -1,6 +1,15 @@
 import isbn3 from 'isbn3';
 import { json } from '@sveltejs/kit';
-import * as d3 from 'd3';
+
+/** Minimal tab-separated-values parser (replaces d3.tsvParse for this one use). */
+function parseTsv(tsv: string): Record<string, string>[] {
+  const [header, ...rows] = tsv.trim().split('\n');
+  const keys = header.split('\t');
+  return rows.map((row) => {
+    const cells = row.split('\t');
+    return Object.fromEntries(keys.map((key, i) => [key, cells[i] ?? '']));
+  });
+}
 
 export async function GET({ params }) {
   const isbn = params.isbn;
@@ -272,4 +281,4 @@ const publishersStr = `code	name	url
 656	河中自治振興財団	
 657	早稲田大学出版部	http://www.waseda-up.co.jp/`;
 
-const publishers = d3.tsvParse(publishersStr);
+const publishers = parseTsv(publishersStr);

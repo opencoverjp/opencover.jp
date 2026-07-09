@@ -1,13 +1,9 @@
 <script lang="ts">
   import isbn3 from "isbn3";
-  import {
-    Play,
-    Pause,
-    RefreshCcw,
-    MessageSquareWarning,
-  } from "@lucide/svelte";
+  import { Play, Pause, RefreshCcw, MessageSquareWarning } from "@lucide/svelte";
   import { onDestroy, onMount } from "svelte";
   import PreviewBook from "./PreviewBook.svelte";
+  import { createCarousel } from "./isbnCarousel.svelte";
 
   const isbns = [
     "9784087213126",
@@ -23,67 +19,31 @@
 
   let isbn = $state(isbns[0]);
   let bgColor = $state(bgColors[0]);
-  // $inspect(bgColor);
-  // let isbn13 = "";
-  // let hyphenedIsbn = "";
-  // let validIsbn = false;
-
-  let currentIndex = 0;
-  let intervalId;
-  let isPlaying = $state(true);
   let showFront = $state(false);
-  // $inspect(showFront);
 
   let displaySides = $derived(["spine", ...(showFront ? ["front"] : [])]);
 
   let books = $derived(
-    isbn
-      ? [
-          {
-            isbn,
-            displaySides,
-          },
-        ]
-      : [],
+    isbn ? [{ isbn, displaySides }] : [],
   );
 
   let trimmedIsbn = $derived(isbn.trim().replace(/[^0-9Xx]/g, ""));
-  let isBlankISBN = $derived(trimmedIsbn === "");
   let validIsbn = $derived(isbn3.parse(trimmedIsbn)?.isValid ?? false);
-  let isbn13 = $derived(
-    validIsbn ? isbn3.parse(trimmedIsbn)?.isbn13 : "",
-  );
-  let isbn10 = $derived(
-    validIsbn ? isbn3.parse(trimmedIsbn)?.isbn10 : "",
-  );
-  let hyphenedIsbn = $derived(
-    validIsbn ? isbn3.parse(isbn13)?.isbn13h : "",
-  );
-  let spineUrl = $derived(
-    validIsbn ? `https://image.opencover.jp/v1/cover/spine/${isbn13}.webp` : "",
-  );
 
-  // $: {
-  //   const requestParameters = {
-  //     ItemIds: [`"${isbn10}"`],
-  //     ItemIdType: 'ASIN',
-  //     Resources: [
-  //       'Images.Primary.Medium',
-  //       'ItemInfo.Title',
-  //       'Offers.Listings.Price',
-  //     ],
-  //   };
-  //   amazonPaapi
-  //   .GetItems(commonParameters, requestParameters)
-  //   .then((data) => {
-  //     // do something with the success response.
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     // catch an error.
-  //     console.log(error);
-  //   });
-  // }
+  const carousel = createCarousel({
+    length: isbns.length,
+    interval,
+    onIndex: (i) => {
+      isbn = isbns[i];
+      bgColor = bgColors[i];
+    },
+    onStop: () => {
+      isbn = "";
+      bgColor = "#C0CDD9";
+    },
+  });
+  let isPlaying = $derived(carousel.isPlaying);
+  const togglePlayPause = carousel.toggle;
 
   function handleFeedbackClick() {
     window.open(
@@ -100,50 +60,14 @@
     }
   }
 
-  function togglePlayPause() {
-    isPlaying = !isPlaying;
-    if (isPlaying) {
-      startInterval();
-    } else {
-      stopInterval();
-    }
-  }
-
-  function toggleShowFront() {
-    showFront = !showFront;
-    console.log("toggleShowFront:", showFront);
-  }
-
-  function startInterval() {
-    if (intervalId) {
-      clearInterval(intervalId);
-    }
-
-    isbn = isbns[currentIndex];
-    bgColor = bgColors[currentIndex];
-
-    intervalId = setInterval(() => {
-      currentIndex = (currentIndex + 1) % isbns.length;
-      isbn = isbns[currentIndex];
-      bgColor = bgColors[currentIndex];
-    }, interval);
-  }
-
-  function stopInterval() {
-    clearInterval(intervalId);
-    intervalId = null;
-    isbn = "";
-    bgColor = "#C0CDD9";
-  }
-
   onMount(() => {
-    if (isPlaying) {
-      startInterval();
+    if (carousel.isPlaying) {
+      carousel.start();
     }
   });
 
   onDestroy(() => {
-    stopInterval();
+    carousel.stop();
   });
 </script>
 

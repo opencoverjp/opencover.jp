@@ -1,5 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { env } from '$env/dynamic/private';
 import isbn3 from 'isbn3';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -17,9 +18,9 @@ export const load: PageServerLoad = async ({ params }) => {
           break;
         case 'rakuten': {
           const searchUrl = new URL('https://openapi.rakuten.co.jp/services/api/BooksBook/Search/20170404');
-          searchUrl.searchParams.append('applicationId', 'bab1c19a-f28a-4f46-8264-b3476e703edb');
-          searchUrl.searchParams.append('accessKey', 'pk_4QGzkvrKuhf5fEh2wv2H66NonA8c8DbUvx2bo7n2pE7');
-          const affiliateId = '06f792e1.d28000ea.06f792e2.e995fb0d';
+          searchUrl.searchParams.append('applicationId', env.RAKUTEN_APPLICATION_ID ?? '');
+          searchUrl.searchParams.append('accessKey', env.RAKUTEN_ACCESS_KEY ?? '');
+          const affiliateId = env.RAKUTEN_AFFILIATE_ID ?? '';
           searchUrl.searchParams.append('affiliateId', affiliateId);
           searchUrl.searchParams.append('isbn', isbn);
           searchUrl.searchParams.append('hits', '1');
@@ -44,14 +45,14 @@ export const load: PageServerLoad = async ({ params }) => {
         }
         case 'kinokuniya':
           const kinokuniyaUrl = `https://www.kinokuniya.co.jp/f/dsg-01-${isbn}`;
-          linkUrl = `https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3459152&pid=891514999&vc_url=${encodeURIComponent(kinokuniyaUrl)}`;
+          linkUrl = `https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=${env.VALUECOMMERCE_SID ?? ''}&pid=${env.VALUECOMMERCE_PID_KINOKUNIYA ?? ''}&vc_url=${encodeURIComponent(kinokuniyaUrl)}`;
           break;
         case 'maruzenjunkudo':
           linkUrl = `https://www.maruzenjunkudo.co.jp/products/${isbn}`;
           break;
         case 'honto':
           const hontoUrl = `https://honto.jp/isbn/${isbn}`;
-          linkUrl = `http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3459152&pid=891515139&vc_url=${encodeURIComponent(hontoUrl)}`;
+          linkUrl = `http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=${env.VALUECOMMERCE_SID ?? ''}&pid=${env.VALUECOMMERCE_PID_HONTO ?? ''}&vc_url=${encodeURIComponent(hontoUrl)}`;
           break;
         case 'openbs':
           linkUrl = `https://demo.openbs.jp/${isbn}`;
