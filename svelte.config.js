@@ -34,9 +34,23 @@ const config = {
 					'sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I='
 				],
 				'style-src': ['self', 'unsafe-inline'],
-				'img-src': ['self', 'data:', 'https://image.opencover.jp'],
+				'img-src': [
+					'self',
+					'data:',
+					'https://image.opencover.jp',
+					// Google Analytics 4 / GTM のビーコン
+					'https://*.google-analytics.com',
+					'https://*.googletagmanager.com'
+				],
 				'font-src': ['self', 'data:'],
-				'connect-src': ['self', 'https://cloudflareinsights.com'],
+				'connect-src': [
+					'self',
+					'https://cloudflareinsights.com',
+					// Google Analytics 4 / GTM の計測送信先
+					'https://*.google-analytics.com',
+					'https://*.analytics.google.com',
+					'https://*.googletagmanager.com'
+				],
 				'frame-src': ['self', 'https://www.googletagmanager.com', 'https://www.instagram.com'],
 				'object-src': ['none']
 			}

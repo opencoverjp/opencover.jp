@@ -1,15 +1,31 @@
 import { json } from '@sveltejs/kit';
+import isbn3 from 'isbn3';
 import { UPSTREAM } from '$lib/server/upstream';
 
 export async function GET({ params }) {
-  const isbn = params.isbn;
-  if (!isbn) {
-    return new Response('ISBN not provided', { status: 400 });
+  const parsed = isbn3.parse(params.isbn ?? '');
+  if (!parsed?.isValid) {
+    return json({ error: 'Invalid ISBN' }, { status: 400 });
   }
-  const response = await fetch(`${UPSTREAM.bib}/${isbn}`);
+  const isbn = parsed.isbn13;
+
+  let response: Response;
+  try {
+    response = await fetch(`${UPSTREAM.bib}/${encodeURIComponent(isbn)}`);
+  } catch (err) {
+    console.error('bib upstream fetch failed:', err);
+    return json({ error: 'Upstream service unavailable' }, { status: 502 });
+  }
+
   if (!response.ok) {
-    throw new Error(`Failed to fetch book data for ISBN: ${isbn}`);
+    // 上流の 404 はそのまま、それ以外は 502 として返す
+    const status = response.status === 404 ? 404 : 502;
+    return json({ error: `Failed to fetch book data for ISBN: ${isbn}` }, { status });
   }
+
   const responseJson = await response.json();
+  if (!responseJson) {
+    return json({ error: 'Not Found' }, { status: 404 });
+  }
   return json(responseJson);
 }

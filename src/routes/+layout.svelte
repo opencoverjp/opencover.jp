@@ -36,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
   
   <main class="flex-grow pt-header">
-		<div class="max-w-screen-xl mx-auto">
+		<div class="max-w-screen-xl mx-auto px-4 md:px-0">
 			{@render children()}
 		</div>
 	</main>

@@ -4,7 +4,7 @@
   const { isbn, width = 174, height = 285 } = $props();
 
   let imageSrc = $derived(
-    isbn ? `https://image.opencover.jp/v1/cover/front/${isbn}.webp` : "",
+    isbn ? `https://image.opencover.jp/v1/cover/front/isbn/${isbn}.webp` : "",
   );
 </script>
 
@@ -19,9 +19,3 @@
   />
 </div>
 
-<style>
-  .book-front {
-    /* width: var(--width); */
-    /* transition: all ease-out .3s; */
-  }
-</style>

@@ -8,26 +8,32 @@
   // scaleの初期値のみを取得して警告を抑制
   let height = $state(173 * untrack(() => scale));
 
-  async function updateBookHeight(isbn, currentScale) {
+  async function updateBookHeight(isbn, currentScale, signal) {
     try {
-      const response = await fetch(`/api/style/isbn/${isbn}`);
+      const response = await fetch(`/api/style/isbn/${isbn}`, { signal });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const style = await response.json();
-      height = style.height * currentScale;
+      if (!signal.aborted) {
+        height = style.height * currentScale;
+      }
     } catch (err) {
-      console.error(err);
+      if (err?.name !== "AbortError") console.error(err);
     }
   }
 
   let displaySides = $derived(book.displaySides);
 
-  // book.isbnが変更されたときに高さを更新
+  // book.isbnが変更されたときに高さを更新。
+  // ISBN が切り替わったら前のリクエストを中断し、古いレスポンスで高さを上書きしないようにする
   $effect(() => {
-    if (book && book.isbn) {
-      updateBookHeight(book.isbn, scale);
-    }
+    const isbn = book?.isbn;
+    const currentScale = scale;
+    if (!isbn) return;
+    const controller = new AbortController();
+    updateBookHeight(isbn, currentScale, controller.signal);
+    return () => controller.abort();
   });
 
   function handleBookClick(event, isbn) {

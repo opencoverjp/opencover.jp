@@ -1,13 +1,16 @@
 import { json } from '@sveltejs/kit';
+import isbn3 from 'isbn3';
 import { UPSTREAM } from '$lib/server/upstream';
 
-/** @type {import('./$types').RequestHandler} */
-export async function GET({ params, platform }) {
-  const isbn = params.isbn;
+export async function GET({ params }) {
+  const parsed = isbn3.parse(params.isbn ?? '');
+  if (!parsed?.isValid) {
+    return json({ success: false, error: 'Invalid ISBN' }, { status: 400 });
+  }
+  const isbn = parsed.isbn13 as string;
 
   try {
-    let response = await fetch(`${UPSTREAM.bib}/${isbn}`);
-    // const response = await platform.env.BIB.search(isbn);
+    let response = await fetch(`${UPSTREAM.bib}/${encodeURIComponent(isbn)}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch book data for ISBN: ${isbn}`);
     }
@@ -16,8 +19,9 @@ export async function GET({ params, platform }) {
       return new Response('Book data not found', { status: 404 });
     }
 
-    // Serviceバインディングを呼び出す
-    response = await fetch(`${UPSTREAM.style}/api/v1/resolve/${book.seriesTitle || book.label || ''}`);
+    // シリーズ名・レーベル名には「/」「?」「#」などが含まれうるのでエンコードする
+    const styleKey = encodeURIComponent(book.seriesTitle || book.label || '');
+    response = await fetch(`${UPSTREAM.style}/api/v1/resolve/${styleKey}`);
     if (!response.ok) {
       throw new Error(`Failed to resolve style name for book: ${book.title}, ${book.seriesTitle}`);
     }
@@ -25,7 +29,7 @@ export async function GET({ params, platform }) {
     if (!name) {
       return new Response('Style name not found', { status: 404 });
     }
-    response = await fetch(`${UPSTREAM.style}/api/v1/styles/${name}`);
+    response = await fetch(`${UPSTREAM.style}/api/v1/styles/${encodeURIComponent(name)}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch style data for book: ${book.title}`);
     }
@@ -33,11 +37,10 @@ export async function GET({ params, platform }) {
     if (!result) {
       return new Response('Style data not found', { status: 404 });
     }
-    // const name = await platform.env.STYLE.resolveName(book.seriesTitle || book.label || '')
-    // const result = await platform.env.STYLE.getStyle(name);
     return json(result);
   } catch (error) {
-    console.error('Service binding error:', error);
-    return json({ success: false, error: error.message }, { status: 500 });
+    console.error('Style lookup error:', error);
+    const message = error instanceof Error ? error.message : String(error);
+    return json({ success: false, error: message }, { status: 500 });
   }
 }

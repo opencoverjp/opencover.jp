@@ -262,7 +262,7 @@ const publishersStr = `code	name	url
 621	丸善出版	http://pub.maruzen.co.jp/
 622	みすず書房	http://www.msz.co.jp/
 623	ミネルヴァ書房	http://www.minervashobo.co.jp/
-624	未来社	http://http://www.miraisha.co.jp/np/index.html
+624	未来社	http://www.miraisha.co.jp/np/index.html
 625	明治書院	http://www.meijishoin.co.jp/
 626	名著出版	http://www.meicho.co.jp/
 627	森北出版	http://www.morikita.co.jp/

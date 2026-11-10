@@ -80,11 +80,11 @@
     <h3 class="text-2xl ">opencoverとは</h3>
   </div>
 
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-4">
+  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-4">
     opencoverは、本のカバー画像を生成し配信するウェブAPIです。
     非営利のプロジェクトです。どなたでもご自由にお使いいただけます。
     ISBNを指定したURLを呼び出すことで、かんたんに背表紙画像を取得できます。
-    対応している書籍は、新書を中心に約70,000冊です。
+    対応している書籍は、新書を中心に約100,000冊です。
     <a
       href="how-to-use"
       class="p-2 px-4 text-sm border border-slate-300 rounded-full hover:bg-slate-100"
@@ -93,14 +93,14 @@
     </a>
   </div>
 
-  <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">使用例</h3>
+  <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">試してみる</h3>
 
   <h3 class="text-xl font-bold my-8 flex items-center gap-2">
     <img src="/favicon.svg" alt="Book" class="w-6 h-6" />
-    1冊の本の背表紙を見るサンプル
+    1冊の本の背表紙を見る
   </h3>
 
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
     ISBNから本の背表紙画像を生成しています。
   </div>
 
@@ -108,10 +108,10 @@
 
   <h3 class="text-xl font-bold my-8 flex items-center gap-2">
     <LibraryBig />
-    複数冊の本棚を見るサンプル
+    複数冊の本棚を見る
   </h3>
 
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
     複数冊の背表紙を並べて配置すると、本棚のようなイメージを作ることができます。
     ここでは、ISBNのリストから最大10冊までの本棚を表示しています。
   </div>
@@ -131,14 +131,14 @@
           class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
         />
       </a>
-      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
         図書館の蔵書を本棚を眺めるように検索・閲覧できるサービスです。
       </div>
     </div>
     <div class="flex-1">
       <h4 class="text-lg font-bold my-8">honbaco</h4>
       <img src={honbacoImg} alt="honbaco" class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400" />
-      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
         利用者が本棚を作成し共有できるサービスを開発中です。
       </div>
     </div>
@@ -149,7 +149,7 @@
         alt="opencover 3D Viewer"
         class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
       />
-      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
+      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
         立体的な本棚を閲覧できるサービスです。
       </div>
     </div>

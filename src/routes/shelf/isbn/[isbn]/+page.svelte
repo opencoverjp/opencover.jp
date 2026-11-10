@@ -20,6 +20,7 @@
       {books}
       {bgColor}
       link={`/goto/amazon/${books.at(0).book?.isbn}`}
+      linkLabel="Amazonで見る"
     />
   </div>
 
@@ -34,7 +35,7 @@
   <meta property="og:title" content={meta.title} />
   <meta property="og:description" content={meta.description} />
   <meta property="og:image" content={meta.image} />
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content={meta.type} />
   <meta
     property="og:site_name"
     content="opencover : みんなでつくる書籍カバー画像"

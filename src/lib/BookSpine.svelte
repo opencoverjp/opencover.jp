@@ -3,7 +3,7 @@
 
   const { isbn } = $props();
 
-  // let imageSrc = $derived(`https://image.opencover.jp/v1/cover/spine/${isbn}.webp`);
+  // let imageSrc = $derived(`https://image.opencover.jp/v1/cover/spine/isbn/${isbn}.webp`);
   let imageSrc = $derived(`/api/v1/image/cover/spine/${isbn}.webp`);
 </script>
 

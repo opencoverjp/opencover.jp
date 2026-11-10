@@ -51,7 +51,8 @@ than through the bindings.
 - Content Security Policy configured in `svelte.config.js` (`kit.csp`, hash mode)
 - CORS headers for API endpoints centralized in `src/lib/server/cors.ts`
 - Upstream credentials (Rakuten / ValueCommerce) are read from environment
-  variables via `$env/dynamic/private`; see `.dev.vars.example`
+  variables via `$env/dynamic/private`; see `.env.example`
+  (copy it to `.env` for local development)
 
 ### Route Structure
 - `/shelf/isbn/[isbn]`: Book shelf view

@@ -18,6 +18,6 @@ export async function GET() {
     return json(responseJson);
   } catch (error) {
     // console.error({ error });
-    return json({ error: 'An error occurred', message: error.message }, { status: 500 });
+    return json({ error: 'An error occurred', message: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

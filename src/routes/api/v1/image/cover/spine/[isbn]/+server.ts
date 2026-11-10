@@ -1,14 +1,14 @@
 import { UPSTREAM } from '$lib/server/upstream';
 import { corsHeaders, preflightResponse } from '$lib/server/cors';
 
-export async function GET({ request, params }) {
-  // Handle OPTIONS request (preflight)
-  if (request.method === 'OPTIONS') {
-    return preflightResponse();
-  }
+// CORS preflight（GET ハンドラには OPTIONS リクエストは届かないので別途 export する）
+export function OPTIONS() {
+  return preflightResponse();
+}
 
-  const [isbn, ext] = params.isbn.split('.');
-  const url = `${UPSTREAM.cdn}/v1/cover/spine/${isbn}.webp`;
+export async function GET({ params }) {
+  const [isbn] = params.isbn.split('.');
+  const url = `${UPSTREAM.cdn}/v1/cover/spine/isbn/${encodeURIComponent(isbn)}.webp`;
 
   try {
     // Fetch the image
@@ -35,7 +35,7 @@ export async function GET({ request, params }) {
     });
   } catch (error) {
     console.error('Proxy error:', error);
-    return new Response(`Error fetching image: ${error.message}`, {
+    return new Response(`Error fetching image: ${error instanceof Error ? error.message : String(error)}`, {
       status: 500,
       headers: {
         ...corsHeaders(),

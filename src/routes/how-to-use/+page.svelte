@@ -1,16 +1,16 @@
 <script>
-  import { ExternalLink, OctagonAlert, CircleHelp, BookText, Palette, BookImage, Barcode } from "@lucide/svelte";
+  import { ExternalLink, OctagonAlert, BookText, Palette, BookImage, Barcode } from "@lucide/svelte";
   import BookIcon from "../../lib/BookIcon.svelte";
 </script>
 
-<div class="bg-slate-50 flex items-center justify-center !p-16">
-  <h1 class="text-xl font-semibold">つかいかた</h1>
+<div class="page bg-slate-50 flex items-center justify-center !p-16">
+  <h1 class="text-xl font-semibold">使いかた</h1>
 </div>
 
-<div class="md:w-8/12 p-4 mx-auto">
+<div class="page md:w-8/12 p-4 mx-auto">
   <section class="my-9">
     <h3>    <img src="/favicon.svg" alt="Book" class="w-6 h-6" />
-      つかいかた</h3>
+      使いかた</h3>
 
     <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
       opencoverは、書籍のカバー画像を配信するAPIです。
@@ -30,7 +30,7 @@
       <div
         class="bg-white md:text-lg font-mono !p-4 !px-8 border border-slate-500 rounded overflow-x-auto md:overflow-x-visible break-word"
       >
-        https://image.opencover.jp/v1/cover/spine/<span class="text-amber-600"
+        https://image.opencover.jp/v1/cover/spine/isbn/<span class="text-amber-600"
           >{`{isbn}`}</span
         >.webp
       </div>
@@ -50,12 +50,12 @@
     </div>
 
     <a
-      href="https://image.opencover.jp/v1/cover/spine/9784087213126.webp"
+      href="https://image.opencover.jp/v1/cover/spine/isbn/9784087213126.webp"
       target="_blank"
       class="font-mono text-orange-800 underline underline-offset-4 decoration-orange-800
     hover:bg-yellow-50 max-w-full p-2 rounded flex items-center gap-1 overflow-x-auto md:overflow-x-visible break-word"
     >
-      https://image.opencover.jp/v1/cover/spine/9784087213126.webp
+      https://image.opencover.jp/v1/cover/spine/isbn/9784087213126.webp
       <ExternalLink size={16} class="inline-block" />
     </a>
   </section>
@@ -144,70 +144,6 @@
     </div>
   </section>
 
-  <section>
-    <h3>
-    <img src="/favicon.svg" alt="Book" class="w-6 h-6" />
-    質問</h3>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      いただきそうな質問をあらかじめまとめました。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />画像が表示されるまでに時間がかかります</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      リクエストする書籍が初めてアクセスされるときは、画像が表示されるまでに数秒の時間がかかります。
-      2回目以降ははやくなります。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />ISBNを入力するのが面倒なのでキーワード検索したい</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      opencoverには本を検索する機能がありません。
-      別途公開予定のWebアプリケーションでは、キーワードで検索できるようにします。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />背表紙の下部に「すかし」のようなものが見えます</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      opencoverが自動生成した画像であることを示すため、画像の下部に「OC」というマークを付けています。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />拡張子の<span class="font-mono">.webp</span>とは何ですか</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      WebP（ウェッピー）は、JPEGやPNGよりも軽量で高画質の画像フォーマットです。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />他の解像度や画像フォーマットはありませんか</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      開発リソースが限られているため、現在の仕様の画像のみを提供しています。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />商用利用できますか</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      利用規約やライセンスをまだ定めていませんが、opencoverが生成した画像は、書籍の紹介や販売促進の目的に限りご自由にお使いいただけます。
-      それ以外の表紙の画像などは各出版社の利用規約をご確認ください。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />表紙と背表紙の位置関係がまちがっています</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      縦書きの本を想定して、背表紙の左側に表紙を配置しています。
-      本の書字方向の情報を追加できれば、この問題を解決できるかもしれません。
-    </div>
-
-    <h4 class="flex items-center gap-2"><CircleHelp size={24} class="inline-block" />開発に協力したいです　プロジェクトを支援したいです</h4>
-
-    <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-[2] my-9">
-      ありがとうございます。
-      スタイルの作成は、どなたでもご参加いただけるようにする予定です。
-      サービスの維持に費用がかかっていますので、ご寄付も受け付ける予定です。
-      ご協力いただける方は、ぜひお問い合わせください。
-    </div>
-  </section>
 </div>
 
 <svelte:head>
@@ -223,7 +159,7 @@
 
 
 <style>
-  :root {
+  .page {
     font-family: BlinkMacSystemFont, "Helvetica Neue", "Segoe UI",
       "Hiragino Kaku Gothic ProN", "Hiragino Sans", Arial, Meiryo, sans-serif;
     font-weight: 400;

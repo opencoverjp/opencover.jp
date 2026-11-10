@@ -23,11 +23,12 @@
 
   let displaySides = $derived(["spine", ...(showFront ? ["front"] : [])]);
 
-  let books = $derived(
-    isbn ? [{ isbn, displaySides }] : [],
-  );
+  // ハイフン・空白などを除いた ISBN を画像取得・リンクに使う
+  let trimmedIsbn = $derived((isbn ?? "").trim().replace(/[^0-9Xx]/g, "").toUpperCase());
 
-  let trimmedIsbn = $derived(isbn.trim().replace(/[^0-9Xx]/g, ""));
+  let books = $derived(
+    trimmedIsbn ? [{ isbn: trimmedIsbn, displaySides }] : [],
+  );
   let validIsbn = $derived(isbn3.parse(trimmedIsbn)?.isValid ?? false);
 
   const carousel = createCarousel({
@@ -178,7 +179,7 @@
 
       <!-- Right side - Book spine image -->
       <div class="flex-1 transform scale-75 md:scale-100">
-        <PreviewBook {books} {bgColor} link={`/shelf/isbn/${isbn}`} />
+        <PreviewBook {books} {bgColor} link={`/shelf/isbn/${trimmedIsbn}`} />
       </div>
     </div>
   </div>
