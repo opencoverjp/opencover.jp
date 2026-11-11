@@ -52,6 +52,9 @@ importers:
       esbuild:
         specifier: ^0.25.12
         version: 0.25.12
+      simple-icons:
+        specifier: ^16.37.0
+        version: 16.37.0
       svelte:
         specifier: ^5.57.3
         version: 5.57.3
@@ -1225,6 +1228,10 @@ packages:
       '@types/node':
         optional: true
 
+  simple-icons@16.37.0:
+    resolution: {integrity: sha512-8mCJIhpMYOL9g13GW59EiL3sVXJnTEKGCTZFaekl9UQ3Qo0SwVjnLaJ82QiaH8BKBdouEDzrHMXIWh8cBIy48A==}
+    engines: {node: '>=0.12.18'}
+
   sirv@3.0.2:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
     engines: {node: '>=18'}
@@ -2233,6 +2240,8 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.5
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
+
+  simple-icons@16.37.0: {}
 
   sirv@3.0.2:
     dependencies:
