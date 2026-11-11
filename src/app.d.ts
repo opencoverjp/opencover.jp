@@ -12,6 +12,8 @@ declare global {
           getStyle(name: string): Promise<any>;
         };
       };
+      context?: { waitUntil(promise: Promise<unknown>): void };
+      caches?: { default: Cache };
     }
   }
 }

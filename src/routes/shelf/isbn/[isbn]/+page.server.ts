@@ -51,7 +51,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
     meta: {
       title: `${title} – opencover`,
       description: `opencoverの${title}です。あなたの本棚を作りましょう。`,
-      image: `https://opencover.jp/api/og/${isbnPath}`,
+      image: `https://opencover.jp/api/og/${isbnPath}?style=preview`,
       url: `https://opencover.jp/shelf/isbn/${isbnPath}`,
       type: 'article'
     }
