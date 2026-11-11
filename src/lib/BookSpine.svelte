@@ -1,6 +1,7 @@
 <script>
   import CoverImage from "./CoverImage.svelte";
   import SpinePlaceholder from "./SpinePlaceholder.svelte";
+  import { spineSrc } from "./cover";
 
   // 背表紙画像は実寸比(約 5px/mm、新書で高さ 865px)で生成されている。
   // 全冊に同じ倍率を掛けて表示することで、判型ごとの高さ・厚みの違いをそのまま出す
@@ -11,7 +12,7 @@
   const { isbn, scale = DEFAULT_SCALE, onheight = undefined } = $props();
 
   // let imageSrc = $derived(`https://image.opencover.jp/v1/cover/spine/isbn/${isbn}.webp`);
-  let imageSrc = $derived(`/api/v1/image/cover/spine/${isbn}.webp`);
+  let imageSrc = $derived(spineSrc(isbn));
 
   // 画像の実寸(読み込み前・失敗時は新書サイズで仮置き)
   let naturalHeight = $state(865);

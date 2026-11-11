@@ -2,6 +2,7 @@
   import { ChevronLeft, ChevronRight } from "@lucide/svelte";
   import Bookshelf from "../../../../lib/Bookshelf.svelte";
   import BookCard from "./BookCard.svelte";
+  import { spineSrc } from "../../../../lib/cover";
   import ShareButtons from "../../../../lib/ShareButtons.svelte";
 
   let { data } = $props();
@@ -162,6 +163,10 @@
 
 <svelte:head>
   <title>{meta.title}</title>
+  <!-- 本棚の背表紙は ISBN だけで URL が決まるので、JS の読み込みを待たずに取得を始める -->
+  {#each books as book}
+    <link rel="preload" as="image" href={spineSrc(book.isbn)} />
+  {/each}
   <meta property="og:url" content={meta.url} />
   <meta property="og:title" content={meta.title} />
   <meta property="og:description" content={meta.description} />
