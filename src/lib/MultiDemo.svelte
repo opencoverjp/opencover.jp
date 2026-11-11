@@ -2,7 +2,7 @@
   import isbn3 from "isbn3";
   import { Play, Pause } from '@lucide/svelte';
   import { onDestroy, onMount } from "svelte";
-  import PreviewBook from "./PreviewBook.svelte";
+  import Bookshelf from "./Bookshelf.svelte";
   import { createCarousel } from "./isbnCarousel.svelte";
 
   const isbns = ["9784087213126", "9784480076403", "9784004320340", "9784121028440"];
@@ -115,7 +115,7 @@
       
       <!-- Right side - Book spine image -->
       <div class="flex-1">
-        <PreviewBook {books} {bgColor} link={`/shelf/isbn/${isbnsArray.join(',')}`}/>
+        <Bookshelf {books} {bgColor} link={`/shelf/isbn/${isbnsArray.join(',')}`}/>
       </div>
 
     </div>

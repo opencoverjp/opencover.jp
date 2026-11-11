@@ -2,7 +2,7 @@
   import isbn3 from "isbn3";
   import BookSpine from "$lib/BookSpine.svelte";
 
-  // 背表紙は PreviewBook(新書で高さ 400px)の 2 倍の大きさで表示し、カードの下端で切り取る
+  // 背表紙は Bookshelf(新書で高さ 400px)の 2 倍の大きさで表示し、カードの下端で切り取る
   const SPINE_SCALE = (2 * 400) / 865;
   // 背表紙の列の幅(背表紙の実際の幅に合わせる。読み込み前は新書の幅相当)
   let spineWidth = $state(76);
@@ -47,7 +47,7 @@
 </script>
 
 <!-- 背景は上が明るく下が暗いグラデーション。
-     高さは PreviewBook(h-[500px])に揃え、内容が多いときだけ伸ばす -->
+     高さは Bookshelf(h-[500px])に揃え、内容が多いときだけ伸ばす -->
 <section class="relative mb-4 flex flex-col min-h-[500px] border-2 border-yslate-600 bg-linear-to-b from-yslate-50 to-yslate-200 p-6 rounded overflow-hidden">
   {#if index > 0}
     <!-- 右上に浮かべる -->
