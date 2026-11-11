@@ -3,6 +3,7 @@
   import { RefreshCcw, MessageSquareWarning, Check, GripVertical } from "@lucide/svelte";
   import { onDestroy, onMount, untrack } from "svelte";
   import Bookshelf from "./Bookshelf.svelte";
+  import ShareButtons from "./ShareButtons.svelte";
   import { createCarousel } from "./isbnCarousel.svelte";
 
   type Props = {
@@ -345,15 +346,23 @@
       </div>
 
       <!-- Right side - Book spine image -->
-      <div class="flex-1 min-w-0 flex">
-        <Bookshelf
-          {books}
-          {bgColor}
-          link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
-          showCredits={false}
-          emptyMessage="本がありません"
-          frontToggle
-          bind:credits
+      <div class="flex-1 min-w-0 flex flex-col gap-3">
+        <div class="flex">
+          <Bookshelf
+            {books}
+            {bgColor}
+            link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
+            showCredits={false}
+            emptyMessage="本がありません"
+            frontToggle
+            bind:credits
+          />
+        </div>
+        <!-- 共有するのは本棚ページ(OG 画像も本棚ページのもの) -->
+        <ShareButtons
+          url={`https://opencover.jp${shelfLink(books.map((b) => b.isbn).join(","))}`}
+          text="opencoverの本棚"
+          disabled={books.length === 0}
         />
       </div>
     </div>

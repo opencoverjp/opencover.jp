@@ -90,7 +90,7 @@
     opencoverは、本のカバー画像を生成し配信するウェブAPIです。
     非営利のプロジェクトです。どなたでもご自由にお使いいただけます。
     ISBNを指定したURLを呼び出すことで、かんたんに背表紙画像を取得できます。
-    対応している書籍は、新書を中心に約100,000冊です。
+    対応している書籍は、新書や文庫を中心に約100,000冊です。
     <a
       href="how-to-use"
       class="p-2 px-4 text-sm border border-yslate-300 rounded-full hover:bg-yslate-100"

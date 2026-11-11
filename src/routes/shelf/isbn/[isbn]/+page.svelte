@@ -2,6 +2,7 @@
   import { ChevronLeft, ChevronRight } from "@lucide/svelte";
   import Bookshelf from "../../../../lib/Bookshelf.svelte";
   import BookCard from "./BookCard.svelte";
+  import ShareButtons from "../../../../lib/ShareButtons.svelte";
 
   let { data } = $props();
   let books = $derived(data.books);
@@ -84,6 +85,9 @@
       linkLabel="Amazonで見る"
       frontToggle
     />
+    <div class="mt-3">
+      <ShareButtons url={meta.url} text={meta.title} />
+    </div>
   </div>
 
   {#if books.length > 1}
