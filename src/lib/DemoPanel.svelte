@@ -2,7 +2,7 @@
   import isbn3 from "isbn3";
   import { RefreshCcw, MessageSquareWarning, Check, GripVertical } from "@lucide/svelte";
   import { onDestroy, onMount, untrack } from "svelte";
-  import PreviewBook from "./PreviewBook.svelte";
+  import Bookshelf from "./Bookshelf.svelte";
   import { createCarousel } from "./isbnCarousel.svelte";
 
   type Props = {
@@ -20,7 +20,7 @@
   // 選択が 0 冊・複数冊のときの背景色
   const stoppedBgColor = "#d2d2c2";
 
-  // yslate 系のランダムな色（明度の幅は狭く）。PreviewBook が hex を前提にしているので hex で返す。
+  // yslate 系のランダムな色（明度の幅は狭く）。Bookshelf が hex を前提にしているので hex で返す。
   // 乱数ではなく ISBN のハッシュから決めるので、サーバーとブラウザで同じ色になる（読み込み時に色が切り替わらない）
   function yslateFor(isbn: string): string {
     // FNV-1a ハッシュ
@@ -80,7 +80,7 @@
   let checkedIsbns = $derived(
     rows.filter((_, i) => rowActive[i]).map(normalize),
   );
-  // 表示する面（背表紙のみ / 表紙と背表紙）は、PreviewBook の「表紙を表示」で切り替える
+  // 表示する面（背表紙のみ / 表紙と背表紙）は、Bookshelf の「表紙を表示」で切り替える
   let books = $derived(checkedIsbns.map((isbn) => ({ isbn })));
 
   // 背景色：1 行だけ選ばれていればその行の色、それ以外は停止時の色
@@ -286,7 +286,7 @@
   <div class="w-full max-w-6xl p-4 sm:p-6 border-2 border-black rounded-sm">
     <!-- 外枠の padding を打ち消して、枠線に密着させる -->
     <p class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6 sm:mb-6 p-4 bg-yslate-100 border-b border-yslate-300 text-yslate-800">
-      ISBNを入力してプレビューを確認してください。
+      ISBNを入力し、表示したい本にチェックを付けてください。
     </p>
     <!-- 狭い画面（sm 未満）では行の各部品（ボタンはタップしやすい 44px）と文字を小さくして、幅 360px でもパネルに収める -->
     <div class="flex flex-col lg:flex-row gap-4 sm:gap-6">
@@ -346,7 +346,7 @@
 
       <!-- Right side - Book spine image -->
       <div class="flex-1 min-w-0 flex">
-        <PreviewBook
+        <Bookshelf
           {books}
           {bgColor}
           link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}

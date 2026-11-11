@@ -8,7 +8,7 @@ import { UPSTREAM } from './upstream';
 const OG_MAX_AGE = 60 * 60 * 24;
 
 export interface OgOptions {
-	/** 'preview' で本棚ページの PreviewBook と同じ見た目にする。省略時は従来の見た目 */
+	/** 'preview' で本棚ページの Bookshelf と同じ見た目にする。省略時は従来の見た目 */
 	style?: 'preview';
 }
 

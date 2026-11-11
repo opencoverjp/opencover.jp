@@ -1,6 +1,6 @@
 <script>
   import { ChevronLeft, ChevronRight } from "@lucide/svelte";
-  import PreviewBook from "../../../../lib/PreviewBook.svelte";
+  import Bookshelf from "../../../../lib/Bookshelf.svelte";
   import BookCard from "./BookCard.svelte";
 
   let { data } = $props();
@@ -77,7 +77,7 @@
   </h3>
 
   <div class="my-8">
-    <PreviewBook
+    <Bookshelf
       {books}
       {bgColor}
       link={`/goto/amazon/${books.at(0).book?.isbn}`}

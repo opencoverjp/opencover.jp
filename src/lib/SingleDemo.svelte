@@ -2,7 +2,7 @@
   import isbn3 from "isbn3";
   import { Play, Pause, RefreshCcw, MessageSquareWarning } from "@lucide/svelte";
   import { onDestroy, onMount } from "svelte";
-  import PreviewBook from "./PreviewBook.svelte";
+  import Bookshelf from "./Bookshelf.svelte";
   import { createCarousel } from "./isbnCarousel.svelte";
 
   const isbns = [
@@ -179,7 +179,7 @@
 
       <!-- Right side - Book spine image -->
       <div class="flex-1 transform scale-75 md:scale-100">
-        <PreviewBook {books} {bgColor} link={`/shelf/isbn/${trimmedIsbn}`} />
+        <Bookshelf {books} {bgColor} link={`/shelf/isbn/${trimmedIsbn}`} />
       </div>
     </div>
   </div>

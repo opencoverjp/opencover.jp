@@ -11,7 +11,7 @@
     books: incomingBooks = [],
     bgColor = '#cccccc',
     link = '',
-    linkLabel = '本棚ページを開く',
+    linkLabel = '本棚ページにいく',
     // 本が 1 冊もないときに表示するメッセージ
     emptyMessage = 'ISBNを入力してください',
     showCredits = true,
@@ -155,9 +155,16 @@
     <a
       href={link}
       target={linkTarget}
-      class="absolute inset-0 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400"
+      class="peer absolute inset-0 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400"
       aria-label={linkLabel}
     ></a>
+    <!-- 背景(リンク)にホバー・フォーカスしている間だけ、右下にリンク先を表示する(本の上では出さない) -->
+    <div
+      class="absolute bottom-3 right-3 z-30 px-3 py-1.5 rounded bg-white shadow-md text-sm text-yslate-800 pointer-events-none opacity-0 transition-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100"
+      aria-hidden="true"
+    >
+      {linkLabel}
+    </div>
   {/if}
 
   <!-- 箱型の棚の陰影：天板(暗)・左右の側板(やや暗)・棚板(明)を台形で描き、奥の背板を囲む。
@@ -186,9 +193,10 @@
     </div>
   {/if}
 
-  <!-- 本の並び(とメッセージ)。切り替え時にここだけをフェードする(棚と背景はそのまま) -->
+  <!-- 本の並び(とメッセージ)。切り替え時にここだけをフェードする(棚と背景はそのまま)。
+       背景のリンクを覆うので pointer-events-none にし、本の並びだけ pointer-events-auto でクリックを受ける -->
   <div
-    class="relative flex-1 min-w-0 self-stretch flex justify-center transition-opacity ease-in-out"
+    class="relative pointer-events-none flex-1 min-w-0 self-stretch flex justify-center transition-opacity ease-in-out"
     class:items-end={validIsbn && books.length > 0}
     class:items-center={!validIsbn || books.length === 0}
     class:opacity-0={fading}
