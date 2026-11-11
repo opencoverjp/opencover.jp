@@ -1,7 +1,6 @@
 <script lang="ts">
   import "../app.css";
   import DemoPanel from "../lib/DemoPanel.svelte";
-  import InstagramEmbed from "../lib/InstagramEmbed.svelte";
   import honbacoLibraryImg from "../lib/assets/honbaco-library.png";
   import honbacoImg from "../lib/assets/honbaco.png";
   import opencover3dViewerImg from "../lib/assets/3dviewer.png";
@@ -139,6 +138,4 @@
       </div>
     </div>
   </div>
-
-  <InstagramEmbed postUrl="https://www.instagram.com/reel/DPquh1_jKjN/" />
 </div>
