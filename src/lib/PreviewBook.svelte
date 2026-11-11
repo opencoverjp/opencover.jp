@@ -1,12 +1,14 @@
 <script>
   import { untrack } from "svelte";
+  import { Spring } from "svelte/motion";
   import isbn3 from "isbn3";
   import { CircleAlert } from "@lucide/svelte";
   import Book from "./Book.svelte";
 
   // showCredits: 表紙の出典を各本の下に表示するか。false のときは credits(bindable)で親に渡す
   let {
-    books = [],
+    // 表示する本。切り替わったときは、表示中の本(下の books)を短くフェードアウトしてから入れ替える
+    books: incomingBooks = [],
     bgColor = '#cccccc',
     link = '',
     linkLabel = '本棚ページを開く',
@@ -51,7 +53,60 @@
   // 背表紙のみの並びでは、本ごとではなく並び全体に影(drop-shadow)をつける。
   // 並び全体の輪郭に沿った 1 つの影になるので、本の影が隣の背表紙に重ならない。
   // 表紙表示のときは重なった表紙の前後を見せるため、本ごとの影にする
+  // ---- 本の切り替え時のフェード ----
+  // 並ぶ本(ISBN の並び)が変わったら、今の本を FADE_MS かけて消してから入れ替え、FADE_MS かけて出す。
+  // 同じ ISBN の並びのまま中身だけ変わったとき(表示する面など)は、フェードせずにすぐ反映する
+  const FADE_MS = 250;
+  const keyOf = (list) => list.map((book) => book?.isbn ?? '').join(',');
+  // 実際に表示している本
+  let books = $state.raw(untrack(() => incomingBooks));
+  // true の間はフェードアウト中(透明)
+  let fading = $state(false);
+  $effect(() => {
+    const next = incomingBooks;
+    const current = untrack(() => books);
+    // 同じ並び・最初の表示・動きを減らす設定では、すぐ入れ替える
+    if (keyOf(next) === keyOf(current) || current.length === 0 || untrack(() => reduceMotion)) {
+      books = next;
+      fading = false;
+      return;
+    }
+    fading = true;
+    const timer = setTimeout(() => {
+      books = next;
+      fading = false;
+    }, FADE_MS);
+    // フェード中にさらに切り替わったら、タイマーを掛け直す(フェードアウトは続けたまま)
+    return () => clearTimeout(timer);
+  });
+
   let anyFront = $derived(shownBooks.some((book) => book.displaySides?.includes('front')));
+
+  // 表紙表示の本を、枠の中のマウスの位置に応じて少しだけ回す(見る人が左右に動いたように見せる)。
+  // マウスが右にあるほど右から見た形(背表紙が広く、表紙が狭く)になる。
+  // 背表紙のみの表示では Book が tilt を使わないので、何も変わらない
+  const TILT = 40; // Book の既定の角度(度)
+  const TILT_RANGE = 8; // 枠の左端・右端で TILT から変える角度(度)
+  // マウスの横位置(-1: 左端 〜 0: 中央 〜 1: 右端)。ばねでなめらかに追従させる
+  const pointerX = new Spring(0, { stiffness: 0.08, damping: 0.6 });
+  let reduceMotion = $state(false);
+  $effect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    reduceMotion = query.matches;
+    const onchange = () => (reduceMotion = query.matches);
+    query.addEventListener('change', onchange);
+    return () => query.removeEventListener('change', onchange);
+  });
+  function handlePointerMove(event) {
+    // タッチ操作(スクロールやタップ)では回さない
+    if (event.pointerType !== 'mouse' || !anyFront || reduceMotion) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    pointerX.target = Math.max(-1, Math.min(1, x));
+  }
+  function handlePointerLeave() {
+    pointerX.target = 0;
+  }
   let validIsbn = $derived(books.every((book) => isbn3.parse(book?.isbn)?.isValid ?? false));
   // 本の並びが枠に収まらないとき(表紙付きで複数冊など)は、下端中央を基準に全体を縮小する。
   // transform はレイアウト幅を変えないので、縮小前の幅(offsetWidth)で比を計算できる
@@ -92,8 +147,9 @@
   class="book-frame relative flex-1 min-w-0 flex justify-center overflow-hidden h-[500px]"
   style={frameStyle}
   style:--depth="{DEPTH}px"
-  class:items-end={validIsbn && books.length > 0}
-  class:items-center={!validIsbn}
+  role="presentation"
+  onpointermove={handlePointerMove}
+  onpointerleave={handlePointerLeave}
 >
   {#if link}
     <a
@@ -130,16 +186,24 @@
     </div>
   {/if}
 
+  <!-- 本の並び(とメッセージ)。切り替え時にここだけをフェードする(棚と背景はそのまま) -->
+  <div
+    class="relative flex-1 min-w-0 self-stretch flex justify-center transition-opacity ease-in-out"
+    class:items-end={validIsbn && books.length > 0}
+    class:items-center={!validIsbn || books.length === 0}
+    class:opacity-0={fading}
+    style:transition-duration="{FADE_MS}ms"
+  >
   {#if !validIsbn}
     <div class="relative pointer-events-none text-slate-800 text-sm flex items-center gap-2">
       <CircleAlert class="inline-block" />ISBNが正しくないようです
     </div>
   {:else if books.length > 0}
-    <!-- 本は棚板の上(奥行きの中ほど)に立てる -->
+    <!-- 本は棚板の上(奥行きの中ほど)に立てる。棚板の見かけの奥行きはスクロールで変わるので、本もそれに乗って上下する -->
     <div
       class="relative pointer-events-none w-full h-full flex flex-col items-center justify-end"
       style:padding-top="{DEPTH + 16}px"
-      style:padding-bottom="{DEPTH * 0.55}px"
+      style:padding-bottom="calc(var(--depth-bottom) * 0.55)"
     >
       <!-- 側板の内側に収める -->
       <div
@@ -162,6 +226,7 @@
                 overlap={i > 0 ? 0.5 : 0}
                 showCredit={showCredits}
                 spineShadow={false}
+                tilt={TILT + TILT_RANGE * pointerX.current}
                 onsource={(s) => (sources[i] = s)}
               />
             </div>
@@ -174,6 +239,7 @@
       <CircleAlert class="inline-block" />{emptyMessage}
     </div>
   {/if}
+  </div>
 </div>
 
 <style>
@@ -186,7 +252,62 @@
       linear-gradient(to bottom, var(--top-color), var(--bottom-color));
     background-blend-mode: overlay, normal;
   }
-  /* 棚の各面。--depth は側板などの見かけの幅 */
+
+  /* 立体感：棚が画面のどこにあるかで、見る人の目の高さが変わったように見せる。
+     棚が画面の下のほうにあるとき → 上から見下ろす：天板は細く明るく、棚板は広く見える。
+     棚が画面の上のほうにあるとき → 下から見上げる：天板は広く暗く、棚板は細く見える。
+     画面の中央で、どちらも --depth(40px)になる。
+     CSS のスクロール連動アニメーション(view timeline)で動かす。対応していないブラウザと
+     動きを減らす設定では、中央の見た目のまま動かさない。
+     @property で型を登録して、値をなめらかに補間できるようにする */
+  @property --depth-top {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 40px;
+  }
+  @property --depth-bottom {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 40px;
+  }
+  @property --shade-top {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0.26;
+  }
+  @property --shade-floor {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0.22;
+  }
+  @keyframes shelf-viewpoint {
+    /* 画面の下端から入ってくるところ(上から見下ろす) */
+    from {
+      --depth-top: 28px;
+      --depth-bottom: 52px;
+      --shade-top: 0.2;
+      --shade-floor: 0.28;
+    }
+    /* 画面の上端から出ていくところ(下から見上げる) */
+    to {
+      --depth-top: 52px;
+      --depth-bottom: 28px;
+      --shade-top: 0.32;
+      --shade-floor: 0.16;
+    }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .book-frame {
+        animation: shelf-viewpoint linear both;
+        animation-timeline: view();
+        /* 棚全体が画面に入っている間に変化させる(下端が画面の下端 → 上端が画面の上端) */
+        animation-range: contain;
+      }
+    }
+  }
+
+  /* 棚の各面。--depth は側板の見かけの幅、--depth-top / --depth-bottom は天板・棚板の見かけの奥行き */
   .shelf-top,
   .shelf-left,
   .shelf-right,
@@ -196,27 +317,27 @@
   }
   .shelf-top {
     inset: 0 0 auto 0;
-    height: var(--depth);
+    height: var(--depth-top);
     clip-path: polygon(0 0, 100% 0, calc(100% - var(--depth)) 100%, var(--depth) 100%);
-    background: rgb(0 0 0 / 0.26);
+    background: rgb(0 0 0 / var(--shade-top));
   }
   .shelf-left {
     inset: 0 auto 0 0;
     width: var(--depth);
-    clip-path: polygon(0 0, 100% var(--depth), 100% calc(100% - var(--depth)), 0 100%);
+    clip-path: polygon(0 0, 100% var(--depth-top), 100% calc(100% - var(--depth-bottom)), 0 100%);
     background: rgb(0 0 0 / 0.14);
   }
   .shelf-right {
     inset: 0 0 0 auto;
     width: var(--depth);
-    clip-path: polygon(0 var(--depth), 100% 0, 100% 100%, 0 calc(100% - var(--depth)));
+    clip-path: polygon(0 var(--depth-top), 100% 0, 100% 100%, 0 calc(100% - var(--depth-bottom)));
     background: rgb(0 0 0 / 0.07);
   }
   .shelf-floor {
     inset: auto 0 0 0;
-    height: var(--depth);
+    height: var(--depth-bottom);
     clip-path: polygon(var(--depth) 0, calc(100% - var(--depth)) 0, 100% 100%, 0 100%);
-    background: rgb(255 255 255 / 0.22);
+    background: rgb(255 255 255 / var(--shade-floor));
   }
   .book-frame:hover {
     background-image:

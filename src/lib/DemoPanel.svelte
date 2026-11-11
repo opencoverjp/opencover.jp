@@ -14,7 +14,7 @@
 
   let {
     isbns,
-    interval = 2000,
+    interval = 3000,
   }: Props = $props();
 
   // 選択が 0 冊・複数冊のときの背景色
