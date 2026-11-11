@@ -13,10 +13,25 @@
     // 本が 1 冊もないときに表示するメッセージ
     emptyMessage = 'ISBNを入力してください',
     showCredits = true,
-    // controls: 右上に浮かべて表示する操作（スニペット）
+    // frontToggle: 右上に「表紙を表示」チェックボックスを出す。
+    //   true のときは各本の displaySides を使わず、チェックの状態で「背表紙のみ / 表紙と背表紙」を切り替える
+    frontToggle = false,
+    // showFront: 「表紙を表示」の状態(bindable。初期値の指定や、親での参照に使う)
+    showFront = $bindable(false),
+    // controls: 右上に浮かべて表示する、追加の操作（スニペット）
     controls = undefined,
     credits = $bindable([]),
   } = $props();
+
+  // 実際に並べる本。frontToggle のときは、チェックの状態で表示する面を決める
+  let shownBooks = $derived(
+    frontToggle
+      ? books.map((book) => ({
+          ...book,
+          displaySides: ['spine', ...(showFront ? ['front'] : [])],
+        }))
+      : books,
+  );
 
   // 各本の表紙の出典(本の並び順)。表紙を表示していない本は null
   let sources = $state([]);
@@ -36,7 +51,7 @@
   // 背表紙のみの並びでは、本ごとではなく並び全体に影(drop-shadow)をつける。
   // 並び全体の輪郭に沿った 1 つの影になるので、本の影が隣の背表紙に重ならない。
   // 表紙表示のときは重なった表紙の前後を見せるため、本ごとの影にする
-  let anyFront = $derived(books.some((book) => book.displaySides?.includes('front')));
+  let anyFront = $derived(shownBooks.some((book) => book.displaySides?.includes('front')));
   let validIsbn = $derived(books.every((book) => isbn3.parse(book?.isbn)?.isValid ?? false));
   // 本の並びが枠に収まらないとき(表紙付きで複数冊など)は、下端中央を基準に全体を縮小する。
   // transform はレイアウト幅を変えないので、縮小前の幅(offsetWidth)で比を計算できる
@@ -96,10 +111,22 @@
   <div class="shelf-right" aria-hidden="true"></div>
   <div class="shelf-floor" aria-hidden="true"></div>
 
-  {#if controls}
+  {#if (frontToggle && books.length > 0) || controls}
     <!-- 本や背景のリンクより手前に出す -->
-    <div class="absolute top-3 right-3 z-30">
-      {@render controls()}
+    <div class="absolute top-3 right-3 z-30 flex items-center gap-2">
+      {#if frontToggle && books.length > 0}
+        <label
+          class="flex items-center gap-2 px-3 py-1.5 rounded bg-white shadow-md text-sm text-slate-800 cursor-pointer"
+        >
+          <input
+            type="checkbox"
+            bind:checked={showFront}
+            class="accent-slate-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+          />
+          表紙を表示
+        </label>
+      {/if}
+      {@render controls?.()}
     </div>
   {/if}
 
@@ -128,7 +155,7 @@
           bind:offsetWidth={rowWidth}
         >
           <!-- 表紙表示で複数冊のときは、左の本ほど手前に置き、2 冊目以降は表紙の半分を左隣の後ろに重ねる -->
-          {#each books as book, i}
+          {#each shownBooks as book, i}
             <div class="relative" style:z-index={books.length - i}>
               <Book
                 {book}

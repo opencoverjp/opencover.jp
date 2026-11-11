@@ -1,5 +1,11 @@
 <script lang="ts">
   import isbn3 from "isbn3";
+  import BookSpine from "$lib/BookSpine.svelte";
+
+  // 背表紙は PreviewBook(新書で高さ 400px)の 2 倍の大きさで表示し、カードの下端で切り取る
+  const SPINE_SCALE = (2 * 400) / 865;
+  // 背表紙の列の幅(背表紙の実際の幅に合わせる。読み込み前は新書の幅相当)
+  let spineWidth = $state(76);
 
   const links = [
     {
@@ -40,11 +46,33 @@
 
 </script>
 
-<section class="mb-4 border border-slate-200 p-6 rounded">
+<!-- 背景は上が明るく下が暗いグラデーション -->
+<section class="relative mb-4 border-2 border-slate-600 bg-linear-to-b from-slate-50 to-slate-200 p-6 rounded overflow-hidden">
   {#if index > 0}
-    <div class="px-4 py-2 text-sm bg-slate-100 size-fit rounded">{index}冊目</div>
+    <!-- 右上に浮かべる -->
+    <div class="absolute top-4 right-4 z-10 px-4 py-2 text-sm bg-white/70">{index}冊目</div>
   {/if}
-    <h3 class="book-title flex items-center gap-2 text-xl font-bold mt-4">
+  <!-- 背表紙 | コンテンツ -->
+  <div class="flex gap-6">
+    <!-- 背表紙：高さはコンテンツに合わせて伸び、カードの下端(padding を打ち消して枠線まで)で
+         カード(overflow-hidden)に切り取られる。列では切り取らないので、左右に大きめの影が見える。
+         背表紙自体は絶対配置にして、列の高さに影響させない -->
+    <div
+      class="relative shrink-0 -mb-6 mx-2"
+      style:width="{spineWidth}px"
+      aria-hidden="true"
+    >
+      <div
+        class="absolute top-0 left-0 w-max shadow-[0_6px_28px_rgb(0_0_0/0.35)]"
+        bind:clientWidth={spineWidth}
+      >
+        <BookSpine isbn={book.isbn} scale={SPINE_SCALE} />
+      </div>
+    </div>
+
+    <div class="min-w-0 flex-1">
+    <!-- 右上の「n冊目」と重ならないよう、タイトルの右側をあける -->
+    <h3 class="book-title flex items-center gap-2 text-xl font-bold" class:pr-20={index > 0}>
     <span>
       {book.book?.title}{book.book?.subtitle
         ? `──${book.book?.subtitle}`
@@ -74,13 +102,15 @@
               <a
                 href={`/goto/${name}/${book.book?.isbn}`}
                 target="_blank"
-                class="px-2 py-1 text-xs md:text-sm border border-gray-300 rounded hover:bg-slate-100"
+                class="px-2 py-1 text-xs md:text-sm border border-gray-300 rounded bg-white/70 hover:bg-white"
                 >{label}</a
               >
             {/each}
           </div>
         </div>
       {/each}
+    </div>
+  </div>
     </div>
   </div>
 </section>

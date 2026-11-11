@@ -57,7 +57,6 @@
   let nextRowId = 0;
   let rowIds = $state<number[]>(untrack(() => rows.map(() => nextRowId++)));
 
-  let showFront = $state(false);
   // 表紙画像の出典（プレビューの本の並び順）。下部のメッセージ欄に表示する
   let credits = $state<{ name: string; link?: string | null; isbn: string }[]>([]);
 
@@ -81,9 +80,8 @@
   let checkedIsbns = $derived(
     rows.filter((_, i) => rowActive[i]).map(normalize),
   );
-  // 「表紙を表示」は全冊に適用する（並びきらない場合は PreviewBook が縮小して収める）
-  let displaySides = $derived(["spine", ...(showFront ? ["front"] : [])]);
-  let books = $derived(checkedIsbns.map((isbn) => ({ isbn, displaySides })));
+  // 表示する面（背表紙のみ / 表紙と背表紙）は、PreviewBook の「表紙を表示」で切り替える
+  let books = $derived(checkedIsbns.map((isbn) => ({ isbn })));
 
   // 背景色：1 行だけ選ばれていればその行の色、それ以外は停止時の色
   let bgColor = $derived.by(() => {
@@ -351,27 +349,12 @@
         <PreviewBook
           {books}
           {bgColor}
-          link={books.length ? `/shelf/isbn/${books[0].isbn}` : ""}
+          link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
           showCredits={false}
           emptyMessage="本がありません"
+          frontToggle
           bind:credits
-        >
-          <!-- プレビュー右上に浮かべる操作 -->
-          {#snippet controls()}
-            {#if checkedIsbns.length > 0}
-              <label
-                class="flex items-center gap-2 px-3 py-1.5 rounded bg-white shadow-md text-sm text-slate-800 cursor-pointer"
-              >
-                <input
-                  type="checkbox"
-                  bind:checked={showFront}
-                  class="accent-slate-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
-                />
-                表紙を表示
-              </label>
-            {/if}
-          {/snippet}
-        </PreviewBook>
+        />
       </div>
     </div>
     <!-- 下部のメッセージ欄（上部と同じ見た目。表紙画像のクレジットを表示）。外枠の padding を打ち消して枠線に密着させる -->
