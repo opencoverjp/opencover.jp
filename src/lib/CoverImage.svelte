@@ -7,6 +7,10 @@
     height = 285,
     imgClass = "h-full w-auto",
     referrerpolicy = undefined,
+    // src が読み込めなかったときに 1 回だけ切り替える画像(例: 外部書影 → 自前生成の表紙)
+    fallbackSrc = undefined,
+    // fallbackSrc に切り替えたときに呼ぶ(出典表示を切り替えるため)
+    onfallback = undefined,
     placeholderAlt = "読み込み中",
     notFoundAlt = "画像が見つかりません",
   } = $props();
@@ -26,12 +30,16 @@
 
   let imageLoaded = $state(false);
   let imageError = $state(false);
+  let useFallback = $state(false);
+
+  let currentSrc = $derived(useFallback ? fallbackSrc : src);
 
   // srcが変わったら読み込み状態をリセット
   $effect(() => {
     src;
     imageLoaded = false;
     imageError = false;
+    useFallback = false;
   });
 
   let imgElement;
@@ -47,6 +55,11 @@
   }
 
   function handleImageError() {
+    if (fallbackSrc && !useFallback && fallbackSrc !== src) {
+      useFallback = true;
+      onfallback?.();
+      return;
+    }
     imageError = true;
   }
 </script>
@@ -59,7 +72,7 @@
 <!-- 本来の画像（読み込まれるまで非表示） -->
 <img
   bind:this={imgElement}
-  {src}
+  src={currentSrc}
   {alt}
   class={`${imgClass} ${!imageLoaded || imageError ? "hidden" : ""}`}
   onload={handleImageLoad}

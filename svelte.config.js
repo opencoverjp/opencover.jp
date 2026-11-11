@@ -38,6 +38,10 @@ const config = {
 					'self',
 					'data:',
 					'https://image.opencover.jp',
+					// 表紙の外部書影(/api/v1/cover が oc-api の /v1/admin/cover から返す)
+					'https://cover.openbd.jp',
+					'https://books.google.com',
+					'https://books.googleusercontent.com',
 					// Google Analytics 4 / GTM のビーコン
 					'https://*.google-analytics.com',
 					'https://*.googletagmanager.com'
