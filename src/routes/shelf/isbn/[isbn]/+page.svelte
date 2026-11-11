@@ -86,7 +86,11 @@
       frontToggle
     />
     <div class="mt-3">
-      <ShareButtons url={meta.url} text={meta.title} />
+      <ShareButtons
+        url={meta.url}
+        text={meta.title}
+        image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
+      />
     </div>
   </div>
 

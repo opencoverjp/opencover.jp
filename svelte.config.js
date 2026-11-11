@@ -26,8 +26,7 @@ const config = {
 					'sha256-o7BOxdVV6xcmDScAB6rKnsnCJaYf+08VYM44zH8a3IA=',
 					'sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I=',
 					'https://www.googletagmanager.com',
-					'https://static.cloudflareinsights.com',
-					'https://www.instagram.com'
+					'https://static.cloudflareinsights.com'
 				],
 				'script-src-attr': [
 					'unsafe-hashes',
@@ -55,7 +54,7 @@ const config = {
 					'https://*.analytics.google.com',
 					'https://*.googletagmanager.com'
 				],
-				'frame-src': ['self', 'https://www.googletagmanager.com', 'https://www.instagram.com'],
+				'frame-src': ['self', 'https://www.googletagmanager.com'],
 				'object-src': ['none']
 			}
 		}

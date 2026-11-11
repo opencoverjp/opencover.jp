@@ -1,14 +1,17 @@
 <script lang="ts">
-  import { Forward, X as Close } from "@lucide/svelte";
+  import { Forward, X as Close, Ellipsis } from "@lucide/svelte";
   import { siX, siBluesky, siFacebook, siLine } from "simple-icons";
 
   // url: 共有するページ(本棚ページ)の絶対 URL。OG 画像は共有先がそのページの meta から取る
   // text: 投稿文の初期値
+  // image: 「その他」(OS の共有メニュー)で一緒に渡す画像のパス(同じオリジンの OG 画像)。
+  //   Instagram など、リンクの投稿画面を持たないアプリへは画像として渡す
   let {
     url,
     text = "",
+    image = "",
     disabled = false,
-  }: { url: string; text?: string; disabled?: boolean } = $props();
+  }: { url: string; text?: string; image?: string; disabled?: boolean } = $props();
 
   const enc = encodeURIComponent;
 
@@ -24,7 +27,50 @@
 
   function open() {
     copied = false;
+    prefetchImage();
     dialog.showModal();
+  }
+
+  // ---- その他: OS の共有メニュー(Web Share API)。対応している端末(主にスマホ)でだけ出す ----
+  let canNativeShare = $state(false);
+  $effect(() => {
+    canNativeShare = typeof navigator.share === "function";
+  });
+
+  // 共有メニューは、クリックから時間が空くと開けない(特に Safari)。
+  // クリック後に画像を取りに行くと間に合わないので、ダイアログを開いたときに先に取っておく
+  let imageFile = $state<File | null>(null);
+  let imageFor = "";
+  async function prefetchImage() {
+    if (!canNativeShare || !image || imageFor === image) return;
+    const target = image;
+    imageFor = target;
+    imageFile = null;
+    try {
+      const response = await fetch(target);
+      if (!response.ok) throw new Error(`${response.status}`);
+      const blob = await response.blob();
+      // 取得中に本棚が変わっていたら捨てる
+      if (imageFor === target) {
+        imageFile = new File([blob], "opencover-shelf.png", { type: blob.type || "image/png" });
+      }
+    } catch {
+      // 画像が取れなくても、URL だけで共有できる。次に開いたときに取り直す
+      if (imageFor === target) imageFor = "";
+    }
+  }
+
+  async function nativeShare() {
+    const data: ShareData = { title: text, text, url };
+    // 画像を渡せる端末なら画像も添える(Instagram などは画像として受け取る)
+    if (imageFile && navigator.canShare?.({ files: [imageFile] })) {
+      data.files = [imageFile];
+    }
+    try {
+      await navigator.share(data);
+    } catch {
+      // キャンセルされたとき(AbortError)などは何もしない
+    }
   }
 
   // 背景(ダイアログの外側)をクリックしたら閉じる。中身は内側の div が受けるので、
@@ -101,6 +147,23 @@
           </a>
         </li>
       {/each}
+      {#if canNativeShare}
+        <li class="shrink-0">
+          <button
+            type="button"
+            class="group w-16 flex flex-col items-center gap-1.5 rounded-lg cursor-pointer {focusRing}"
+            onclick={nativeShare}
+            title="Instagram などのアプリで共有"
+          >
+            <span
+              class="size-14 flex items-center justify-center rounded-full bg-yslate-100 group-hover:bg-yslate-200 transition-colors"
+            >
+              <Ellipsis class="size-7 text-yslate-700" />
+            </span>
+            <span class="text-xs text-yslate-700">その他</span>
+          </button>
+        </li>
+      {/if}
     </ul>
 
     <!-- URL とコピー -->
