@@ -1,4 +1,4 @@
-<div class="page bg-slate-50 flex items-center justify-center !p-16">
+<div class="page bg-yslate-50 flex items-center justify-center !p-16">
   <h1 class="text-xl font-semibold">よくある質問</h1>
 </div>
 
@@ -97,10 +97,10 @@
     line-height: 2;
   }
   .faq {
-    border-top: 1px solid var(--color-slate-300);
+    border-top: 1px solid var(--color-yslate-300);
   }
   details {
-    border-bottom: 1px solid var(--color-slate-300);
+    border-bottom: 1px solid var(--color-yslate-300);
     padding: 18px 4px;
   }
   summary {
@@ -114,7 +114,7 @@
   }
   details p {
     margin: 10px 0 0;
-    color: var(--color-slate-600);
+    color: var(--color-yslate-600);
     line-height: 2;
   }
   details a {

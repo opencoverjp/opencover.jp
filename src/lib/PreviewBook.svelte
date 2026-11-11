@@ -155,7 +155,7 @@
     <a
       href={link}
       target={linkTarget}
-      class="absolute inset-0 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-slate-400"
+      class="absolute inset-0 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400"
       aria-label={linkLabel}
     ></a>
   {/if}
@@ -172,12 +172,12 @@
     <div class="absolute top-3 right-3 z-30 flex items-center gap-2">
       {#if frontToggle && books.length > 0}
         <label
-          class="flex items-center gap-2 px-3 py-1.5 rounded bg-white shadow-md text-sm text-slate-800 cursor-pointer"
+          class="flex items-center gap-2 px-3 py-1.5 rounded bg-white shadow-md text-sm text-yslate-800 cursor-pointer"
         >
           <input
             type="checkbox"
             bind:checked={showFront}
-            class="accent-slate-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+            class="accent-yslate-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400"
           />
           表紙を表示
         </label>
@@ -195,7 +195,7 @@
     style:transition-duration="{FADE_MS}ms"
   >
   {#if !validIsbn}
-    <div class="relative pointer-events-none text-slate-800 text-sm flex items-center gap-2">
+    <div class="relative pointer-events-none text-yslate-800 text-sm flex items-center gap-2">
       <CircleAlert class="inline-block" />ISBNが正しくないようです
     </div>
   {:else if books.length > 0}
@@ -235,7 +235,7 @@
       </div>
     </div>
   {:else}
-    <div class="relative pointer-events-none text-slate-800 text-sm flex items-center gap-2">
+    <div class="relative pointer-events-none text-yslate-800 text-sm flex items-center gap-2">
       <CircleAlert class="inline-block" />{emptyMessage}
     </div>
   {/if}

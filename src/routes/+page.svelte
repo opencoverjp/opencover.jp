@@ -93,7 +93,7 @@
     対応している書籍は、新書を中心に約100,000冊です。
     <a
       href="how-to-use"
-      class="p-2 px-4 text-sm border border-slate-300 rounded-full hover:bg-slate-100"
+      class="p-2 px-4 text-sm border border-yslate-300 rounded-full hover:bg-yslate-100"
     >
       もっとくわしく…
     </a>

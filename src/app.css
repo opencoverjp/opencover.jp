@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+	/* Custom Yellowish Slate */
+	--color-yslate-50: #f9f9f7;
+	--color-yslate-100: #f2f2ee;
+	--color-yslate-200: #e6e6dc;
+	--color-yslate-300: #d2d2c2;
+	--color-yslate-400: #b8b8a0;
+	--color-yslate-500: #9e9e85;
+	--color-yslate-600: #85856b;
+	--color-yslate-700: #6b6b55;
+	--color-yslate-800: #555544;
+	--color-yslate-900: #444438;
+	--color-yslate-950: #2a2a22;
+}
+
 ::selection {
   background-color: var(--color-orange-400);
   color: white;

@@ -3,7 +3,7 @@
   import BookIcon from "../../lib/BookIcon.svelte";
 </script>
 
-<div class="page bg-slate-50 flex items-center justify-center !p-16">
+<div class="page bg-yslate-50 flex items-center justify-center !p-16">
   <h1 class="text-xl font-semibold">使いかた</h1>
 </div>
 
@@ -18,7 +18,7 @@
     </div>
 
     <div
-    class="text-sm md:text-base leading-[2] my-9 border border-slate-300 p-4 rounded"
+    class="text-sm md:text-base leading-[2] my-9 border border-yslate-300 p-4 rounded"
   >
     <div class="flex items-center gap-2">
       <Barcode class="inline-block" /><strong>ISBNとは</strong>
@@ -26,9 +26,9 @@
     書籍出版物を識別する国際標準のコードです。本の裏表紙や奥付に記載されています。
   </div>
 
-    <div class="!p-8 bg-slate-50 max-w-full">
+    <div class="!p-8 bg-yslate-50 max-w-full">
       <div
-        class="bg-white md:text-lg font-mono !p-4 !px-8 border border-slate-500 rounded overflow-x-auto md:overflow-x-visible break-word"
+        class="bg-white md:text-lg font-mono !p-4 !px-8 border border-yslate-500 rounded overflow-x-auto md:overflow-x-visible break-word"
       >
         https://image.opencover.jp/v1/cover/spine/isbn/<span class="text-amber-600"
           >{`{isbn}`}</span
@@ -66,16 +66,16 @@
     しくみ</h3>
 
     <div
-      class="flex flex-col md:flex-row items-center gap-4 !p-8 bg-slate-50 size-fit"
+      class="flex flex-col md:flex-row items-center gap-4 !p-8 bg-yslate-50 size-fit"
     >
       <div
-        class="bg-white text-lg md:text-lg font-mono !p-4 !px-8 size-fit border border-slate-500 rounded"
+        class="bg-white text-lg md:text-lg font-mono !p-4 !px-8 size-fit border border-yslate-500 rounded"
       ><BookText class="inline-block" />
         書誌情報
       </div>
       <div class="text-lg font-bold">+</div>
       <div
-        class="bg-white text-lg md:text-lg font-mono !p-4 !px-8 size-fit border border-slate-500 rounded"
+        class="bg-white text-lg md:text-lg font-mono !p-4 !px-8 size-fit border border-yslate-500 rounded"
       ><Palette class="inline-block" />
         スタイル
       </div>
@@ -85,7 +85,7 @@
         <span class="hidden md:inline">→</span>
       </div>
       <div
-        class="bg-white text-lg md:text-lg font-mono !p-4 !px-8 size-fit border border-slate-500 rounded"
+        class="bg-white text-lg md:text-lg font-mono !p-4 !px-8 size-fit border border-yslate-500 rounded"
       ><BookImage class="inline-block" />
         カバー画像
       </div>
@@ -173,7 +173,7 @@
     display: flex;
     align-items: center;
     gap: calc(var(--spacing) * 2);
-    color: var(--color-slate-900);
+    color: var(--color-yslate-900);
   }
   h4 {
     font-size: var(--text-lg);
