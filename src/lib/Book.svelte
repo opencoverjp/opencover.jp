@@ -109,8 +109,12 @@
     class="flex items-end gap-0.5 transition-all duration-300 ease-in-out"
     style="height: {height}px;"
   >
+    <!-- 本の画像(表紙・背表紙)は選択・ドラッグさせない。
+         dragstart は中の img から上がってくるので、ここでまとめて止める。
+         iOS の長押しメニュー(画像の保存など)も出さない -->
     <button
-      class="flex items-end hover:-translate-y-2 hover:brightness-105 transition-transform cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400 {is3d
+      ondragstart={(e) => e.preventDefault()}
+      class="select-none [-webkit-touch-callout:none] flex items-end hover:-translate-y-2 hover:brightness-105 transition-transform cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400 {is3d
         ? 'drop-shadow-xl drop-shadow-black/50'
         : spineShadow
           ? 'shadow-xl shadow-black/50 hover:ring hover:ring-slate-400'
