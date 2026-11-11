@@ -1,12 +1,18 @@
 <script lang="ts">
   import "../app.css";
-  import { Barcode, Book, LibraryBig } from "@lucide/svelte";
-  import SingleDemo from "../lib/SingleDemo.svelte";
-  import MultiDemo from "../lib/MultiDemo.svelte";
+  import DemoPanel from "../lib/DemoPanel.svelte";
   import InstagramEmbed from "../lib/InstagramEmbed.svelte";
   import honbacoLibraryImg from "../lib/assets/honbaco-library.png";
   import honbacoImg from "../lib/assets/honbaco.png";
   import opencover3dViewerImg from "../lib/assets/3dviewer.png";
+
+  // 「試してみる」のデモで最初に並べる本
+  const demoIsbns = [
+    "9784087213126",
+    "9784480076403",
+    "9784004320340",
+    "9784121028440",
+  ];
 </script>
 
 <svelte:head>
@@ -95,28 +101,7 @@
 
   <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">試してみる</h3>
 
-  <h3 class="text-xl font-bold my-8 flex items-center gap-2">
-    <img src="/favicon.svg" alt="Book" class="w-6 h-6" />
-    1冊の本の背表紙を見る
-  </h3>
-
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
-    ISBNから本の背表紙画像を生成しています。
-  </div>
-
-  <SingleDemo />
-
-  <h3 class="text-xl font-bold my-8 flex items-center gap-2">
-    <LibraryBig />
-    複数冊の本棚を見る
-  </h3>
-
-  <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
-    複数冊の背表紙を並べて配置すると、本棚のようなイメージを作ることができます。
-    ここでは、ISBNのリストから最大10冊までの本棚を表示しています。
-  </div>
-
-  <MultiDemo />
+  <DemoPanel isbns={demoIsbns} />
 
   <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">活用例</h3>
 

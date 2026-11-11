@@ -12,6 +12,8 @@
     // fallbackSrc に切り替えたときに呼ぶ(出典表示を切り替えるため)
     onfallback = undefined,
     placeholderAlt = "読み込み中",
+    // 読み込み中(と読み込み失敗時)に、単色の矩形の代わりに描画するスニペット
+    placeholder = undefined,
     notFoundAlt = "画像が見つかりません",
   } = $props();
 
@@ -66,7 +68,11 @@
 
 <!-- プレースホルダ画像 -->
 {#if !imageLoaded && !imageError}
-  <img src={placeholderImageSrc} alt={placeholderAlt} class="h-full w-auto" />
+  {#if placeholder}
+    {@render placeholder()}
+  {:else}
+    <img src={placeholderImageSrc} alt={placeholderAlt} class="h-full w-auto" />
+  {/if}
 {/if}
 
 <!-- 本来の画像（読み込まれるまで非表示） -->
@@ -82,5 +88,9 @@
 
 <!-- エラー時の表示 -->
 {#if imageError}
-  <img src={notFoundImageSrc} alt={notFoundAlt} class="h-full w-auto" />
+  {#if placeholder}
+    {@render placeholder()}
+  {:else}
+    <img src={notFoundImageSrc} alt={notFoundAlt} class="h-full w-auto" />
+  {/if}
 {/if}

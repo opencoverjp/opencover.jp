@@ -1,9 +1,17 @@
 <script>
   import CoverImage from "./CoverImage.svelte";
+  import CoverPlaceholder from "./CoverPlaceholder.svelte";
 
   // onsource: 表示中の表紙の出典 { name, link } を親(Book)に知らせる。
   // 表紙はボタンの中にあるのでリンクを置けず、出典は Book がボタンの外に出す。
-  const { isbn, width = 174, height = 285, onsource = undefined } = $props();
+  // displayHeight: 表示する高さ(px)。背表紙と揃えるため Book から渡す
+  const {
+    isbn,
+    width = 174,
+    height = 285,
+    displayHeight = 400,
+    onsource = undefined,
+  } = $props();
 
   const opencoverSource = (target) => ({
     name: "opencover",
@@ -47,7 +55,7 @@
   });
 </script>
 
-<div class="book-front relative flex justify-end h-[400px]">
+<div class="book-front relative flex justify-end" style:height="{displayHeight}px">
   <CoverImage
     src={imageSrc || undefined}
     fallbackSrc={generatedSrc}
@@ -57,5 +65,10 @@
     imgClass="h-full object-cover"
     referrerpolicy="no-referrer"
     onfallback={() => onsource?.(opencoverSource(isbn))}
-  />
+  >
+    <!-- 表紙画像の読み込み中は、書誌データからタイトル・著者を描いたプレースホルダを出す -->
+    {#snippet placeholder()}
+      <CoverPlaceholder {isbn} {width} {height} />
+    {/snippet}
+  </CoverImage>
 </div>
