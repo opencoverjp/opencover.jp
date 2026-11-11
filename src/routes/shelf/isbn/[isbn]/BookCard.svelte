@@ -46,14 +46,15 @@
 
 </script>
 
-<!-- 背景は上が明るく下が暗いグラデーション -->
-<section class="relative mb-4 border-2 border-slate-600 bg-linear-to-b from-slate-50 to-slate-200 p-6 rounded overflow-hidden">
+<!-- 背景は上が明るく下が暗いグラデーション。
+     高さは PreviewBook(h-[500px])に揃え、内容が多いときだけ伸ばす -->
+<section class="relative mb-4 flex flex-col min-h-[500px] border-2 border-slate-600 bg-linear-to-b from-slate-50 to-slate-200 p-6 rounded overflow-hidden">
   {#if index > 0}
     <!-- 右上に浮かべる -->
     <div class="absolute top-4 right-4 z-10 px-4 py-2 text-sm bg-white/70">{index}冊目</div>
   {/if}
   <!-- 背表紙 | コンテンツ -->
-  <div class="flex gap-6">
+  <div class="flex flex-1 gap-6">
     <!-- 背表紙：高さはコンテンツに合わせて伸び、カードの下端(padding を打ち消して枠線まで)で
          カード(overflow-hidden)に切り取られる。列では切り取らないので、左右に大きめの影が見える。
          背表紙自体は絶対配置にして、列の高さに影響させない -->
@@ -70,7 +71,9 @@
       </div>
     </div>
 
-    <div class="min-w-0 flex-1">
+    <!-- 書誌情報を上端、リンクを下端に揃える -->
+    <div class="min-w-0 flex-1 flex flex-col justify-between gap-6">
+    <div>
     <!-- 右上の「n冊目」と重ならないよう、タイトルの右側をあける -->
     <h3 class="book-title flex items-center gap-2 text-xl font-bold" class:pr-20={index > 0}>
     <span>
@@ -86,11 +89,12 @@
   <div class="my-3">
     {book.book?.label}　{book.book?.publisher}
   </div>
-  <div class="my-3 text-xs md:text-sm font-mono">
+  <div class="mt-3 text-xs md:text-sm font-mono">
     ISBN: {hyphenedIsbn}
   </div>
+  </div>
 
-  <div class="my-4">
+  <div class="pt-4 border-t border-slate-300">
     <div class="flex flex-col gap-3">
       {#each links as { name, label, sites }}
         <div class="flex items-center gap-2">
