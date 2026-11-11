@@ -37,7 +37,11 @@ export async function GET({ params }) {
     if (!result) {
       return new Response('Style data not found', { status: 404 });
     }
-    return json(result);
+    // スタイル(判型の高さなど)はめったに変わらないので、ブラウザに 1 日キャッシュさせる。
+    // 失敗時のレスポンスにはキャッシュヘッダを付けない(次のアクセスで取り直す)
+    return json(result, {
+      headers: { 'Cache-Control': 'public, max-age=86400' }
+    });
   } catch (error) {
     console.error('Style lookup error:', error);
     const message = error instanceof Error ? error.message : String(error);

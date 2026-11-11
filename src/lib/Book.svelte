@@ -4,6 +4,7 @@
   import { cubicInOut } from "svelte/easing";
   import BookFront from "./BookFront.svelte";
   import BookSpine from "./BookSpine.svelte";
+  import { fetchStyle, preloadBook, whenIdle } from "./cover";
 
   // tilt: 表紙を表示するときの斜めの角度(度)。表紙をこの角度だけ奥へ、背表紙を (90 - tilt) 度だけ奥へ回す
   // overlap: 表紙表示のとき、左隣の本の後ろに表紙を潜り込ませる割合(0〜1、見かけの表紙幅に対する比)
@@ -27,21 +28,6 @@
 
   // scaleの初期値のみを取得して警告を抑制
   let height = $state(173 * untrack(() => scale));
-
-  async function updateBookHeight(isbn, currentScale, signal) {
-    try {
-      const response = await fetch(`/api/style/isbn/${isbn}`, { signal });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const style = await response.json();
-      if (!signal.aborted) {
-        height = style.height * currentScale;
-      }
-    } catch (err) {
-      if (err?.name !== "AbortError") console.error(err);
-    }
-  }
 
   let displaySides = $derived(book.displaySides);
   let showFront = $derived(!!displaySides?.find((d) => d === "front"));
@@ -85,15 +71,27 @@
   // 背表紙の表示高さ(画像の実寸から決まる)。表紙も同じ高さにして下揃えにする
   let spineHeight = $state(400);
 
-  // book.isbnが変更されたときに高さを更新。
-  // ISBN が切り替わったら前のリクエストを中断し、古いレスポンスで高さを上書きしないようにする
+  // book.isbnが変更されたときに高さを更新(取得結果は cover.ts で共有)。
+  // ISBN が切り替わったら、古いレスポンスで高さを上書きしないようにする
   $effect(() => {
     const isbn = book?.isbn;
     const currentScale = scale;
     if (!isbn) return;
-    const controller = new AbortController();
-    updateBookHeight(isbn, currentScale, controller.signal);
-    return () => controller.abort();
+    let cancelled = false;
+    fetchStyle(isbn).then((style) => {
+      if (!cancelled && style) height = style.height * currentScale;
+    });
+    return () => {
+      cancelled = true;
+    };
+  });
+
+  // 背表紙だけを表示している間に、表紙(JSON と画像)を空き時間に先読みしておく。
+  // 「表紙を表示」に切り替えたときに、すぐ表紙が出るようにする
+  $effect(() => {
+    const isbn = book?.isbn;
+    if (!isbn || showFront) return;
+    return whenIdle(() => preloadBook(isbn, { front: true }));
   });
 
   function handleBookClick(event, isbn) {

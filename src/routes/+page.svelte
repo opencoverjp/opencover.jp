@@ -1,6 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import DemoPanel from "../lib/DemoPanel.svelte";
+  import { spineSrc } from "../lib/cover";
   import honbacoLibraryImg from "../lib/assets/honbaco-library.png";
   import honbacoImg from "../lib/assets/honbaco.png";
   import opencover3dViewerImg from "../lib/assets/3dviewer.png";
@@ -15,6 +16,8 @@
 </script>
 
 <svelte:head>
+  <!-- デモで最初に表示する背表紙は、JS の読み込みを待たずに取得を始める -->
+  <link rel="preload" as="image" href={spineSrc(demoIsbns[0])} fetchpriority="high" />
   <title>opencover : みんなでつくる書籍カバー画像</title>
   <meta
     property="og:title"

@@ -1,6 +1,7 @@
 <script>
   import CoverImage from "./CoverImage.svelte";
   import CoverPlaceholder from "./CoverPlaceholder.svelte";
+  import { fetchCover, generatedFrontSrc, opencoverSource } from "./cover";
 
   // onsource: 表示中の表紙の出典 { name, link } を親(Book)に知らせる。
   // 表紙はボタンの中にあるのでリンクを置けず、出典は Book がボタンの外に出す。
@@ -13,45 +14,29 @@
     onsource = undefined,
   } = $props();
 
-  const opencoverSource = (target) => ({
-    name: "opencover",
-    link: `https://opencover.jp/shelf/isbn/${target}`,
-  });
-
   // 自前生成の表紙。外部書影が無い・取れない・読み込めないときに使う。
-  let generatedSrc = $derived(
-    isbn ? `https://image.opencover.jp/v1/cover/front/isbn/${isbn}.webp` : "",
-  );
+  let generatedSrc = $derived(isbn ? generatedFrontSrc(isbn) : "");
 
   // 表紙は /api/v1/cover/{isbn}(サーバー側で oc-api の /v1/admin/cover を鍵付きで中継)の
   // front の先頭を使う。openBD → Google Books → opencover の順なので、外部書影があればそれが先頭。
+  // 取得結果は cover.ts で共有しているので、先読み済みならすぐに決まる。
   let imageSrc = $state("");
 
   $effect(() => {
     const target = isbn;
-    const fallback = generatedSrc;
     imageSrc = "";
     onsource?.(null);
     if (!target) return;
 
-    const controller = new AbortController();
-    fetch(`/api/v1/cover/${target}`, { signal: controller.signal })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((sides) => {
-        const first = sides?.find((s) => s.side === "front")?.images?.[0];
-        imageSrc = first?.imageUrl ?? fallback;
-        onsource?.(
-          first?.source?.name
-            ? { name: first.source.name, link: first.source.link ?? null }
-            : opencoverSource(target),
-        );
-      })
-      .catch((err) => {
-        if (err?.name === "AbortError") return;
-        imageSrc = fallback;
-        onsource?.(opencoverSource(target));
-      });
-    return () => controller.abort();
+    let cancelled = false;
+    fetchCover(target).then((cover) => {
+      if (cancelled) return;
+      imageSrc = cover.imageUrl;
+      onsource?.(cover.source);
+    });
+    return () => {
+      cancelled = true;
+    };
   });
 </script>
 

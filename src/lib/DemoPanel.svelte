@@ -5,6 +5,7 @@
   import Bookshelf from "./Bookshelf.svelte";
   import ShareButtons from "./ShareButtons.svelte";
   import { createCarousel } from "./isbnCarousel.svelte";
+  import { preloadBook, whenIdle } from "./cover";
 
   type Props = {
     /** カルーセルで順に表示する ISBN の配列 */
@@ -83,6 +84,17 @@
   );
   // 表示する面（背表紙のみ / 表紙と背表紙）は、Bookshelf の「表紙を表示」で切り替える
   let books = $derived(checkedIsbns.map((isbn) => ({ isbn })));
+
+  // 表の正しい ISBN はすべて先読みしておく(カルーセルの切り替えや、チェックを付けたときにすぐ表示する)。
+  // 背表紙・書誌・高さはすぐに、表紙は空き時間に読み込む。取得結果は cover.ts で共有するので重複しない
+  let validIsbns = $derived(rows.filter((_, i) => rowValid[i]).map(normalize));
+  $effect(() => {
+    const targets = validIsbns;
+    for (const isbn of targets) preloadBook(isbn);
+    return whenIdle(() => {
+      for (const isbn of targets) preloadBook(isbn, { front: true });
+    });
+  });
 
   // 背景色：1 行だけ選ばれていればその行の色、それ以外は停止時の色
   let bgColor = $derived.by(() => {

@@ -27,5 +27,9 @@ export async function GET({ params }) {
   if (!responseJson) {
     return json({ error: 'Not Found' }, { status: 404 });
   }
-  return json(responseJson);
+  // 書誌データはめったに変わらないので、ブラウザに 1 日キャッシュさせる。
+  // 失敗時のレスポンスにはキャッシュヘッダを付けない(次のアクセスで取り直す)
+  return json(responseJson, {
+    headers: { 'Cache-Control': 'public, max-age=86400' }
+  });
 }
