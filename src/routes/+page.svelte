@@ -105,35 +105,40 @@
   <h3 class="text-2xl font-bold mt-8 mb-4 tracking-widest">活用例</h3>
 
   <div>opencoverの画像を活用したサービスを紹介します。</div>
-  <div class="flex gap-8">
-    <div class="flex-1">
+  <!-- モバイルは 1 列、sm で 2 列、lg で 3 列 -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6 mt-6">
+    <div>
       <a href="https://lib.honbaco.com/" target="_blank">
-        <h4 class="text-lg font-bold my-8">honbaco library</h4>
+        <h4 class="text-base sm:text-lg font-bold mb-3">honbaco library</h4>
         <img
           src={honbacoLibraryImg}
           alt="honbaco library"
-          class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
+          class="w-full border border-yslate-300 rounded-sm hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
         />
       </a>
-      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
+      <div class="text-sm sm:text-base leading-relaxed mt-3">
         図書館の蔵書を本棚を眺めるように検索・閲覧できるサービスです。
       </div>
     </div>
-    <div class="flex-1">
-      <h4 class="text-lg font-bold my-8">honbaco</h4>
-      <img src={honbacoImg} alt="honbaco" class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400" />
-      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
+    <div>
+      <h4 class="text-base sm:text-lg font-bold mb-3">honbaco</h4>
+      <img
+        src={honbacoImg}
+        alt="honbaco"
+        class="w-full border border-yslate-300 rounded-sm hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
+      />
+      <div class="text-sm sm:text-base leading-relaxed mt-3">
         利用者が本棚を作成し共有できるサービスを開発中です。
       </div>
     </div>
-    <div class="flex-1">
-      <h4 class="text-lg font-bold my-8">opencover 3D Viewer</h4>
+    <div>
+      <h4 class="text-base sm:text-lg font-bold mb-3">opencover 3D Viewer</h4>
       <img
         src={opencover3dViewerImg}
         alt="opencover 3D Viewer"
-        class="w-full hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
+        class="w-full border border-yslate-300 rounded-sm hover:opacity-90 hover:outline-2 hover:-outline-offset-2 hover:outline-orange-400"
       />
-      <div class="text-md sm:text-lg md:text-lg lg:text-lg leading-loose my-9">
+      <div class="text-sm sm:text-base leading-relaxed mt-3">
         立体的な本棚を閲覧できるサービスです。
       </div>
     </div>
