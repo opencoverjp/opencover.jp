@@ -73,7 +73,7 @@
 </script>
 
 <svg
-  class="h-full w-auto border border-slate-300"
+  class="h-full w-auto border border-yslate-300"
   style:aspect-ratio="{width} / {height}"
   viewBox="0 0 {W} {H}"
   preserveAspectRatio="xMidYMid meet"

@@ -114,11 +114,11 @@
          iOS の長押しメニュー(画像の保存など)も出さない -->
     <button
       ondragstart={(e) => e.preventDefault()}
-      class="select-none [-webkit-touch-callout:none] flex items-end hover:-translate-y-2 hover:brightness-105 transition-transform cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400 {is3d
+      class="select-none [-webkit-touch-callout:none] flex items-end hover:-translate-y-2 hover:brightness-105 transition-transform cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400 {is3d
         ? 'drop-shadow-xl drop-shadow-black/50'
         : spineShadow
-          ? 'shadow-xl shadow-black/50 hover:ring hover:ring-slate-400'
-          : 'hover:ring hover:ring-slate-400'}"
+          ? 'shadow-xl shadow-black/50 hover:ring hover:ring-yslate-400'
+          : 'hover:ring hover:ring-yslate-400'}"
       onclick={(e) => handleBookClick(e, book.isbn)}
       {tabindex}
     >
@@ -160,14 +160,14 @@
         href={frontSource.link}
         target="_blank"
         rel="noopener noreferrer"
-        class="absolute top-full -translate-x-full mt-1 text-xs text-slate-700 hover:text-slate-900 hover:underline whitespace-nowrap"
+        class="absolute top-full -translate-x-full mt-1 text-xs text-yslate-700 hover:text-yslate-900 hover:underline whitespace-nowrap"
         style:left="{frontVisibleWidth}px"
       >
         {frontSource.name}
       </a>
     {:else}
       <span
-        class="absolute top-full -translate-x-full mt-1 text-xs text-slate-700 whitespace-nowrap"
+        class="absolute top-full -translate-x-full mt-1 text-xs text-yslate-700 whitespace-nowrap"
         style:left="{frontVisibleWidth}px"
       >
         {frontSource.name}

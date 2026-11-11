@@ -18,11 +18,11 @@
   }: Props = $props();
 
   // 選択が 0 冊・複数冊のときの背景色
-  const stoppedBgColor = "#C0CDD9";
+  const stoppedBgColor = "#d2d2c2";
 
-  // slate 系のランダムな色（明度の幅は狭く）。PreviewBook が hex を前提にしているので hex で返す。
+  // yslate 系のランダムな色（明度の幅は狭く）。PreviewBook が hex を前提にしているので hex で返す。
   // 乱数ではなく ISBN のハッシュから決めるので、サーバーとブラウザで同じ色になる（読み込み時に色が切り替わらない）
-  function slateFor(isbn: string): string {
+  function yslateFor(isbn: string): string {
     // FNV-1a ハッシュ
     let x = 2166136261;
     for (const ch of isbn) {
@@ -30,8 +30,8 @@
       x = Math.imul(x, 16777619);
     }
     const rand = (shift: number) => ((x >>> shift) & 0xff) / 255;
-    const h = 205 + rand(0) * 25; // 青みがかったグレー
-    const s = 12 + rand(8) * 16;
+    const h = 50 + rand(0) * 15; // 黄みがかったグレー
+    const s = 10 + rand(8) * 12;
     const l = 74 + rand(16) * 8;
     return hslToHex(h, s, l);
   }
@@ -86,7 +86,7 @@
   // 背景色：1 行だけ選ばれていればその行の色、それ以外は停止時の色
   let bgColor = $derived.by(() => {
     const indexes = rowActive.flatMap((c, i) => (c ? [i] : []));
-    return indexes.length === 1 ? slateFor(normalize(rows[indexes[0]])) : stoppedBgColor;
+    return indexes.length === 1 ? yslateFor(normalize(rows[indexes[0]])) : stoppedBgColor;
   });
 
   // カルーセルの回数・間隔はマウント時の props で固定する
@@ -245,10 +245,10 @@
     role="checkbox"
     aria-checked={checked}
     aria-label={label}
-    class="size-11 sm:size-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-slate-400 enabled:hover:bg-slate-200 enabled:cursor-pointer disabled:cursor-not-allowed flex items-center justify-center"
+    class="size-11 sm:size-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400 enabled:hover:bg-yslate-200 enabled:cursor-pointer disabled:cursor-not-allowed flex items-center justify-center"
     {onclick}
   >
-    <span class="size-7 sm:size-8 rounded border-2 {disabled ? 'border-transparent' : 'border-slate-400'} bg-white flex items-center justify-center">
+    <span class="size-7 sm:size-8 rounded border-2 {disabled ? 'border-transparent' : 'border-yslate-400'} bg-white flex items-center justify-center">
       {#if checked}
         <Check class="size-5 sm:size-6" />
       {/if}
@@ -262,7 +262,7 @@
       {href}
       target={href.startsWith("/") ? "_self" : "_blank"}
       rel={href.startsWith("/") ? undefined : "noopener noreferrer"}
-      class="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+      class="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400"
       >{name}</a
     >
   {:else}
@@ -272,7 +272,7 @@
 
 {#snippet randomButton(onclick: () => void)}
   <button
-    class="size-11 sm:size-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-slate-400 text-slate-400 hover:bg-slate-200 hover:text-slate-600 flex items-center justify-center cursor-pointer"
+    class="size-11 sm:size-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400 text-yslate-400 hover:bg-yslate-200 hover:text-yslate-600 flex items-center justify-center cursor-pointer"
     {onclick}
     title="ランダム入力"
     aria-label="ランダム入力"
@@ -285,7 +285,7 @@
   <!-- 外枠の padding（狭い画面は p-4、sm 以上は p-6）を唯一の余白とし、内部の要素は余白を持たずにその内側に揃える -->
   <div class="w-full max-w-6xl p-4 sm:p-6 border-2 border-black rounded-sm">
     <!-- 外枠の padding を打ち消して、枠線に密着させる -->
-    <p class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6 sm:mb-6 p-4 bg-slate-100 border-b border-slate-300 text-slate-800">
+    <p class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6 sm:mb-6 p-4 bg-yslate-100 border-b border-yslate-300 text-yslate-800">
       ISBNを入力してプレビューを確認してください。
     </p>
     <!-- 狭い画面（sm 未満）では行の各部品（ボタンはタップしやすい 44px）と文字を小さくして、幅 360px でもパネルに収める -->
@@ -298,14 +298,14 @@
             {@const current = rowActive[i]}
             <li
               data-row
-              class="relative flex w-fit rounded-2xl bg-slate-100 overflow-hidden"
+              class="relative flex w-fit rounded-2xl bg-yslate-100 overflow-hidden"
               class:dragging={dragIndex === i}
               style:transform={dragIndex === i ? `translateY(${dragOffset}px)` : undefined}
             >
               <button
                 type="button"
                 data-grip
-                class="w-6 sm:w-10 h-11 sm:h-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-slate-400 flex items-center justify-center text-slate-500 hover:bg-slate-200 cursor-grab active:cursor-grabbing touch-none"
+                class="w-6 sm:w-10 h-11 sm:h-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400 flex items-center justify-center text-yslate-500 hover:bg-yslate-200 cursor-grab active:cursor-grabbing touch-none"
                 aria-label={`${i + 1} 行目を移動（↑↓キーでも移動できます）`}
                 title="ドラッグして並べ替え"
                 onpointerdown={(e) => handleGripDown(e, i)}
@@ -325,7 +325,7 @@
               <input
                 bind:value={rows[i]}
                 oninput={() => handleRowInput(i)}
-                class="h-11 sm:h-16 w-[calc(13ch+0.7em+1rem+2px)] sm:w-[calc(13ch+0.7em+2rem+2px)] px-2 sm:px-4 bg-transparent text-base sm:text-2xl font-mono tracking-wider rounded-lg focus:outline-2 focus:-outline-offset-2 focus:outline-slate-400"
+                class="h-11 sm:h-16 w-[calc(13ch+0.7em+1rem+2px)] sm:w-[calc(13ch+0.7em+2rem+2px)] px-2 sm:px-4 bg-transparent text-base sm:text-2xl font-mono tracking-wider rounded-lg focus:outline-2 focus:-outline-offset-2 focus:outline-yslate-400"
                 class:font-semibold={current}
                 placeholder="ISBNを入力"
                 aria-label={`${i + 1} 行目の ISBN`}
@@ -336,7 +336,7 @@
         </ul>
 
         <button
-          class="text-sm px-4 py-2 flex items-center gap-2 size-fit border border-slate-500 bg-slate-50 hover:bg-white rounded cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+          class="text-sm px-4 py-2 flex items-center gap-2 size-fit border border-yslate-500 bg-yslate-50 hover:bg-white rounded cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400"
           onclick={handleFeedbackClick}
         >
           <MessageSquareWarning />
@@ -360,7 +360,7 @@
     <!-- 下部のメッセージ欄（上部と同じ見た目。表紙画像のクレジットを表示）。外枠の padding を打ち消して枠線に密着させる -->
     <!-- 高さは上部のメッセージ欄（p-4 + 1 行 24px + 枠線 1px = 57px）に合わせて固定し、
          内容が長いときは横スクロールにする -->
-    <div class="-mx-4 -mb-4 mt-4 sm:-mx-6 sm:-mb-6 sm:mt-6 px-4 h-[57px] flex items-center overflow-x-auto whitespace-nowrap bg-slate-100 border-t border-slate-300 text-xs text-slate-800">
+    <div class="-mx-4 -mb-4 mt-4 sm:-mx-6 sm:-mb-6 sm:mt-6 px-4 h-[57px] flex items-center overflow-x-auto whitespace-nowrap bg-yslate-100 border-t border-yslate-300 text-xs text-yslate-800">
       {#if books.length}
         <!-- 背表紙はすべて opencover なので 1 回だけ表示する。リンク先はプレビュー中の全冊の本棚（ISBN をカンマ区切り） -->
         <span
@@ -378,7 +378,7 @@
   /* ドラッグ中の行：他の行より手前に出して、浮いて見えるようにする */
   .dragging {
     z-index: 10;
-    background-color: var(--color-slate-200);
+    background-color: var(--color-yslate-200);
     box-shadow: 0 8px 20px rgb(0 0 0 / 0.2);
   }
 </style>

@@ -91,19 +91,19 @@
     <div class="flex items-center justify-end gap-2 mb-2">
       <button
         type="button"
-        class="size-9 flex items-center justify-center rounded border border-slate-300 bg-white enabled:hover:bg-slate-100 enabled:cursor-pointer disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+        class="size-9 flex items-center justify-center rounded border border-yslate-300 bg-white enabled:hover:bg-yslate-100 enabled:cursor-pointer disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400"
         onclick={() => goTo(current - 1)}
         disabled={current === 0}
         aria-label="前の本"
       >
         <ChevronLeft class="size-5" />
       </button>
-      <span class="text-sm text-slate-600 tabular-nums min-w-14 text-center" aria-live="polite">
+      <span class="text-sm text-yslate-600 tabular-nums min-w-14 text-center" aria-live="polite">
         {current + 1} / {books.length}
       </span>
       <button
         type="button"
-        class="size-9 flex items-center justify-center rounded border border-slate-300 bg-white enabled:hover:bg-slate-100 enabled:cursor-pointer disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+        class="size-9 flex items-center justify-center rounded border border-yslate-300 bg-white enabled:hover:bg-yslate-100 enabled:cursor-pointer disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400"
         onclick={() => goTo(current + 1)}
         disabled={current === books.length - 1}
         aria-label="次の本"

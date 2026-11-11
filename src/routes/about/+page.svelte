@@ -3,7 +3,7 @@
   import BookIcon from '../../lib/BookIcon.svelte';
 </script>
 
-<div class="page bg-slate-50 flex items-center justify-center !p-16">
+<div class="page bg-yslate-50 flex items-center justify-center !p-16">
   <h1 class="text-xl font-semibold">About</h1>
 </div>
 
@@ -81,7 +81,7 @@
     info <em>(at mark)</em> opencover.jp
   </div>
   
-  <div class="text-slate-500 text-sm my-9">
+  <div class="text-yslate-500 text-sm my-9">
     opencoverは、Amazonのアソシエイトとして適格販売により収入を得ることがあります。
   </div>
 
@@ -116,6 +116,6 @@
     display: flex;
     align-items: center;
     gap: calc(var(--spacing) * 2);
-    color: var(--color-slate-900);
+    color: var(--color-yslate-900);
   }
 </style>

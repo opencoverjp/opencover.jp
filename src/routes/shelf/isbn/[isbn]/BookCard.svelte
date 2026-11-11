@@ -48,7 +48,7 @@
 
 <!-- 背景は上が明るく下が暗いグラデーション。
      高さは PreviewBook(h-[500px])に揃え、内容が多いときだけ伸ばす -->
-<section class="relative mb-4 flex flex-col min-h-[500px] border-2 border-slate-600 bg-linear-to-b from-slate-50 to-slate-200 p-6 rounded overflow-hidden">
+<section class="relative mb-4 flex flex-col min-h-[500px] border-2 border-yslate-600 bg-linear-to-b from-yslate-50 to-yslate-200 p-6 rounded overflow-hidden">
   {#if index > 0}
     <!-- 右上に浮かべる -->
     <div class="absolute top-4 right-4 z-10 px-4 py-2 text-sm bg-white/70">{index}冊目</div>
@@ -94,11 +94,11 @@
   </div>
   </div>
 
-  <div class="pt-4 border-t border-slate-300">
+  <div class="pt-4 border-t border-yslate-300">
     <div class="flex flex-col gap-3">
       {#each links as { name, label, sites }}
         <div class="flex items-center gap-2">
-          <div class="text-sm font-semibold text-slate-800">
+          <div class="text-sm font-semibold text-yslate-800">
             {label}
           </div>
           <div class="flex flex-wrap gap-2">

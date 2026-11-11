@@ -73,7 +73,7 @@
 </script>
 
 <div class="flex items-center justify-center p-4">
-  <div class="w-full max-w-6xl bg-slate-100 rounded-3xl p-4 md:p-8 shadow-lg">
+  <div class="w-full max-w-6xl bg-yslate-100 rounded-3xl p-4 md:p-8 shadow-lg">
     <div class="flex flex-col lg:flex-row gap-6">
       <!-- Left side - Input and controls -->
 
@@ -82,7 +82,7 @@
           <div class="isbn-controls">
             <button
               id={playButtonId}
-              class="w-12 h-12 md:w-16 md:h-16 border border-slate-400 bg-slate-50 hover:bg-amber-50 hover:ring hover:ring-slate-400 rounded-full flex items-center justify-center transition-colors"
+              class="w-12 h-12 md:w-16 md:h-16 border border-yslate-400 bg-yslate-50 hover:bg-amber-50 hover:ring hover:ring-yslate-400 rounded-full flex items-center justify-center transition-colors"
               onclick={togglePlayPause}
               aria-label={isPlaying ? "Stop" : "Play"}
             >
@@ -103,7 +103,7 @@
                 <div class="text-lg md:text-xl font-semibold">
                   ISBNを入力してください
                 </div>
-                <div class="text-slate-500 text-sm">ハイフンは省略できます</div>
+                <div class="text-yslate-500 text-sm">ハイフンは省略できます</div>
               {/if}
             </label>
           </div>
@@ -113,7 +113,7 @@
           <input
             id="isbn"
             bind:value={isbn}
-            class="border border-slate-500 p-2 md:p-4 text-lg md:text-2xl font-mono font-semibold bg-white rounded-lg"
+            class="border border-yslate-500 p-2 md:p-4 text-lg md:text-2xl font-mono font-semibold bg-white rounded-lg"
             class:disabled-input={isPlaying}
             disabled={isPlaying}
             placeholder="ISBNを入力してください"
@@ -121,7 +121,7 @@
 
           <div class="my-4" class:hidden={isPlaying}>
             <button
-              class="px-4 py-2 flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-500 rounded cursor-pointer"
+              class="px-4 py-2 flex items-center gap-2 bg-white hover:bg-yslate-50 border border-yslate-500 rounded cursor-pointer"
               onclick={handleRandomButton}
             >
               <RefreshCcw size={16} class="inline-block" />
@@ -130,7 +130,7 @@
           </div>
 
           <div class="my-4 flex items-center gap-2">
-            <label class="text-slate-800 font-semibold cursor-pointer">
+            <label class="text-yslate-800 font-semibold cursor-pointer">
               <input
                 id="showFrontCheckbox"
                 type="checkbox"
@@ -142,7 +142,7 @@
           </div>
 
           {#if validIsbn}
-            <!-- <div class="text-slate-500 text-sm font-mono m-2 md:m-4">
+            <!-- <div class="text-yslate-500 text-sm font-mono m-2 md:m-4">
               ISBN: {hyphenedIsbn}
             </div> -->
             <!-- <div class="text-sm font-mono hover:bg-white p-2 md:p-4 rounded-lg break-all">
@@ -169,7 +169,7 @@
         </div>
 
         <button
-          class="text-sm px-4 py-2 flex items-center gap-2 size-fit border border-slate-500 bg-bg-slate-50 hover:bg-white rounded cursor-pointer"
+          class="text-sm px-4 py-2 flex items-center gap-2 size-fit border border-yslate-500 bg-bg-yslate-50 hover:bg-white rounded cursor-pointer"
           onclick={handleFeedbackClick}
         >
           <MessageSquareWarning />

@@ -12,7 +12,7 @@
   }
 </script>
 
-<header class="avenir font-semibold p-4 border-b border-slate-200 bg-white">
+<header class="avenir font-semibold p-4 border-b border-yslate-200 bg-white">
   <div class="max-w-screen-xl mx-auto flex justify-between items-center relative">
 
     <a href="/">
@@ -36,10 +36,10 @@
       </button>
 
       <nav id="site-nav" class={`${isOpen ? 'block' : 'hidden'} md:block`}>
-        <ul class="text-sm flex flex-col absolute top-full right-0 bg-slate-50 rounded p-4 w-48 shadow-lg z-50 md:static md:flex-row md:items-center md:space-x-4 md:bg-transparent md:p-0 md:w-auto md:shadow-none">
-          <li><a href="/how-to-use" class="rounded hover:bg-slate-100 block p-2" onclick={closeMenu}>使いかた</a></li>
-          <li><a href="/faq" class="rounded hover:bg-slate-100 block p-2" onclick={closeMenu}>よくある質問</a></li>
-          <li><a href="/about" class="rounded hover:bg-slate-100 block p-2" onclick={closeMenu}>opencover</a></li>
+        <ul class="text-sm flex flex-col absolute top-full right-0 bg-yslate-50 rounded p-4 w-48 shadow-lg z-50 md:static md:flex-row md:items-center md:space-x-4 md:bg-transparent md:p-0 md:w-auto md:shadow-none">
+          <li><a href="/how-to-use" class="rounded hover:bg-yslate-100 block p-2" onclick={closeMenu}>使いかた</a></li>
+          <li><a href="/faq" class="rounded hover:bg-yslate-100 block p-2" onclick={closeMenu}>よくある質問</a></li>
+          <li><a href="/about" class="rounded hover:bg-yslate-100 block p-2" onclick={closeMenu}>opencover</a></li>
         </ul>
       </nav>
     </div>

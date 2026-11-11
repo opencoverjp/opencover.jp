@@ -32,7 +32,7 @@
 
 <!-- 文字サイズは背表紙の幅に対する割合(cqw)で決める -->
 <div
-  class="spine-placeholder h-full border border-slate-300 bg-slate-50 flex flex-col items-center overflow-hidden"
+  class="spine-placeholder h-full border border-yslate-300 bg-yslate-50 flex flex-col items-center overflow-hidden"
   style:aspect-ratio="{width} / {height}"
   role="img"
   aria-label={bib?.title ?? "読み込み中"}

@@ -47,7 +47,7 @@
 </script>
 
 <div class="flex items-center justify-center p-4">
-  <div class="w-full max-w-6xl bg-slate-100 rounded-3xl p-4 md:p-8 shadow-lg">
+  <div class="w-full max-w-6xl bg-yslate-100 rounded-3xl p-4 md:p-8 shadow-lg">
     <div class="flex flex-col lg:flex-row gap-6">
       <!-- Left side - Input and controls -->
       
@@ -57,7 +57,7 @@
             <div class="isbn-controls">
               <button 
                 id="playPause"
-                class="w-12 h-12 md:w-16 md:h-16 border border-slate-400 bg-slate-50 hover:bg-slate-200 hover:ring hover:ring-slate-400 rounded-full flex items-center justify-center transition-colors text-slate-800"
+                class="w-12 h-12 md:w-16 md:h-16 border border-yslate-400 bg-yslate-50 hover:bg-yslate-200 hover:ring hover:ring-yslate-400 rounded-full flex items-center justify-center transition-colors text-yslate-800"
                 onclick={togglePlayPause}
                 aria-label={isPlaying ? "Stop" : "Play"}
               >
@@ -74,7 +74,7 @@
                   <div class="text-lg md:text-xl font-semibold">一時停止ボタンを押すとISBNのリストを入力できます</div>
               {:else}
                 <div class="text-lg md:text-xl font-semibold">ISBNのリストを入力してください</div>
-                <div class="text-slate-500 text-sm">改行かスペース、コンマで区切って入力してください</div>
+                <div class="text-yslate-500 text-sm">改行かスペース、コンマで区切って入力してください</div>
               {/if}
               </label>
             </div>
@@ -85,14 +85,14 @@
             id="isbns" 
             bind:value={isbnsString} 
             rows="5"
-            class="border border-slate-500 p-2 md:p-4 text-lg md:text-2xl font-mono font-semibold bg-white rounded-lg"
+            class="border border-yslate-500 p-2 md:p-4 text-lg md:text-2xl font-mono font-semibold bg-white rounded-lg"
             class:disabled-input={isPlaying}
             disabled={isPlaying} 
             placeholder="ISBNのリストを入力してください"
           ></textarea>
         
           {#if validIsbn}
-            <!-- <div class="text-slate-500 text-sm font-mono m-2 md:m-4">
+            <!-- <div class="text-yslate-500 text-sm font-mono m-2 md:m-4">
               ISBN: {hyphenedIsbn}
             </div> -->
             <!-- <div class="text-sm font-mono hover:bg-white p-2 md:p-4 rounded-lg break-all">
