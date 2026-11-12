@@ -6,12 +6,20 @@
   // text: 投稿文の初期値
   // image: 「その他」(OS の共有メニュー)で一緒に渡す画像のパス(同じオリジンの OG 画像)。
   //   Instagram など、リンクの投稿画面を持たないアプリへは画像として渡す
+  // onopenchange: ダイアログを開いた・閉じたときに呼ぶ(開いている間、親が自動再生を止めるなど)
   let {
     url,
     text = "",
     image = "",
     disabled = false,
-  }: { url: string; text?: string; image?: string; disabled?: boolean } = $props();
+    onopenchange = undefined,
+  }: {
+    url: string;
+    text?: string;
+    image?: string;
+    disabled?: boolean;
+    onopenchange?: (open: boolean) => void;
+  } = $props();
 
   const enc = encodeURIComponent;
 
@@ -29,6 +37,7 @@
     copied = false;
     prefetchImage();
     dialog.showModal();
+    onopenchange?.(true);
   }
 
   // ---- その他: OS の共有メニュー(Web Share API)。対応している端末(主にスマホ)でだけ出す ----
@@ -112,6 +121,7 @@
   class="m-auto w-[calc(100%-2rem)] max-w-md rounded-xl bg-white text-yslate-800 shadow-2xl backdrop:bg-black/50"
   aria-labelledby="share-dialog-title"
   onclick={handleDialogClick}
+  onclose={() => onopenchange?.(false)}
 >
   <div class="p-5">
     <div class="flex items-center justify-between mb-4">

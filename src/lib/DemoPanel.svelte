@@ -120,6 +120,21 @@
     },
   });
 
+  // 共有ダイアログを開いている間は自動再生を一時停止する(共有する本棚が途中で変わらないように)。
+  // 再生中かどうか(isPlaying)は変えず、閉じたら同じ本から再開する
+  let pausedForShare = false;
+  function handleShareOpenChange(open: boolean) {
+    if (open) {
+      if (carousel.isPlaying) {
+        carousel.stop();
+        pausedForShare = true;
+      }
+    } else if (pausedForShare) {
+      pausedForShare = false;
+      if (carousel.isPlaying) carousel.start();
+    }
+  }
+
   function stopPlaying() {
     if (carousel.isPlaying) carousel.toggle();
   }
@@ -391,6 +406,7 @@
           text="opencoverの本棚"
           image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
           disabled={books.length === 0}
+          onopenchange={handleShareOpenChange}
         />
       </div>
     </div>
