@@ -49,6 +49,8 @@ const config = {
 				'connect-src': [
 					'self',
 					'https://cloudflareinsights.com',
+					// ランダム入力の ISBN(/v1/random-isbn)をブラウザから直接取得する
+					'https://image.opencover.jp',
 					// Google Analytics 4 / GTM の計測送信先
 					'https://*.google-analytics.com',
 					'https://*.analytics.google.com',

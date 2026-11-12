@@ -6,6 +6,7 @@
   import ShareButtons from "./ShareButtons.svelte";
   import { createCarousel } from "./isbnCarousel.svelte";
   import { preloadBook, whenIdle } from "./cover";
+  import { takeRandomIsbn } from "./randomIsbn";
 
   type Props = {
     /** カルーセルで順に表示する ISBN の配列 */
@@ -119,6 +120,21 @@
     },
   });
 
+  // 共有ダイアログを開いている間は自動再生を一時停止する(共有する本棚が途中で変わらないように)。
+  // 再生中かどうか(isPlaying)は変えず、閉じたら同じ本から再開する
+  let pausedForShare = false;
+  function handleShareOpenChange(open: boolean) {
+    if (open) {
+      if (carousel.isPlaying) {
+        carousel.stop();
+        pausedForShare = true;
+      }
+    } else if (pausedForShare) {
+      pausedForShare = false;
+      if (carousel.isPlaying) carousel.start();
+    }
+  }
+
   function stopPlaying() {
     if (carousel.isPlaying) carousel.toggle();
   }
@@ -141,18 +157,6 @@
       `https://docs.google.com/forms/d/e/1FAIpQLSdxxGCl9lvrv06X3Tj0XPJThzDmBKux7S67ZEvw_sd8yKRdhQ/viewform?usp=pp_url&entry.1198644953=${encodeURIComponent(checkedIsbns.join(" "))}`,
       "_blank",
     );
-  }
-
-  async function fetchRandomIsbn(): Promise<string | null> {
-    try {
-      const response = await fetch("/api/random-isbn");
-      if (!response.ok) return null;
-      const json = await response.json();
-      return json?.isbn ?? null;
-    } catch (err) {
-      console.error("random-isbn fetch failed:", err);
-      return null;
-    }
   }
 
   // ---- つまみのドラッグで行を並べ替える ----
@@ -228,16 +232,37 @@
     );
   }
 
+  // ランダム入力の取得中の行(行 ID)と、失敗したときのメッセージ
+  let randomPending = $state<number[]>([]);
+  let randomError = $state("");
+  let randomErrorTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function showRandomError(message: string) {
+    randomError = message;
+    clearTimeout(randomErrorTimer);
+    randomErrorTimer = setTimeout(() => (randomError = ""), 4000);
+  }
+
   // 行の ISBN をランダムに差し替える（入力したときと同じく、再生を止めてチェックする）
+  // ISBN はページ全体の在庫（randomIsbn.ts）から取り出す。ほかの行に入っている ISBN は除く。
   // 取得中に行が並べ替えられても、押した行を書き換えるように行 ID で引き直す
   async function handleRowRandom(i: number) {
     const id = rowIds[i];
-    const random = await fetchRandomIsbn();
-    if (!random) return;
-    const index = rowIds.indexOf(id);
-    if (index === -1) return;
-    rows[index] = random;
-    handleRowInput(index);
+    randomPending = [...randomPending, id];
+    try {
+      const others = rows.filter((_, j) => j !== i).map(normalize).filter(Boolean);
+      const random = await takeRandomIsbn(others);
+      const index = rowIds.indexOf(id);
+      if (index === -1) return;
+      rows[index] = random;
+      handleRowInput(index);
+    } catch (err) {
+      // 失敗したときは入力欄を変えずに、短いメッセージだけ出す
+      console.error("random ISBN failed:", err);
+      showRandomError("ランダムな ISBN を取得できませんでした。もう一度お試しください。");
+    } finally {
+      randomPending = randomPending.filter((p) => p !== id);
+    }
   }
 
   onMount(() => {
@@ -248,6 +273,7 @@
 
   onDestroy(() => {
     carousel.stop();
+    clearTimeout(randomErrorTimer);
   });
 </script>
 
@@ -283,14 +309,15 @@
   {/if}
 {/snippet}
 
-{#snippet randomButton(onclick: () => void)}
+{#snippet randomButton(onclick: () => void, pending = false)}
   <button
     class="size-11 sm:size-16 shrink-0 rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-yslate-400 text-yslate-400 hover:bg-yslate-200 hover:text-yslate-600 flex items-center justify-center cursor-pointer"
     {onclick}
     title="ランダム入力"
     aria-label="ランダム入力"
+    aria-busy={pending}
   >
-    <RefreshCcw class="size-5 sm:size-6" />
+    <RefreshCcw class="size-5 sm:size-6 {pending ? 'animate-spin' : ''}" />
   </button>
 {/snippet}
 
@@ -343,10 +370,13 @@
                 placeholder="ISBNを入力"
                 aria-label={`${i + 1} 行目の ISBN`}
               />
-              {@render randomButton(() => handleRowRandom(i))}
+              {@render randomButton(() => handleRowRandom(i), randomPending.includes(rowIds[i]))}
             </li>
           {/each}
         </ul>
+
+        <!-- ランダム入力に失敗したときのメッセージ -->
+        <p class="text-sm text-red-700 min-h-5" role="status" aria-live="polite">{randomError}</p>
 
         <button
           class="text-sm px-4 py-2 flex items-center gap-2 size-fit border border-yslate-500 bg-yslate-50 hover:bg-white rounded cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yslate-400"
@@ -376,6 +406,7 @@
           text="opencoverの本棚"
           image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
           disabled={books.length === 0}
+          onopenchange={handleShareOpenChange}
         />
       </div>
     </div>
