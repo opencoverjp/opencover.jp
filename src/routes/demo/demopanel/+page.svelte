@@ -14,7 +14,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="py-8">
+<div class="max-w-6xl mx-auto px-2 sm:px-4 py-8 flex flex-col gap-4">
   <h1 class="text-xl font-semibold text-center">DemoPanel 確認用</h1>
   <DemoPanel {isbns} />
 

@@ -85,14 +85,16 @@
       link={`/goto/amazon/${books.at(0).book?.isbn}`}
       linkLabel="Amazonで見る"
       frontToggle
-    />
-    <div class="mt-3">
-      <ShareButtons
-        url={meta.url}
-        text={meta.title}
-        image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
-      />
-    </div>
+    >
+      <!-- 共有ボタンは本棚の左下に重ね、ホバー時に表示する -->
+      {#snippet bottomControls()}
+        <ShareButtons
+          url={meta.url}
+          text={meta.title}
+          image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
+        />
+      {/snippet}
+    </Bookshelf>
   </div>
 
   {#if books.length > 1}
@@ -167,6 +169,7 @@
   {#each books as book}
     <link rel="preload" as="image" href={spineSrc(book.isbn)} />
   {/each}
+  <link rel="canonical" href={meta.url} />
   <meta property="og:url" content={meta.url} />
   <meta property="og:title" content={meta.title} />
   <meta property="og:description" content={meta.description} />

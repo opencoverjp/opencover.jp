@@ -11,9 +11,9 @@
     books: incomingBooks = [],
     bgColor = '#cccccc',
     link = '',
-    linkLabel = '本棚ページにいく',
+    linkLabel = '本棚ページへ',
     // 本が 1 冊もないときに表示するメッセージ
-    emptyMessage = 'ISBNを入力してください',
+    emptyMessage = '本がありません',
     showCredits = true,
     // frontToggle: 右上に「表紙を表示」チェックボックスを出す。
     //   true のときは各本の displaySides を使わず、チェックの状態で「背表紙のみ / 表紙と背表紙」を切り替える
@@ -22,6 +22,9 @@
     showFront = $bindable(false),
     // controls: 右上に浮かべて表示する、追加の操作（スニペット）
     controls = undefined,
+    // bottomControls: 左下に浮かべて表示する操作（スニペット）。ホバー・フォーカス中だけ出す
+    //   （ホバーできないタッチ端末では常に出す）
+    bottomControls = undefined,
     credits = $bindable([]),
   } = $props();
 
@@ -144,7 +147,7 @@
   その上にコンテンツを重ねる。コンテンツは pointer-events-none にして、本（ボタン）だけクリックを受ける。
 -->
 <div
-  class="book-frame relative flex-1 min-w-0 flex justify-center overflow-hidden h-[500px]"
+  class="book-frame group relative flex-1 min-w-0 flex justify-center overflow-hidden h-[500px]"
   style={frameStyle}
   style:--depth="{DEPTH}px"
   role="presentation"
@@ -190,6 +193,16 @@
         </label>
       {/if}
       {@render controls?.()}
+    </div>
+  {/if}
+
+  {#if bottomControls}
+    <!-- 本棚にホバーしている間（またはキーボードでフォーカスしている間）だけ表示する。
+         タッチ端末（hover: none）ではホバーできないので常に表示する -->
+    <div
+      class="absolute bottom-3 left-3 z-30 flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100"
+    >
+      {@render bottomControls()}
     </div>
   {/if}
 

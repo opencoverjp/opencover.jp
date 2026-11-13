@@ -7,6 +7,7 @@
   import { createCarousel } from "./isbnCarousel.svelte";
   import { preloadBook, whenIdle } from "./cover";
   import { takeRandomIsbn } from "./randomIsbn";
+  import { yslateFor, defaultShelfColor } from "./shelfColor";
 
   type Props = {
     /** カルーセルで順に表示する ISBN の配列 */
@@ -19,37 +20,6 @@
     isbns,
     interval = 3000,
   }: Props = $props();
-
-  // 選択が 0 冊・複数冊のときの背景色
-  const stoppedBgColor = "#d2d2c2";
-
-  // yslate 系のランダムな色（明度の幅は狭く）。Bookshelf が hex を前提にしているので hex で返す。
-  // 乱数ではなく ISBN のハッシュから決めるので、サーバーとブラウザで同じ色になる（読み込み時に色が切り替わらない）
-  function yslateFor(isbn: string): string {
-    // FNV-1a ハッシュ
-    let x = 2166136261;
-    for (const ch of isbn) {
-      x ^= ch.charCodeAt(0);
-      x = Math.imul(x, 16777619);
-    }
-    const rand = (shift: number) => ((x >>> shift) & 0xff) / 255;
-    const h = 50 + rand(0) * 15; // 黄みがかったグレー
-    const s = 10 + rand(8) * 12;
-    const l = 74 + rand(16) * 8;
-    return hslToHex(h, s, l);
-  }
-
-  function hslToHex(h: number, s: number, l: number): string {
-    const sat = s / 100;
-    const lig = l / 100;
-    const a = sat * Math.min(lig, 1 - lig);
-    const f = (n: number) => {
-      const k = (n + h / 30) % 12;
-      const c = lig - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
-      return Math.round(c * 255).toString(16).padStart(2, "0");
-    };
-    return `#${f(0)}${f(8)}${f(4)}`;
-  }
 
   // テーブルの各行の ISBN（編集・ランダム入力・並べ替えのため props をコピーして保持）
   // 最後に空の入力行を 1 行追加する
@@ -100,7 +70,7 @@
   // 背景色：1 行だけ選ばれていればその行の色、それ以外は停止時の色
   let bgColor = $derived.by(() => {
     const indexes = rowActive.flatMap((c, i) => (c ? [i] : []));
-    return indexes.length === 1 ? yslateFor(normalize(rows[indexes[0]])) : stoppedBgColor;
+    return indexes.length === 1 ? yslateFor(normalize(rows[indexes[0]])) : defaultShelfColor;
   });
 
   // カルーセルの回数・間隔はマウント時の props で固定する
@@ -321,9 +291,10 @@
   </button>
 {/snippet}
 
-<div class="flex items-center justify-center p-2 sm:p-4">
+<!-- 幅は親要素いっぱいに広げ、配置や最大幅は呼び出し側で決める -->
+<div>
   <!-- 外枠の padding（狭い画面は p-4、sm 以上は p-6）を唯一の余白とし、内部の要素は余白を持たずにその内側に揃える -->
-  <div class="w-full max-w-6xl p-4 sm:p-6 border-2 border-black rounded-sm">
+  <div class="w-full p-4 sm:p-6 border-2 border-black rounded-sm">
     <!-- 外枠の padding を打ち消して、枠線に密着させる -->
     <p class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6 sm:mb-6 p-4 bg-yslate-100 border-b border-yslate-300 text-yslate-800">
       ISBNを入力し、表示したい本にチェックを付けてください。
@@ -332,7 +303,8 @@
     <div class="flex flex-col lg:flex-row gap-4 sm:gap-6">
       <!-- Left side - Input and controls -->
 
-      <div class="flex flex-col gap-4 flex-1">
+      <!-- PC（lg 以上）では入力欄の幅だけを取り、残りの幅をすべて本棚に回す -->
+      <div class="flex flex-col gap-4 flex-1 lg:flex-none">
         <ul bind:this={listEl} class="font-mono flex flex-col gap-2">
           {#each rows as item, i}
             {@const current = rowActive[i]}
@@ -388,26 +360,28 @@
       </div>
 
       <!-- Right side - Book spine image -->
-      <div class="flex-1 min-w-0 flex flex-col gap-3">
-        <div class="flex">
-          <Bookshelf
-            {books}
-            {bgColor}
-            link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
-            showCredits={false}
-            emptyMessage="本がありません"
-            frontToggle
-            bind:credits
-          />
-        </div>
-        <!-- 共有するのは本棚ページ(OG 画像も本棚ページのもの) -->
-        <ShareButtons
-          url={`https://opencover.jp${shelfLink(books.map((b) => b.isbn).join(","))}`}
-          text="opencoverの本棚"
-          image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
-          disabled={books.length === 0}
-          onopenchange={handleShareOpenChange}
-        />
+      <div class="flex-1 min-w-0 flex">
+        <Bookshelf
+          {books}
+          {bgColor}
+          link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
+          showCredits={false}
+          frontToggle
+          bind:credits
+        >
+          <!-- 共有ボタンは本棚の左下に重ね、ホバー時に表示する。本がないときは出さない -->
+          {#snippet bottomControls()}
+            {#if books.length > 0}
+              <!-- 共有するのは本棚ページ(OG 画像も本棚ページのもの) -->
+              <ShareButtons
+                url={`https://opencover.jp${shelfLink(books.map((b) => b.isbn).join(","))}`}
+                text="opencoverの本棚"
+                image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
+                onopenchange={handleShareOpenChange}
+              />
+            {/if}
+          {/snippet}
+        </Bookshelf>
       </div>
     </div>
     <!-- 下部のメッセージ欄（上部と同じ見た目。表紙画像のクレジットを表示）。外枠の padding を打ち消して枠線に密着させる -->
