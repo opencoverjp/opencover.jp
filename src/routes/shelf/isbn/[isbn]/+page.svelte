@@ -4,6 +4,7 @@
   import BookCard from "./BookCard.svelte";
   import { spineSrc } from "../../../../lib/cover";
   import ShareButtons from "../../../../lib/ShareButtons.svelte";
+  import OgMeta from "../../../../lib/OgMeta.svelte";
 
   let { data } = $props();
   let books = $derived(data.books);
@@ -164,24 +165,19 @@
 </div>
 
 <svelte:head>
-  <title>{meta.title}</title>
   <!-- 本棚の背表紙は ISBN だけで URL が決まるので、JS の読み込みを待たずに取得を始める -->
   {#each books as book}
     <link rel="preload" as="image" href={spineSrc(book.isbn)} />
   {/each}
-  <link rel="canonical" href={meta.url} />
-  <meta property="og:url" content={meta.url} />
-  <meta property="og:title" content={meta.title} />
-  <meta property="og:description" content={meta.description} />
-  <meta property="og:image" content={meta.image} />
-  <meta property="og:type" content={meta.type} />
-  <meta
-    property="og:site_name"
-    content="opencover : みんなでつくる書籍カバー画像"
-  />
-  <meta name="description" content={meta.description} />
-  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
+
+<OgMeta
+  title={meta.title}
+  description={meta.description}
+  url={meta.url}
+  image={meta.image}
+  type={meta.type}
+/>
 
 <style>
   .title {

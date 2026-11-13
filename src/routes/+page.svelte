@@ -2,6 +2,7 @@
   import "../app.css";
   import DemoPanel from "../lib/DemoPanel.svelte";
   import { spineSrc } from "../lib/cover";
+  import OgMeta from "../lib/OgMeta.svelte";
   import honbacoLibraryImg from "../lib/assets/honbaco-library.png";
   import honbacoImg from "../lib/assets/honbaco.png";
   import opencover3dViewerImg from "../lib/assets/3dviewer.png";
@@ -18,28 +19,9 @@
 <svelte:head>
   <!-- デモで最初に表示する背表紙は、JS の読み込みを待たずに取得を始める -->
   <link rel="preload" as="image" href={spineSrc(demoIsbns[0])} fetchpriority="high" />
-  <title>opencover : みんなでつくる書籍カバー画像</title>
-  <meta
-    property="og:title"
-    content="opencover : みんなでつくる書籍カバー画像"
-  />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:description"
-    content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。"
-  />
-  <meta property="og:image" content="https://opencover.jp/ogp.png" />
-  <meta
-    property="og:site_name"
-    content="opencover : みんなでつくる書籍カバー画像"
-  />
-  <meta property="og:url" content="https://opencover.jp/" />
-  <meta
-    name="description"
-    content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。"
-  />
-  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
+
+<OgMeta url="https://opencover.jp/" />
 
 <div
   class="relative overflow-hidden bg-no-repeat bg-cover h-[300px] md:h-[500px]"

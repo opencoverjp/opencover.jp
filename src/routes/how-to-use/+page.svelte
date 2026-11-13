@@ -1,4 +1,5 @@
 <script>
+  import OgMeta from '$lib/OgMeta.svelte';
   import { ExternalLink, OctagonAlert, BookText, Palette, BookImage, Barcode } from "@lucide/svelte";
   import BookIcon from "../../lib/BookIcon.svelte";
 </script>
@@ -146,16 +147,7 @@
 
 </div>
 
-<svelte:head>
-  <meta property="og:title" content="opencover : みんなでつくる書籍カバー画像" />
-  <meta property="og:type" content="website" />
-  <meta property="og:description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
-  <meta property="og:image" content="https://opencover.jp/ogp.png" />
-  <meta property="og:site_name" content="opencover : みんなでつくる書籍カバー画像" />
-  <meta property="og:url" content="https://opencover.jp/" />
-  <meta name="description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
-  <meta name="twitter:card" content="summary_large_image" />
-</svelte:head>
+<OgMeta title="使いかた | opencover" url="https://opencover.jp/how-to-use" />
 
 
 <style>
