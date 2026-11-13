@@ -7,10 +7,11 @@ import { UPSTREAM } from './upstream';
 /** 生成した OG 画像をキャッシュする秒数(SNS のクローラが来るたびに作り直さない) */
 const OG_MAX_AGE = 60 * 60 * 24;
 
+/** エッジのキャッシュのキーに付けるバージョン。2: 本棚と同じ見た目を既定にした */
+const OG_CACHE_VERSION = '2';
+
 export interface OgOptions {
-	/** 'preview' で本棚ページの Bookshelf と同じ見た目にする。省略時は従来の見た目 */
-	style?: 'preview';
-	/** style=preview の背景色（#rrggbb）。省略時は oc-image の既定の色 */
+	/** 背景色（#rrggbb）。省略時は oc-image の既定の色 */
 	bgColor?: string;
 }
 
@@ -47,7 +48,10 @@ export async function cachedOgImage(
 	const cache = platform?.caches?.default;
 	if (!cache) return generate();
 
-	const key = new Request(request.url, { method: 'GET' });
+	// 見た目を変えたら OG_CACHE_VERSION を上げる。キーが変わるので古い画像は使われなくなる
+	const keyUrl = new URL(request.url);
+	keyUrl.searchParams.set('_v', OG_CACHE_VERSION);
+	const key = new Request(keyUrl, { method: 'GET' });
 	const hit = await cache.match(key);
 	if (hit) return hit;
 

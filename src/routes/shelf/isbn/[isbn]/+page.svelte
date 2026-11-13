@@ -91,7 +91,7 @@
         <ShareButtons
           url={meta.url}
           text={meta.title}
-          image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
+          image={`/api/og/${books.map((b) => b.isbn).join(",")}`}
         />
       {/snippet}
     </Bookshelf>

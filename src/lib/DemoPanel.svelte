@@ -376,7 +376,7 @@
               <ShareButtons
                 url={`https://opencover.jp${shelfLink(books.map((b) => b.isbn).join(","))}`}
                 text="opencoverの本棚"
-                image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
+                image={`/api/og/${books.map((b) => b.isbn).join(",")}`}
                 onopenchange={handleShareOpenChange}
               />
             {/if}
