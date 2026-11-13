@@ -321,9 +321,10 @@
   </button>
 {/snippet}
 
-<div class="flex items-center justify-center p-2 sm:p-4">
+<!-- 幅は親要素いっぱいに広げ、配置や最大幅は呼び出し側で決める -->
+<div>
   <!-- 外枠の padding（狭い画面は p-4、sm 以上は p-6）を唯一の余白とし、内部の要素は余白を持たずにその内側に揃える -->
-  <div class="w-full max-w-6xl p-4 sm:p-6 border-2 border-black rounded-sm">
+  <div class="w-full p-4 sm:p-6 border-2 border-black rounded-sm">
     <!-- 外枠の padding を打ち消して、枠線に密着させる -->
     <p class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6 sm:mb-6 p-4 bg-yslate-100 border-b border-yslate-300 text-yslate-800">
       ISBNを入力し、表示したい本にチェックを付けてください。
@@ -332,7 +333,8 @@
     <div class="flex flex-col lg:flex-row gap-4 sm:gap-6">
       <!-- Left side - Input and controls -->
 
-      <div class="flex flex-col gap-4 flex-1">
+      <!-- PC（lg 以上）では入力欄の幅だけを取り、残りの幅をすべて本棚に回す -->
+      <div class="flex flex-col gap-4 flex-1 lg:flex-none">
         <ul bind:this={listEl} class="font-mono flex flex-col gap-2">
           {#each rows as item, i}
             {@const current = rowActive[i]}
@@ -388,26 +390,28 @@
       </div>
 
       <!-- Right side - Book spine image -->
-      <div class="flex-1 min-w-0 flex flex-col gap-3">
-        <div class="flex">
-          <Bookshelf
-            {books}
-            {bgColor}
-            link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
-            showCredits={false}
-            emptyMessage="本がありません"
-            frontToggle
-            bind:credits
-          />
-        </div>
-        <!-- 共有するのは本棚ページ(OG 画像も本棚ページのもの) -->
-        <ShareButtons
-          url={`https://opencover.jp${shelfLink(books.map((b) => b.isbn).join(","))}`}
-          text="opencoverの本棚"
-          image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
-          disabled={books.length === 0}
-          onopenchange={handleShareOpenChange}
-        />
+      <div class="flex-1 min-w-0 flex">
+        <Bookshelf
+          {books}
+          {bgColor}
+          link={books.length ? shelfLink(books.map((b) => b.isbn).join(",")) : ""}
+          showCredits={false}
+          frontToggle
+          bind:credits
+        >
+          <!-- 共有ボタンは本棚の左下に重ね、ホバー時に表示する。本がないときは出さない -->
+          {#snippet bottomControls()}
+            {#if books.length > 0}
+              <!-- 共有するのは本棚ページ(OG 画像も本棚ページのもの) -->
+              <ShareButtons
+                url={`https://opencover.jp${shelfLink(books.map((b) => b.isbn).join(","))}`}
+                text="opencoverの本棚"
+                image={`/api/og/${books.map((b) => b.isbn).join(",")}?style=preview`}
+                onopenchange={handleShareOpenChange}
+              />
+            {/if}
+          {/snippet}
+        </Bookshelf>
       </div>
     </div>
     <!-- 下部のメッセージ欄（上部と同じ見た目。表紙画像のクレジットを表示）。外枠の padding を打ち消して枠線に密着させる -->
