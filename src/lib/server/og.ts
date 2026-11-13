@@ -7,8 +7,8 @@ import { UPSTREAM } from './upstream';
 /** 生成した OG 画像をキャッシュする秒数(SNS のクローラが来るたびに作り直さない) */
 const OG_MAX_AGE = 60 * 60 * 24;
 
-/** エッジのキャッシュのキーに付けるバージョン。2: 本棚と同じ見た目を既定にした */
-const OG_CACHE_VERSION = '2';
+/** エッジのキャッシュのキーに付けるバージョン。2: 本棚と同じ見た目を既定にした / 3: oc-image の出力を JPEG にした */
+const OG_CACHE_VERSION = '3';
 
 export interface OgOptions {
 	/** 背景色（#rrggbb）。省略時は oc-image の既定の色 */
@@ -30,7 +30,8 @@ export async function fetchOgImage(isbn: string | null, options: OgOptions = {})
 	return new Response(imageBuffer, {
 		status: response.status,
 		headers: {
-			'Content-Type': 'image/png',
+			// 形式(PNG / JPEG)は oc-image が決めるので、上流の Content-Type をそのまま返す
+			'Content-Type': response.headers.get('Content-Type') ?? 'image/png',
 			'Cache-Control': `public, max-age=${OG_MAX_AGE}`
 		}
 	});

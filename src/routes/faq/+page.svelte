@@ -1,3 +1,7 @@
+<script>
+  import OgMeta from '$lib/OgMeta.svelte';
+</script>
+
 <div class="page bg-yslate-50 flex items-center justify-center !p-16">
   <h1 class="text-xl font-semibold">よくある質問</h1>
 </div>
@@ -77,17 +81,7 @@
   </div>
 </div>
 
-<svelte:head>
-  <title>よくある質問 | opencover</title>
-  <meta property="og:title" content="opencover : みんなでつくる書籍カバー画像" />
-  <meta property="og:type" content="website" />
-  <meta property="og:description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
-  <meta property="og:image" content="https://opencover.jp/ogp.png" />
-  <meta property="og:site_name" content="opencover : みんなでつくる書籍カバー画像" />
-  <meta property="og:url" content="https://opencover.jp/faq" />
-  <meta name="description" content="opencoverは、本のカバー画像を生成し配信するウェブAPIです。" />
-  <meta name="twitter:card" content="summary_large_image" />
-</svelte:head>
+<OgMeta title="よくある質問 | opencover" url="https://opencover.jp/faq" />
 
 <style>
   .page {
