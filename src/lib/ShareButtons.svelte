@@ -61,7 +61,10 @@
       const blob = await response.blob();
       // 取得中に本棚が変わっていたら捨てる
       if (imageFor === target) {
-        imageFile = new File([blob], "opencover-shelf.png", { type: blob.type || "image/png" });
+        // OG 画像は PNG のことも JPEG のこともあるので、拡張子は実際の形式に合わせる
+        const type = blob.type || "image/png";
+        const ext = type === "image/jpeg" ? "jpg" : "png";
+        imageFile = new File([blob], `opencover-shelf.${ext}`, { type });
       }
     } catch {
       // 画像が取れなくても、URL だけで共有できる。次に開いたときに取り直す
