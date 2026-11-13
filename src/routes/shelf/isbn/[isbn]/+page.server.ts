@@ -1,21 +1,11 @@
 import { error, redirect } from '@sveltejs/kit';
-import isbn3 from 'isbn3';
+import { shelfColorFor } from '$lib/shelfColor';
+import { parseShelfIsbns } from '$lib/server/shelf';
 import type { PageServerLoad } from './$types';
-
-/** 1つの本棚に並べられる最大冊数（上流へのサブリクエスト数の上限も兼ねる） */
-const MAX_BOOKS = 20;
 
 export const load: PageServerLoad = async ({ fetch, params, url }) => {
   // 正規化（ISBN-13）・重複除去・件数制限
-  const isbns = [
-    ...new Set(
-      params.isbn
-        .split(',')
-        .map((s) => isbn3.parse(s.trim()))
-        .filter((p) => p?.isValid)
-        .map((p) => p!.isbn13 as string)
-    )
-  ].slice(0, MAX_BOOKS);
+  const isbns = parseShelfIsbns(params.isbn);
 
   if (isbns.length === 0) {
     error(404, 'Not found');
@@ -51,7 +41,8 @@ export const load: PageServerLoad = async ({ fetch, params, url }) => {
 
   return {
     books,
-    bgColor: '#f0f0f0',
+    // トップページの DemoPanel と同じ黄みがかったグレー
+    bgColor: shelfColorFor(isbns),
     isSingleBook,
     title,
     meta: {

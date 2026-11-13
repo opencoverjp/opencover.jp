@@ -7,6 +7,7 @@
   import { createCarousel } from "./isbnCarousel.svelte";
   import { preloadBook, whenIdle } from "./cover";
   import { takeRandomIsbn } from "./randomIsbn";
+  import { yslateFor, defaultShelfColor } from "./shelfColor";
 
   type Props = {
     /** カルーセルで順に表示する ISBN の配列 */
@@ -19,37 +20,6 @@
     isbns,
     interval = 3000,
   }: Props = $props();
-
-  // 選択が 0 冊・複数冊のときの背景色
-  const stoppedBgColor = "#d2d2c2";
-
-  // yslate 系のランダムな色（明度の幅は狭く）。Bookshelf が hex を前提にしているので hex で返す。
-  // 乱数ではなく ISBN のハッシュから決めるので、サーバーとブラウザで同じ色になる（読み込み時に色が切り替わらない）
-  function yslateFor(isbn: string): string {
-    // FNV-1a ハッシュ
-    let x = 2166136261;
-    for (const ch of isbn) {
-      x ^= ch.charCodeAt(0);
-      x = Math.imul(x, 16777619);
-    }
-    const rand = (shift: number) => ((x >>> shift) & 0xff) / 255;
-    const h = 50 + rand(0) * 15; // 黄みがかったグレー
-    const s = 10 + rand(8) * 12;
-    const l = 74 + rand(16) * 8;
-    return hslToHex(h, s, l);
-  }
-
-  function hslToHex(h: number, s: number, l: number): string {
-    const sat = s / 100;
-    const lig = l / 100;
-    const a = sat * Math.min(lig, 1 - lig);
-    const f = (n: number) => {
-      const k = (n + h / 30) % 12;
-      const c = lig - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
-      return Math.round(c * 255).toString(16).padStart(2, "0");
-    };
-    return `#${f(0)}${f(8)}${f(4)}`;
-  }
 
   // テーブルの各行の ISBN（編集・ランダム入力・並べ替えのため props をコピーして保持）
   // 最後に空の入力行を 1 行追加する
@@ -100,7 +70,7 @@
   // 背景色：1 行だけ選ばれていればその行の色、それ以外は停止時の色
   let bgColor = $derived.by(() => {
     const indexes = rowActive.flatMap((c, i) => (c ? [i] : []));
-    return indexes.length === 1 ? yslateFor(normalize(rows[indexes[0]])) : stoppedBgColor;
+    return indexes.length === 1 ? yslateFor(normalize(rows[indexes[0]])) : defaultShelfColor;
   });
 
   // カルーセルの回数・間隔はマウント時の props で固定する

@@ -10,6 +10,8 @@ const OG_MAX_AGE = 60 * 60 * 24;
 export interface OgOptions {
 	/** 'preview' で本棚ページの Bookshelf と同じ見た目にする。省略時は従来の見た目 */
 	style?: 'preview';
+	/** style=preview の背景色（#rrggbb）。省略時は oc-image の既定の色 */
+	bgColor?: string;
 }
 
 export async function fetchOgImage(isbn: string | null, options: OgOptions = {}): Promise<Response> {
