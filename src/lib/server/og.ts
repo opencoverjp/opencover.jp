@@ -16,7 +16,7 @@ export interface OgOptions {
 }
 
 export async function fetchOgImage(isbn: string | null, options: OgOptions = {}): Promise<Response> {
-	const response = await fetch(`${UPSTREAM.image}/v1/og/${isbn}`, {
+	const response = await fetch(`${UPSTREAM.image}/v1/og/shelf/isbn/${isbn}`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(options)
